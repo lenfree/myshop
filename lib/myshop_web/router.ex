@@ -18,6 +18,9 @@ defmodule MyshopWeb.Router do
 
     get "/", PageController, :index
     resources "/products", ProductController, only: [:index, :show]
+
+    resources "/users", UserController,
+      only: [:index, :show, :new, :create, :edit, :update, :delete]
   end
 
   scope "/manage", MyshopWeb do
