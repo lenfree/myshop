@@ -19,6 +19,8 @@
 			<%= email_input cf, :email, placeholder: "Email" %>
 			<%= error_tag cf, :email %>
 			<%= password_input cf, :password, placeholder: "Password" %> <%= error_tag cf, :password %>
+			<%= password_input cf, :password_confirmation, placeholder: "Confirm Password" %> <%= error_tag cf, :password_confirmation %>
+
 		<% end %>
   </div>
   <div>

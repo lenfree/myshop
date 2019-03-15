@@ -29,7 +29,6 @@ defmodule MyshopWeb.UserController do
   require IEx
 
   def show(conn, %{"id" => id}) do
-    # user = Accounts.get_user!(id)
     user = Accounts.get_user_and_assoc!(id)
     render(conn, "show.html", user: user)
   end
@@ -41,7 +40,7 @@ defmodule MyshopWeb.UserController do
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
-    user = Accounts.get_user!(id)
+    user = Accounts.get_user_and_assoc!(id)
 
     case Accounts.update_user(user, user_params) do
       {:ok, user} ->
