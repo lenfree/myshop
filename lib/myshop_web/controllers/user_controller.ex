@@ -3,6 +3,7 @@ defmodule MyshopWeb.UserController do
 
   alias Myshop.Accounts
   alias Myshop.Accounts.User
+  plug :authenticate_user when action in [:index, :show]
 
   def index(conn, _params) do
     users = Accounts.list_users()
@@ -10,14 +11,17 @@ defmodule MyshopWeb.UserController do
   end
 
   def new(conn, _params) do
-    changeset = Accounts.change_user(%User{})
+    changeset = Accounts.change_registration(%User{}, %{})
     render(conn, "new.html", changeset: changeset)
   end
+
+  require IEx
 
   def create(conn, %{"user" => user_params}) do
     case Accounts.register_user(user_params) do
       {:ok, user} ->
         conn
+        |> MyshopWeb.Auth.login(user)
         |> put_flash(:info, "User created successfully.")
         |> redirect(to: Routes.user_path(conn, :show, user))
 
@@ -26,17 +30,8 @@ defmodule MyshopWeb.UserController do
     end
   end
 
-  require IEx
-
   def show(conn, %{"id" => id}) do
-    user = Accounts.get_user_and_assoc!(id)
-
-    conn =
-      conn
-      |> assign(:current_user, user)
-      |> put_session(:user_id, user.id)
-      |> configure_session(renew: true)
-
+    user = Accounts.get_user!(id)
     render(conn, "show.html", user: user)
   end
 

@@ -208,4 +208,30 @@ defmodule Myshop.Accounts do
   User and credential Association
   """
   def get_user_and_assoc!(id), do: Repo.get!(User, id) |> Repo.preload(:credential)
+
+  def get_user_by_email(email) do
+    from(u in User, join: c in assoc(u, :credential), where: c.email == ^email)
+    |> Repo.one()
+    |> Repo.preload(:credential)
+  end
+
+  def authenticate_by_email_and_pass(email, given_pass) do
+    user = get_user_by_email(email)
+
+    cond do
+      user && Comeonin.Pbkdf2.checkpw(given_pass, user.credential.password_hash) ->
+        {:ok, user}
+
+      user ->
+        {:error, :unauthorized}
+
+      true ->
+        Comeonin.Pbkdf2.dummy_checkpw()
+        {:error, :not_found}
+    end
+  end
+
+  def change_registration(%User{} = user, params) do
+    User.registration_changeset(user, params)
+  end
 end

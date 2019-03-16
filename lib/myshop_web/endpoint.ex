@@ -38,9 +38,9 @@ defmodule MyshopWeb.Endpoint do
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
-    # store: :cookie,
-    store: PlugSessionMnesia.Store,
+    store: :cookie,
     key: "_myshop_key",
+    #    store: PlugSessionMnesia.Store,
     signing_salt: "OGEwPSnK"
 
   plug MyshopWeb.Router

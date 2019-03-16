@@ -23,6 +23,8 @@ defmodule MyshopWeb do
 
       import Plug.Conn
       import MyshopWeb.Gettext
+      import MyshopWeb.Auth, only: [authenticate_user: 2]
+
       alias MyshopWeb.Router.Helpers, as: Routes
     end
   end
@@ -50,6 +52,7 @@ defmodule MyshopWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import MyshopWeb.Auth, only: [authenticate_user: 2]
     end
   end
 

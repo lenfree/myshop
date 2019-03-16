@@ -7,6 +7,7 @@ defmodule MyshopWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug MyshopWeb.Auth
   end
 
   pipeline :api do
@@ -17,14 +18,16 @@ defmodule MyshopWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
+  end
+
+  scope "/manage", MyshopWeb do
+    pipe_through [:browser, :authenticate_user]
+
     resources "/products", ProductController, only: [:index, :show]
 
     resources "/users", UserController,
       only: [:index, :show, :new, :create, :edit, :update, :delete]
-  end
-
-  scope "/manage", MyshopWeb do
-    pipe_through :browser
 
     resources "/products", ProductController
   end
