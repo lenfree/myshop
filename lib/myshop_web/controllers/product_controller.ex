@@ -3,6 +3,8 @@ defmodule MyshopWeb.ProductController do
 
   alias Myshop.Products
   alias Myshop.Products.Product
+  import MyshopWeb.UserController, only: [authenticate: 2]
+  plug :authenticate when action in [:index, :show]
 
   def index(conn, _params) do
     products = Products.list_products()

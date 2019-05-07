@@ -1,9 +1,11 @@
 defmodule MyshopWeb.UserController do
   use MyshopWeb, :controller
 
+  alias MyshopWeb.Router.Helpers, as: Routes
+
   alias Myshop.Accounts
   alias Myshop.Accounts.User
-  plug :authenticate_user when action in [:index, :show]
+  plug :authenticate when action in [:index, :show]
 
   def index(conn, _params) do
     users = Accounts.list_users()
@@ -15,7 +17,16 @@ defmodule MyshopWeb.UserController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  require IEx
+  def authenticate(conn, _opts) do
+    if conn.assigns.current_user do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You must be logged in to access that page")
+      |> redirect(to: Routes.page_path(conn, :index))
+      |> halt()
+    end
+  end
 
   def create(conn, %{"user" => user_params}) do
     case Accounts.register_user(user_params) do

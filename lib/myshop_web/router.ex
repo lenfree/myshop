@@ -22,7 +22,7 @@ defmodule MyshopWeb.Router do
   end
 
   scope "/manage", MyshopWeb do
-    pipe_through [:browser, :authenticate_user]
+    pipe_through [:browser]
 
     resources "/products", ProductController, only: [:index, :show]
 
