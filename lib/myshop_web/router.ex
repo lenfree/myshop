@@ -22,14 +22,13 @@ defmodule MyshopWeb.Router do
   end
 
   scope "/manage", MyshopWeb do
-    pipe_through [:browser]
-
-    resources "/products", ProductController, only: [:index, :show]
+    pipe_through [:browser, :authenticate_user]
 
     resources "/users", UserController,
       only: [:index, :show, :new, :create, :edit, :update, :delete]
 
-    resources "/products", ProductController
+    resources "/products", ProductController,
+      only: [:index, :show, :new, :create, :edit, :update, :delete]
   end
 
   # Other scopes may use custom stacks.
