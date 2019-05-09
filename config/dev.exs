@@ -11,6 +11,7 @@ config :myshop, MyshopWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
+  catch_errors: true,
   watchers: [
     node: [
       "node_modules/webpack/bin/webpack.js",
