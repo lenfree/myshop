@@ -6,9 +6,33 @@ defmodule Myshop.ProductsTest do
   describe "products" do
     alias Myshop.Products.Product
 
-    @valid_attrs %{brand: "some brand", buy_price: 120.5, description: "some description", name: "some name", notes: "some notes", sell_price: 120.5, url: "some url"}
-    @update_attrs %{brand: "some updated brand", buy_price: 456.7, description: "some updated description", name: "some updated name", notes: "some updated notes", sell_price: 456.7, url: "some updated url"}
-    @invalid_attrs %{brand: nil, buy_price: nil, description: nil, name: nil, notes: nil, sell_price: nil, url: nil}
+    @valid_attrs %{
+      brand: "some brand",
+      buy_price: 120.5,
+      description: "some description",
+      name: "some name",
+      notes: "some notes",
+      sell_price: 120.5,
+      url: "some url"
+    }
+    @update_attrs %{
+      brand: "some updated brand",
+      buy_price: 456.7,
+      description: "some updated description",
+      name: "some updated name",
+      notes: "some updated notes",
+      sell_price: 456.7,
+      url: "some updated url"
+    }
+    @invalid_attrs %{
+      brand: nil,
+      buy_price: nil,
+      description: nil,
+      name: nil,
+      notes: nil,
+      sell_price: nil,
+      url: nil
+    }
 
     def product_fixture(attrs \\ %{}) do
       {:ok, product} =
