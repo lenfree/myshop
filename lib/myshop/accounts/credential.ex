@@ -20,6 +20,7 @@ defmodule Myshop.Accounts.Credential do
     |> validate_required([:email, :password])
     |> validate_length(:password, min: 6, max: 100)
     |> validate_confirmation(:password)
+    |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
     |> put_pass_hash()
   end

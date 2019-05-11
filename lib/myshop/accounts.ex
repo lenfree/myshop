@@ -7,6 +7,7 @@ defmodule Myshop.Accounts do
   alias Myshop.Repo
 
   alias Myshop.Accounts.User
+  alias Myshop.Accounts.Credential
 
   @doc """
   Returns the list of users.
@@ -18,7 +19,10 @@ defmodule Myshop.Accounts do
 
   """
   def list_users do
-    Repo.all(User)
+    Repo.all(from(u in User))
+    |> join_query(:credential)
+
+    #    Repo.all(from u in User, preload: [:credential])
   end
 
   @doc """
@@ -35,7 +39,7 @@ defmodule Myshop.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id), do: Repo.get!(User, id) |> join_query(:credential)
 
   @doc """
   Creates a user.
@@ -234,4 +238,6 @@ defmodule Myshop.Accounts do
   def change_registration(%User{} = user, params) do
     User.registration_changeset(user, params)
   end
+
+  defp join_query(query, join_table), do: Repo.preload(query, join_table)
 end

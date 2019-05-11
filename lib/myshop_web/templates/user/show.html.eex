@@ -12,6 +12,15 @@
     <%= @user.last_name %>
   </li>
 
+  <li>
+    <strong>email:</strong>
+    <%= @user.credential.email%>
+  </li>
+
+  <li>
+    <strong>Role:</strong>
+    placeholder
+  </li>
 
 </ul>
 
