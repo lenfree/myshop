@@ -28,7 +28,7 @@ defmodule Myshop.TestHelpers do
     {:ok, product} =
       attrs
       |> Enum.into(%{
-        brand: "Apple",
+        brand: attrs[:brand] || "Apple",
         buy_price: "5.6",
         description: "iPhone 6",
         name: "Apple iPhone 6",
