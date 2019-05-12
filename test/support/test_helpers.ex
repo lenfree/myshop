@@ -29,12 +29,12 @@ defmodule Myshop.TestHelpers do
       attrs
       |> Enum.into(%{
         brand: attrs[:brand] || "Apple",
-        buy_price: "5.6",
-        description: "iPhone 6",
-        name: "Apple iPhone 6",
-        notes: "brand new",
-        sell_price: "5.9",
-        url: "http://apple.com/au/iphone6"
+        buy_price: attrs[:buy_price] || 5.6,
+        description: attrs[:description] || "iPhone 6",
+        name: attrs[:name] || "Apple iPhone 6",
+        notes: attrs[:notes] || "brand new",
+        sell_price: attrs[:sell_price] || 5.9,
+        url: attrs[:url] || "http://apple.com/au/iphone6"
       })
       |> Products.create_product()
 
