@@ -52,4 +52,26 @@ defmodule Myshop.AccountsTest do
                errors_on(changeset)
     end
   end
+
+  describe "authenticate_by_email" do
+    @email "user@localhost.com"
+    @pass "tesmppass"
+
+    setup do
+      {:ok, user: user_fixture(email: @email, password: @pass)}
+    end
+
+    test "returns user with correct password", %{user: %User{id: id}} do
+      assert {:ok, %User{id: ^id}} = Accounts.authenticate_by_email_and_pass(@email, @pass)
+    end
+
+    test "returns unauthorized error with invalid password" do
+      assert {:error, :unauthorized} = Accounts.authenticate_by_email_and_pass(@email, "err")
+    end
+
+    test "returns not found with no matching user email" do
+      assert {:error, :not_found} =
+               Accounts.authenticate_by_email_and_pass("abc@localhost", @pass)
+    end
+  end
 end
