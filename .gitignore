@@ -43,3 +43,4 @@ npm-debug.log
 .elixir_ls
 assets/node_modules
 .vscode
+node_modules
