@@ -1,7 +1,8 @@
 defmodule Myshop.TestHelpers do
   alias Myshop.{
     Accounts,
-    Products
+    Products,
+    Orders
   }
 
   def user_fixture(attrs \\ %{}) do
@@ -40,4 +41,39 @@ defmodule Myshop.TestHelpers do
 
     product
   end
+
+  # def order_fixture(%Accounts.User{} = user, %Products.Product{} = product, attrs \\ %{}) do
+  #   {:ok, order} =
+  #     attrs
+  #     |> Enum.into(%{
+  #       notes: attrs[:notes] || "this is a note",
+  #       paid: attrs[:paid] || "false"
+  #     })
+  #     |> Orders.create_order(user, product)
+
+  #   order
+  #   # product_id: 1,
+  #   # updated_at: ~N[2019-05-13 11:20:22],
+  #   # user: %Myshop.Accounts.User{
+  #   #  __meta__: #Ecto.Schema.Metadata<:loaded, "users">,
+  #   #  credential: %Myshop.Accounts.Credential{
+  #   #    __meta__: #Ecto.Schema.Metadata<:loaded, "credentials">,
+  #   #    email: "me@a.com",
+  #   #    id: 5,
+  #   #    inserted_at: ~N[2019-03-16 08:31:46],
+  #   #    password: nil,
+  #   #    password_confirmation: nil,
+  #   #    password_hash: "$pbkdf2-sha512$160000$AoIUYsTK./2qs1qap/HmcQ$sgffY8Rrt1kkxzQSGoJFeDCWK3D2anstqYlZGdEyjOT43wcDEzIVHggJX.HOzA.ElGxCERX.iO78FvIrbrvUsA",
+  #   #    updated_at: ~N[2019-03-16 08:38:49],
+  #   #    user: #Ecto.Association.NotLoaded<association :user is not loaded>,
+  #   #    user_id: 5
+  #   #  },
+  #   #  first_name: "mememe",
+  #   #  id: 5,
+  #   #  inserted_at: ~N[2019-03-16 08:31:46],
+  #   #  last_name: "mememe",
+  #   #  updated_at: ~N[2019-03-16 08:35:52]
+  #   # },
+  #   # user_id: 5
+  # end
 end

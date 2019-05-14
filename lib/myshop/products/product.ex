@@ -18,6 +18,6 @@ defmodule Myshop.Products.Product do
   def changeset(product, attrs) do
     product
     |> cast(attrs, [:name, :url, :notes, :brand, :description, :buy_price, :sell_price])
-    |> validate_required([:name, :url, :brand, :description, :buy_price])
+    |> validate_required([:name, :url, :brand, :description, :buy_price, :sell_price])
   end
 end

@@ -1,0 +1,47 @@
+<h1>Listing Orders</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User Email</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Product Brand</th>
+      <th>Product Name</th>
+      <th>Product Description</th>
+      <th>Product Buy Price</th>
+      <th>Product Sell Price</th>
+      <th>Product Notes</th>
+      <th>Product URL</th>
+      <th>Paid</th>
+      <th>Notes</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <%= for order <- @orders do %>
+    <tr>
+      <td><%= order.user.credential.email %></td>
+      <td><%= order.user.first_name%></td>
+      <td><%= order.user.last_name %></td>
+      <td><%= order.product.brand %></td>
+      <td><%= order.product.name %></td>
+      <td><%= order.product.description %></td>
+      <td><%= order.product.buy_price %></td>
+      <td><%= order.product.sell_price %></td>
+      <td><%= order.product.notes %></td>
+      <td><%= order.product.url %></td>
+      <td><%= order.paid %></td>
+      <td><%= order.notes %></td>
+
+      <td>
+        <%= link "Show", to: Routes.order_path(@conn, :show, order) %>
+        <%= link "Edit", to: Routes.order_path(@conn, :edit, order) %>
+        <%= link "Delete", to: Routes.order_path(@conn, :delete, order), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Order", to: Routes.order_path(@conn, :new) %></span>

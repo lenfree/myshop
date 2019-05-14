@@ -29,6 +29,9 @@ defmodule MyshopWeb.Router do
 
     resources "/products", ProductController,
       only: [:index, :show, :new, :create, :edit, :update, :delete]
+
+    resources "/orders", OrderController,
+      only: [:index, :show, :new, :create, :edit, :update, :delete]
   end
 
   # Other scopes may use custom stacks.

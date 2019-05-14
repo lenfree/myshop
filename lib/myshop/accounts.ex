@@ -15,14 +15,12 @@ defmodule Myshop.Accounts do
   ## Examples
 
       iex> list_users()
-      [%User{}, ...]
+      [%User{%Credential{}}, ...]
 
   """
   def list_users do
-    Repo.all(from(u in User))
+    Repo.all(from(u in User, order_by: u.last_name))
     |> join_query(:credential)
-
-    #    Repo.all(from u in User, preload: [:credential])
   end
 
   @doc """
@@ -33,13 +31,29 @@ defmodule Myshop.Accounts do
   ## Examples
 
       iex> get_user!(123)
-      %User{}
+      %User{%Credential{}}
 
       iex> get_user!(456)
       ** (Ecto.NoResultsError)
 
   """
   def get_user!(id), do: Repo.get!(User, id) |> join_query(:credential)
+
+  @doc """
+  Gets a single user.
+
+  Raises `Ecto.NoResultsError` if the User does not exist.
+
+  ## Examples
+
+      iex> get_user(123)
+      %User{%Credential{}}
+
+      iex> get_user(456)
+      ** nil
+
+  """
+  def get_user(id), do: Repo.get(User, id) |> join_query(:credential)
 
   @doc """
   Creates a user.
