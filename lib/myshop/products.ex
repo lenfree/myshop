@@ -106,6 +106,10 @@ defmodule Myshop.Products do
       %Ecto.Changeset{source: %Product{}}
 
   """
+  def change_product(%Product{} = product, params) do
+    Product.changeset(product, params)
+  end
+
   def change_product(%Product{} = product) do
     Product.changeset(product, %{})
   end

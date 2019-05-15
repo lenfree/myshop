@@ -41,7 +41,7 @@ defmodule Myshop.Orders do
 
   """
   def get_order!(id) do
-    Repo.one(
+    Repo.one!(
       from o in Order,
         where: o.id == ^id,
         preload: [{:user, :credential}, :product]
@@ -60,20 +60,12 @@ defmodule Myshop.Orders do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_order(%Accounts.User{} = user, %Products.Product{} = product, attrs \\ %{}) do
+  def create_order(attrs \\ %{}, %Accounts.User{} = user, %Products.Product{} = product) do
     %Order{}
     |> Order.changeset(attrs)
     |> put_user(user)
     |> put_product(product)
     |> Repo.insert()
-  end
-
-  defp put_user(changeset, user) do
-    changeset |> Ecto.Changeset.put_assoc(:user, user)
-  end
-
-  defp put_product(changeset, product) do
-    changeset |> Ecto.Changeset.put_assoc(:product, product)
   end
 
   @doc """
@@ -119,7 +111,19 @@ defmodule Myshop.Orders do
       %Ecto.Changeset{source: %Order{}}
 
   """
-  def change_order(%Accounts.User{} = user, %Products.Product{} = product, %Order{} = order) do
+  def change_order(%Order{} = order, %Accounts.User{} = user, %Products.Product{} = product) do
     order |> Order.changeset(%{}) |> put_user(user) |> put_product(product)
+  end
+
+  def change_order(%Order{} = order) do
+    order |> Order.changeset(%{})
+  end
+
+  defp put_user(changeset, user) do
+    changeset |> Ecto.Changeset.put_assoc(:user, user)
+  end
+
+  defp put_product(changeset, product) do
+    changeset |> Ecto.Changeset.put_assoc(:product, product)
   end
 end

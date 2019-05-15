@@ -5,6 +5,7 @@ defmodule Myshop.Orders.Order do
   schema "orders" do
     field :notes, :string
     field :paid, :boolean, default: false
+    field :active, :boolean, default: false
     belongs_to :user, Myshop.Accounts.User
     belongs_to :product, Myshop.Products.Product
     timestamps()

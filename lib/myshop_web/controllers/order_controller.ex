@@ -14,14 +14,13 @@ defmodule MyshopWeb.OrderController do
   end
 
   def new(conn, _params) do
-    changeset = Orders.change_order(%Accounts.User{}, %Products.Product{}, %Order{})
-    # users = Accounts.list_users() |> Enum.map(fn x -> {x.credential.email, x.id} end)
+    changeset = Orders.change_order(%Order{}, %Accounts.User{}, %Products.Product{})
     users = Accounts.list_users() |> Enum.map(&{&1.credential.email, &1.id})
     render(conn, "new.html", changeset: changeset, users: users)
   end
 
   def create(conn, %{"order" => order_params}) do
-    case Orders.create_order(%Accounts.User{}, %Products.Product{}, order_params) do
+    case Orders.create_order(order_params, %Accounts.User{}, %Products.Product{}) do
       {:ok, order} ->
         conn
         |> put_flash(:info, "Order created successfully.")
@@ -33,6 +32,8 @@ defmodule MyshopWeb.OrderController do
   end
 
   def show(conn, %{"id" => id}) do
+    require IEx
+    IEx.pry()
     order = Orders.get_order!(id)
     render(conn, "show.html", order: order)
   end

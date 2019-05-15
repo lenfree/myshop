@@ -14,10 +14,10 @@ defmodule Myshop.Products.Product do
     timestamps()
   end
 
-  @doc false
   def changeset(product, attrs) do
     product
     |> cast(attrs, [:name, :url, :notes, :brand, :description, :buy_price, :sell_price])
     |> validate_required([:name, :url, :brand, :description, :buy_price, :sell_price])
+    |> unique_constraint(:name)
   end
 end
