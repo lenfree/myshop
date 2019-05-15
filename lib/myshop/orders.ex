@@ -60,12 +60,25 @@ defmodule Myshop.Orders do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_order(attrs \\ %{}, %Accounts.User{} = user, %Products.Product{} = product) do
-    %Order{}
-    |> Order.changeset(attrs)
-    |> put_user(user)
-    |> put_product(product)
-    |> Repo.insert()
+  def create_order(attrs \\ %{}) do
+    changeset =
+      %Order{}
+      |> Order.changeset(attrs)
+
+    #    comment = Products.change_product(%Products.Product{}, %{id: attrs[:product_id]})
+    #    post = Ecto.Changeset.put_assoc(changeset, :product, [comment])
+    #    case changeset do
+    #      {:error, message} ->
+    #        {:error, message}
+    #
+    #      _ ->
+    case Repo.insert(changeset) do
+      {:ok, repo} ->
+        Repo.preload(repo, [{:user, :credential}, :product])
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   @doc """

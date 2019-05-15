@@ -43,14 +43,13 @@ defmodule Myshop.TestHelpers do
   end
 
   def order_fixture(%Accounts.User{} = user, %Products.Product{} = product, attrs \\ %{}) do
-    {:ok, order} =
-      attrs
-      |> Enum.into(%{
-        notes: attrs[:notes] || "this is a note",
-        paid: attrs[:paid] || false
-      })
-      |> Orders.create_order(user, product)
-
-    order
+    attrs
+    |> Enum.into(%{
+      notes: attrs[:notes] || "this is a note",
+      paid: attrs[:paid] || false,
+      user_id: user.id,
+      product_id: product.id
+    })
+    |> Orders.create_order()
   end
 end

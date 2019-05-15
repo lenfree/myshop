@@ -9,10 +9,16 @@ defmodule Myshop.OrdersTest do
     @valid_attrs %{
       notes: "some notes",
       paid: true,
-      active: false
+      active: false,
+      user_id: 212,
+      product_id: 456
     }
-    @update_attrs %{notes: "some updated notes", paid: false, active: true}
-    @invalid_attrs %{notes: nil, paid: nil}
+    @update_attrs %{
+      notes: "some updated notes",
+      paid: false,
+      active: true
+    }
+    @invalid_attrs %{notes: nil, paid: true}
 
     def order_fixture(attrs \\ %{}) do
       {:ok, order} =
@@ -64,10 +70,11 @@ defmodule Myshop.OrdersTest do
     test "create_order/1 with valid data creates a order" do
       user = user_fixture()
       product = product_fixture()
-      attrs = put_in(@valid_attrs, [:user], user)
-      attrs = put_in(attrs, [:product], product)
+      attrs = put_in(@valid_attrs, [:user_id], user.id)
+      attrs = put_in(attrs, [:product_id], product.id)
 
-      {:ok, order} = Orders.create_order(attrs, user, product)
+      order = Orders.create_order(attrs)
+
       assert order.notes == "some notes"
       assert order.paid == true
       assert order.active == false
@@ -80,14 +87,32 @@ defmodule Myshop.OrdersTest do
     end
 
     test "create_order/1 with invalid data returns error changeset" do
-      #      user = user_fixture()
-      product = product_fixture()
-      user = %Myshop.Accounts.User{}
-      {:error, changeset} = Orders.create_order(@invalid_attrs, user, %Myshop.Products.Product{})
+      {:error, changeset} = Orders.create_order(@invalid_attrs)
 
       assert %{
                notes: ["can't be blank"],
-               paid: ["can't be blank"]
+               product_id: ["can't be blank"],
+               user_id: ["can't be blank"]
+             } = errors_on(changeset)
+    end
+
+    test "create_order/1 with invalid user id" do
+      invalid_attrs = put_in(@valid_attrs, [:user_id], 124)
+      {:error, changeset} = Orders.create_order(invalid_attrs)
+
+      assert %{
+               user: ["does not exist"]
+             } = errors_on(changeset)
+    end
+
+    test "create_order/1 with invalid product id" do
+      user = user_fixture()
+      valid_attrs = put_in(@valid_attrs, [:user_id], user.id)
+      invalid_attrs = put_in(valid_attrs, [:product_id], 45)
+      {:error, changeset} = Orders.create_order(invalid_attrs)
+
+      assert %{
+               product: ["does not exist"]
              } = errors_on(changeset)
     end
 
