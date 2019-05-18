@@ -33,3 +33,47 @@
     </ul>
   </article>
 </section>
+
+
+<h1> MESSAGES </h1>
+<section>
+<div id="messages">
+<input id="chat-input" type="text"</input>
+</section>
+<h1> TEST </h1>
+<section>
+<div id="messagestest">
+<input id="chat-input-test" type="text"</input>
+</section>
+
+<section>
+<div id="products">
+<h1>Listing Products</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+      <th>Brand</th>
+      <th>Description</th>
+      <th>Buy price</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for product <- @products do %>
+    <tr>
+      <td><%= product.name %></td>
+      <td><%= product.url %></td>
+      <td><%= product.brand %></td>
+      <td><%= product.description %></td>
+      <td><%= product.buy_price %></td>
+
+      <td><%= link "Add to cart", to: Routes.product_path(@conn, :show, product) %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+</section>
+</div>
