@@ -1,5 +1,6 @@
 <h1>Listing Orders</h1>
 
+<div id="ordersi">
 <table>
   <thead>
     <tr>
@@ -45,3 +46,4 @@
 </table>
 
 <span><%= link "New Order", to: Routes.order_path(@conn, :new) %></span>
+<div>

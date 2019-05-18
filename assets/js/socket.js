@@ -71,6 +71,10 @@ channel.on("new_msg", payload => {
   messageItem.innerText = `[${Date()}] ${payload.body}`
   messagesContainer.appendChild(messageItem)
 })
+channel.join()
+  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
 
 let channelTest = socket.channel("room:test", {})
 let chatInputTest = document.querySelector("#chat-input-test")
@@ -83,26 +87,21 @@ chatInputTest.addEventListener("keypress", event => {
   }
 })
 
-
 channelTest.on("new_msg_test", payload => {
   let messageItem = document.createElement("li");
   messageItem.innerText = `[${Date()}] ${payload.body}`
   messagesContainerTest.appendChild(messageItem)
 })
 
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
-
 channelTest.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 let productOrderChannel = socket.channel("room:product-order", {})
-let productOrderInput = document.querySelector("#product-orderi")
+let productOrderInput = document.querySelector("#product-order-add")
 let productOrderContainer = document.querySelector("#product-order-container")
 
-var theParent = document.querySelector("#product-order-i");
+var theParent = document.querySelector("#product-order-add");
 theParent.addEventListener("click", doSomething, false);
 
 function doSomething(e) {
