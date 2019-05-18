@@ -98,4 +98,29 @@ channelTest.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
+let productOrderChannel = socket.channel("room:product-order", {})
+let productOrderInput = document.querySelector("#product-orderi")
+let productOrderContainer = document.querySelector("#product-order-container")
+
+var theParent = document.querySelector("#product-order-i");
+theParent.addEventListener("click", doSomething, false);
+
+function doSomething(e) {
+  if (e.target !== e.currentTarget) {
+    productOrderChannel.push("add_product", { product_id: e.target.value })
+  }
+  e.stopPropagation();
+}
+
+productOrderChannel.on("add_product", payload => {
+  console.log(payload);
+  //  let messageItem = document.createElement("li");
+  //  messageItem.innerText = `[${Date()}] ${payload.body}`
+  //  productOrderContainer.appendChild(messageItem)
+})
+
+productOrderChannel.join()
+  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
 export default socket

@@ -35,7 +35,7 @@
 </section>
 
 
-<h1> MESSAGES </h1>
+<h1> ~MESSAGES </h1>
 <section>
 <div id="messages">
 <input id="chat-input" type="text"</input>
@@ -47,7 +47,8 @@
 </section>
 
 <section>
-<div id="products">
+<div id="product-order">
+<div id="product-order-i">
 <h1>Listing Products</h1>
 <table>
   <thead>
@@ -64,16 +65,17 @@
   <tbody>
 <%= for product <- @products do %>
     <tr>
-      <td><%= product.name %></td>
-      <td><%= product.url %></td>
-      <td><%= product.brand %></td>
-      <td><%= product.description %></td>
-      <td><%= product.buy_price %></td>
+      <td class="product-orderi"><%= product.name %></td>
+      <td class="product-orderi"><%= product.url %></td>
+      <td class="product-orderi"><%= product.brand %></td>
+      <td class="product-orderi"><%= product.description %></td>
+      <td class="product-orderi"><%= product.buy_price %></td>
 
-      <td><%= link "Add to cart", to: Routes.product_path(@conn, :show, product) %></td>
+      <td><button id="product-order-input" type="button" value="<%= product.id %>">Add to cart</button></td>
     </tr>
 <% end %>
   </tbody>
 </table>
-</section>
 </div>
+</div>
+</section>
