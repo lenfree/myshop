@@ -7,8 +7,8 @@ defmodule MyshopWeb.RoomChannel do
   alias Myshop.Accounts
   alias Myshop.Repo
 
-  def join("room:lobby", _message, socket) do
-    {:ok, socket}
+  def join("room:lobby" = channel, _message, socket) do
+    {:ok, %{channel: channel}, socket}
   end
 
   def join("room:test" = channel, _message, socket) do
@@ -28,22 +28,20 @@ defmodule MyshopWeb.RoomChannel do
     {:noreply, socket}
   end
 
-  def handle_in("add_product", %{"product_id" => product_id} = body, socket) do
-    # attrs = put_in(body, [:user_id], 2)
+  def handle_in("add_product", %{"product_id" => _product_id} = body, socket) do
     attrs = put_in(body, ["user_id"], 2)
     attrs = put_in(attrs, ["notes"], "test123")
 
     case Orders.create_order(attrs) do
       {:error, %Ecto.Changeset{} = changeset} ->
         broadcast!(socket, "add_product", %{info: "error", message: changeset})
+        #        {:reply, {:error, %{errors: changeset}}, socket}
         {:reply, :error, socket}
 
       order ->
         broadcast!(socket, "add_product", %{info: "successful"})
-        {:reply, :ok, socket}
+        {:reply, {:ok, order}, socket}
     end
-
-    #    {:noreply, socket}
   end
 
   def handle_in("new_msg_test", %{"body" => body}, socket) do

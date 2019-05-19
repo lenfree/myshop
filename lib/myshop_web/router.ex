@@ -19,6 +19,8 @@ defmodule MyshopWeb.Router do
 
     get "/", PageController, :index
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+
+    get "/manageorder", ManageorderController, :index
   end
 
   scope "/manage", MyshopWeb do

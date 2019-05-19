@@ -8,7 +8,7 @@
 // from the params if you are not using authentication.
 import { Socket } from "phoenix"
 
-let socket = new Socket("/socket", { params: { token: window.userToken } })
+let socket = new Socket("/manageorder/socket", { params: { token: window.userToken } })
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
@@ -55,56 +55,60 @@ let socket = new Socket("/socket", { params: { token: window.userToken } })
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("room:lobby", {})
-let chatInput = document.querySelector("#chat-input")
-let messagesContainer = document.querySelector("#messages")
-
-chatInput.addEventListener("keypress", event => {
-  if (event.keyCode == 13) {
-    channel.push("new_msg", { body: chatInput.value })
-    chatInput.value = ""
-  }
-})
-
-channel.on("new_msg", payload => {
-  let messageItem = document.createElement("li");
-  messageItem.innerText = `[${Date()}] ${payload.body}`
-  messagesContainer.appendChild(messageItem)
-})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
-
-
-let channelTest = socket.channel("room:test", {})
-let chatInputTest = document.querySelector("#chat-input-test")
-let messagesContainerTest = document.querySelector("#messagestest")
-
-chatInputTest.addEventListener("keypress", event => {
-  if (event.keyCode == 13) {
-    channelTest.push("new_msg_test", { body: chatInputTest.value })
-    chatInputTest.value = ""
-  }
-})
-
-channelTest.on("new_msg_test", payload => {
-  let messageItem = document.createElement("li");
-  messageItem.innerText = `[${Date()}] ${payload.body}`
-  messagesContainerTest.appendChild(messageItem)
-})
-
-channelTest.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+//let channel = socket.channel("room:lobby", {})
+//let chatInput = document.querySelector("#chat-input")
+//let messagesContainer = document.querySelector("#messages")
+//
+//chatInput.addEventListener("keypress", event => {
+//  if (event.keyCode == 13) {
+//    channel.push("new_msg", { body: chatInput.value })
+//    chatInput.value = ""
+//  }
+//})
+//
+//channel.on("new_msg", payload => {
+//  let messageItem = document.createElement("li");
+//  messageItem.innerText = `[${Date()}] ${payload.body}`
+//  messagesContainer.appendChild(messageItem)
+//})
+//channel.join()
+//  .receive("ok", resp => { console.log("Joined successfully", resp) })
+//  .receive("error", resp => { console.log("Unable to join", resp) })
+//
+//
+//let channelTest = socket.channel("room:test", {})
+//let chatInputTest = document.querySelector("#chat-input-test")
+//let messagesContainerTest = document.querySelector("#messagestest")
+//
+//chatInputTest.addEventListener("keypress", event => {
+//  if (event.keyCode == 13) {
+//    channelTest.push("new_msg_test", { body: chatInputTest.value })
+//    chatInputTest.value = ""
+//  }
+//})
+//
+//channelTest.on("new_msg_test", payload => {
+//  let messageItem = document.createElement("li");
+//  messageItem.innerText = `[${Date()}] ${payload.body}`
+//  messagesContainerTest.appendChild(messageItem)
+//})
+//
+//channelTest.join()
+//  .receive("ok", resp => { console.log("Joined successfully", resp) })
+//  .receive("error", resp => { console.log("Unable to join", resp) })
 
 let productOrderChannel = socket.channel("room:product-order", {})
 let productOrderInput = document.querySelector("#product-order-add")
 let productOrderContainer = document.querySelector("#product-order-container")
 
+let userInput = document.querySelector("#user-id")
+
 var theParent = document.querySelector("#product-order-add");
 theParent.addEventListener("click", doSomething, false);
 
 function doSomething(e) {
+  //  alert(userInput.value)
+  //console.log(userInput.value)
   if (e.target !== e.currentTarget) {
     productOrderChannel.push("add_product", { product_id: e.target.value })
   }
