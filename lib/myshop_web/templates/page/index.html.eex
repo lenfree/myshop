@@ -33,3 +33,49 @@
     </ul>
   </article>
 </section>
+
+
+<h1> ~MESSAGES </h1>
+<section>
+<div id="messages">
+<input id="chat-input" type="text"</input>
+</section>
+<h1> TEST </h1>
+<section>
+<div id="messagestest">
+<input id="chat-input-test" type="text"</input>
+</section>
+
+<section>
+<div id="product-order">
+<div id="product-order-add">
+<h1>Listing Products</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+      <th>Brand</th>
+      <th>Description</th>
+      <th>Buy price</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for product <- @products do %>
+    <tr>
+      <td><%= product.name %></td>
+      <td><%= product.url %></td>
+      <td><%= product.brand %></td>
+      <td><%= product.description %></td>
+      <td><%= product.buy_price %></td>
+
+      <td><button id="product-order-input" type="button" value="<%= product.id %>">Add to cart</button></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+</div>
+</div>
+</section>
