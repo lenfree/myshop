@@ -122,6 +122,21 @@ productOrderChannel.on("add_product", payload => {
   //  productOrderContainer.appendChild(messageItem)
 })
 
+//let channel = socket.channel("add_product", {})
+
+//let liveDiv = $("live-div")
+//$(".inner").append("<p>Test</p>");
+
+//let liveDiv = document.getElementById("live-div")
+//let liveDiv = document.querySelector("#live-div")
+//liveDiv.empty()
+productOrderChannel.on('live_response', payload => {
+  $(".inner").append(payload.html);
+  alert(payload.html);
+  console.log(payload);
+  //  liveDiv.document.
+})
+
 productOrderChannel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })

@@ -35,12 +35,24 @@ defmodule MyshopWeb.RoomChannel do
     case Orders.create_order(attrs) do
       {:error, %Ecto.Changeset{} = changeset} ->
         broadcast!(socket, "add_product", %{info: "error", message: changeset})
-        #        {:reply, {:error, %{errors: changeset}}, socket}
-        {:reply, :error, socket}
+        {:reply, {:error, %{errors: changeset}}, socket}
 
       order ->
         broadcast!(socket, "add_product", %{info: "successful"})
-        {:reply, {:ok, order}, socket}
+        #  response = MyshopWeb.PageView.render("index.html", product: %Products.Product{})
+
+        products = Products.list_products()
+
+        # html = Phoenix.View.render_one(MyshopWeb.PageView, "index.html", products: products)
+        html =
+          Phoenix.View.render_to_string(MyshopWeb.ManageorderView, "red.html", products: products)
+
+        #        html = Phoenix.View.render_to_string(MyshopWeb.ManageorderView, "red.html", text: "hello")
+
+        broadcast!(socket, "live_response", %{html: html})
+        {:noreply, socket}
+
+        #        {:reply, {:ok, %{products: products}}, socket}
     end
   end
 
