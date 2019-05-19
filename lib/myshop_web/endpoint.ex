@@ -1,6 +1,10 @@
 defmodule MyshopWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :myshop
 
+  socket "/manageorder/socket", MyshopWeb.UserSocket,
+    websocket: true,
+    longpoll: false
+
   socket "/socket", MyshopWeb.UserSocket,
     websocket: true,
     longpoll: false

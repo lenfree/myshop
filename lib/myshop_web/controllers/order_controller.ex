@@ -20,14 +20,15 @@ defmodule MyshopWeb.OrderController do
   end
 
   def create(conn, %{"order" => order_params}) do
-    case Orders.create_order(order_params, %Accounts.User{}, %Products.Product{}) do
-      {:ok, order} ->
+    #    case Orders.create_order(order_params, %Accounts.User{}, %Products.Product{}) do
+    case Orders.create_order(order_params) do
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new.html", changeset: changeset)
+
+      order ->
         conn
         |> put_flash(:info, "Order created successfully.")
         |> redirect(to: Routes.order_path(conn, :show, order))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
     end
   end
 
