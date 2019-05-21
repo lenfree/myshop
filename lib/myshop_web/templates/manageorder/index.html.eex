@@ -1,7 +1,19 @@
 <section class="phx-hero">
   <h1><%= gettext "Welcome to %{name}!", name: "Myshop" %></h1>
-  <p>A productive web framework that<br/>does not compromise speed and maintainability.</p>
 </section>
+
+<div id="user"">
+<section>
+<p>Buyer Information</p>
+Select customer by email:
+<select id="user-add">
+  <%= for user <- @users do %>
+	  <option value="<%= user.id%>"><%= user.credential.email %></option>
+  </tr>
+<% end %>
+</select>
+</section>
+</div>
 
 <section>
 <div id="product-order">
@@ -39,5 +51,4 @@
 
 <section>
   <div class="inner">Hello</div>
-
 <section>

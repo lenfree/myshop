@@ -54,63 +54,45 @@ let socket = new Socket("/manageorder/socket", { params: { token: window.userTok
 // Finally, connect to the socket:
 socket.connect()
 
-// Now that you are connected, you can join channels with a topic:
-//let channel = socket.channel("room:lobby", {})
-//let chatInput = document.querySelector("#chat-input")
-//let messagesContainer = document.querySelector("#messages")
-//
-//chatInput.addEventListener("keypress", event => {
-//  if (event.keyCode == 13) {
-//    channel.push("new_msg", { body: chatInput.value })
-//    chatInput.value = ""
-//  }
-//})
-//
-//channel.on("new_msg", payload => {
-//  let messageItem = document.createElement("li");
-//  messageItem.innerText = `[${Date()}] ${payload.body}`
-//  messagesContainer.appendChild(messageItem)
-//})
-//channel.join()
-//  .receive("ok", resp => { console.log("Joined successfully", resp) })
-//  .receive("error", resp => { console.log("Unable to join", resp) })
-//
-//
-//let channelTest = socket.channel("room:test", {})
-//let chatInputTest = document.querySelector("#chat-input-test")
-//let messagesContainerTest = document.querySelector("#messagestest")
-//
-//chatInputTest.addEventListener("keypress", event => {
-//  if (event.keyCode == 13) {
-//    channelTest.push("new_msg_test", { body: chatInputTest.value })
-//    chatInputTest.value = ""
-//  }
-//})
-//
-//channelTest.on("new_msg_test", payload => {
-//  let messageItem = document.createElement("li");
-//  messageItem.innerText = `[${Date()}] ${payload.body}`
-//  messagesContainerTest.appendChild(messageItem)
-//})
-//
-//channelTest.join()
-//  .receive("ok", resp => { console.log("Joined successfully", resp) })
-//  .receive("error", resp => { console.log("Unable to join", resp) })
+let userOrderChannel = socket.channel("room:user-order", {})
+let userOrderInput = document.querySelector("#user-add")
+//let userInput = document.querySelector("#user-id")
+let userContainer = document.getElementById("user")
+
+userOrderChannel.on('user_order_info', payload => {
+  document.querySelector(".user-order").innerHTML = payload.html;
+
+  alert(payload.html);
+  console.log(payload);
+})
+
+document.querySelector("#product-order").style.visibility = 'hidden';
+userOrderInput.addEventListener("change", event => {
+  console.log(userOrderInput.value);
+  userContainer.style.visibility = 'hidden';
+  userContainer.style.display = 'none';
+  document.querySelector("#product-order").style.visibility = 'visible';
+})
+
+userOrderChannel.join()
+  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
 
 let productOrderChannel = socket.channel("room:product-order", {})
 let productOrderInput = document.querySelector("#product-order-add")
 let productOrderContainer = document.querySelector("#product-order-container")
 
-let userInput = document.querySelector("#user-id")
-
+let user = document.getElementById("user-add").getAttribute
 var theParent = document.querySelector("#product-order-add");
+
 theParent.addEventListener("click", doSomething, false);
 
 function doSomething(e) {
-  //  alert(userInput.value)
-  //console.log(userInput.value)
   if (e.target !== e.currentTarget) {
-    productOrderChannel.push("add_product", { product_id: e.target.value })
+    alert(userOrderInput.value);
+    console.log(userOrderInput.value);
+    productOrderChannel.push("add_product", { product_id: e.target.value, user_id: userOrderInput.value })
   }
   e.stopPropagation();
 }
@@ -122,19 +104,11 @@ productOrderChannel.on("add_product", payload => {
   //  productOrderContainer.appendChild(messageItem)
 })
 
-//let channel = socket.channel("add_product", {})
-
-//let liveDiv = $("live-div")
-//$(".inner").append("<p>Test</p>");
-
-//let liveDiv = document.getElementById("live-div")
-//let liveDiv = document.querySelector("#live-div")
-//liveDiv.empty()
 productOrderChannel.on('live_response', payload => {
-  $(".inner").append(payload.html);
+  document.querySelector(".inner").innerHTML = payload.html;
+
   alert(payload.html);
   console.log(payload);
-  //  liveDiv.document.
 })
 
 productOrderChannel.join()

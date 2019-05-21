@@ -5,9 +5,9 @@ defmodule MyshopWeb.Endpoint do
     websocket: true,
     longpoll: false
 
-  socket "/socket", MyshopWeb.UserSocket,
-    websocket: true,
-    longpoll: false
+#  socket "/socket", MyshopWeb.UserSocket,
+#    websocket: true,
+#    longpoll: false
 
   # Serve at "/" the static files from "priv/static" directory.
   #
