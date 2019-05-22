@@ -7,6 +7,7 @@
 <p>Buyer Information</p>
 Select customer by email:
 <select id="user-add">
+    <option value="">Select customer</option>
   <%= for user <- @users do %>
 	  <option value="<%= user.id%>"><%= user.credential.email %></option>
   </tr>
@@ -48,6 +49,11 @@ Select customer by email:
 </div>
 </div>
 </section>
+
+<section>
+  <div id="checkout"></div>
+<section>
+
 
 <section>
   <div class="inner">Hello</div>

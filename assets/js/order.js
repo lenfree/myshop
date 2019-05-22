@@ -104,11 +104,13 @@ productOrderChannel.on("add_product", payload => {
   //  productOrderContainer.appendChild(messageItem)
 })
 
+let checkout = document.getElementById("checkout")
 productOrderChannel.on('live_response', payload => {
   document.querySelector(".inner").innerHTML = payload.html;
-
+  var btn = document.createElement("BUTTON");
+  btn.innerHTML = "CHECKOUT";
+  checkout.appendChild(btn);
   alert(payload.html);
-  console.log(payload);
 })
 
 productOrderChannel.join()

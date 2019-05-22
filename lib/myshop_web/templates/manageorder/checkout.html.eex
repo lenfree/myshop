@@ -1,0 +1,17 @@
+<p>Checkout Page</p>
+<div>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+	<select>
+	  <option value="volvo">Volvo</option>
+	</select>
+</select>
+  </tbody>
+</table>
+</div>
