@@ -56,7 +56,6 @@ socket.connect()
 
 let userOrderChannel = socket.channel("room:user-order", {})
 let userOrderInput = document.querySelector("#user-add")
-//let userInput = document.querySelector("#user-id")
 let userContainer = document.getElementById("user")
 
 userOrderChannel.on('user_order_info', payload => {
@@ -99,18 +98,14 @@ function doSomething(e) {
 
 productOrderChannel.on("add_product", payload => {
   console.log(payload);
-  //  let messageItem = document.createElement("li");
-  //  messageItem.innerText = `[${Date()}] ${payload.body}`
-  //  productOrderContainer.appendChild(messageItem)
 })
 
 let checkout = document.getElementById("checkout")
-productOrderChannel.on('live_response', payload => {
-  document.querySelector(".inner").innerHTML = payload.html;
+productOrderChannel.on('add_product_to_cart_successful', payload => {
   var btn = document.createElement("BUTTON");
   btn.innerHTML = "CHECKOUT";
   checkout.appendChild(btn);
-  alert(payload.html);
+  console.log(payload.user_id);
 })
 
 productOrderChannel.join()

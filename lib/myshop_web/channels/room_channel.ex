@@ -29,7 +29,11 @@ defmodule MyshopWeb.RoomChannel do
     {:noreply, socket}
   end
 
-  def handle_in("add_product", %{"product_id" => product_id, "user_id" => user_id} = body, socket) do
+  def handle_in(
+        "add_product",
+        %{"product_id" => _product_id, "user_id" => user_id} = body,
+        socket
+      ) do
     attrs = put_in(body, ["notes"], "test123")
 
     case Orders.create_order(attrs) do
@@ -37,17 +41,14 @@ defmodule MyshopWeb.RoomChannel do
         broadcast!(socket, "add_product", %{info: "error", message: changeset})
         {:reply, {:error, %{errors: changeset}}, socket}
 
-      # TODO: when a user added product to cart, show div checkout page or continue.
       order ->
         broadcast!(socket, "add_product", %{info: "successful"})
         #  response = MyshopWeb.PageView.render("index.html", product: %Products.Product{})
 
-        products = Products.list_products()
+        #        html =
+        #          Phoenix.View.render_to_string(MyshopWeb.ManageorderView, "red.html", products: products)
 
-        html =
-          Phoenix.View.render_to_string(MyshopWeb.ManageorderView, "red.html", products: products)
-
-        broadcast!(socket, "live_response", %{html: html})
+        broadcast!(socket, "add_product_to_cart_successful", %{user_id: user_id})
         {:noreply, socket}
 
         #        {:reply, {:ok, %{products: products}}, socket}
