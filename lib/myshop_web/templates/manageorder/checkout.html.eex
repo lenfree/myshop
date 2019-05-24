@@ -8,9 +8,7 @@
 </form>
 </section>
 
-
-<table>
-  <thead>
+<table>  <thead>
     <tr>
       <th>Date ordered</th>
       <th>Brand</th>
@@ -19,7 +17,7 @@
       <th>Buy Price</th>
       <th>Sell Price</th>
       <th>Notes</th>
-
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -33,12 +31,25 @@
       <td><%= order.product.sell_price %></td>
       <td><%= order.product.notes %></td>
       <td>
-      <%= button "Cancel item", to: Routes.order_path(@conn, :delete, order), method: :delete, data: [confirm: "Are you sure?"] %>
+      <%= button "Cancel item",
+        to: Routes.order_path(@conn, :delete, order),
+        method: :delete, data: [confirm: "Are you sure?"] %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
-    <div class="float-right">
-    TOTAL<%= compute_total(@data.orders) %>
-    </div>
+
+
+<div class="row">
+<div class="column column-4">
+<h1>TOTAL: $<%= compute_total(@data.orders) %></h1>
+</div>
+<div class="column column-20">
+<div class="align-right">
+<h3><%= button "Pay Now",
+  to: Routes.order_path(@conn, :index),
+  method: :post, data: [confirm: "Are you sure?"] %></h3>
+</div>
+</div>
+</div>

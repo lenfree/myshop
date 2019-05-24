@@ -11,7 +11,6 @@ defmodule MyshopWeb.ManageorderController do
 
   def index(conn, _params) do
     products = Products.list_products()
-    # |> Enum.map(&{&1.credential.email, &1.id})
     users = Accounts.list_users()
     render(conn, "index.html", products: products, users: users)
   end
