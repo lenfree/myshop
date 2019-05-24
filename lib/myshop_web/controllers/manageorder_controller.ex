@@ -16,9 +16,9 @@ defmodule MyshopWeb.ManageorderController do
     render(conn, "index.html", products: products, users: users)
   end
 
-  #  def new(conn, _params) do
-  #    changeset = Orders.change_order(%Order{}, %Accounts.User{}, %Products.Product{})
-  #    users = Accounts.list_users() |> Enum.map(&{&1.credential.email, &1.id})
-  #    render(conn, "index.html", changeset: changeset, users: users)
-  #  end
+  def show(conn, %{"id" => user_id}) do
+    orders = Orders.get_all_orders_from_user(user_id)
+    %Order{user: %Accounts.User{} = user} = orders |> hd
+    render(conn, "checkout.html", %{data: %{orders: orders, user: user}})
+  end
 end

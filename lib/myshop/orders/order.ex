@@ -18,7 +18,7 @@ defmodule Myshop.Orders.Order do
   def changeset(order, attrs) do
     order
     |> cast(attrs, [:paid, :notes, :user_id, :product_id])
-    |> validate_required([:paid, :notes, :user_id, :product_id])
+    |> validate_required([:paid, :user_id, :product_id])
     |> assoc_constraint(:user)
     |> assoc_constraint(:product)
   end

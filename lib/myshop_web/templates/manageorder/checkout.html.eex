@@ -1,17 +1,52 @@
-<p>Checkout Page</p>
-<div>
+<section>
+<form>
+<ul style="list-style-type: none;">
+<li>First Name: <strong><%= @data.user.first_name %></strong></li>
+<li>Last Name: <strong><%= @data.user.last_name %></strong></li>
+<li>Email address: <strong><%= @data.user.credential.email %></strong></li>
+</ul>
+</form>
+</section>
+
 <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th></th>
+      <th>Date ordered</th>
+      <th>Product Brand</th>
+      <th>Product Name</th>
+      <th>Product Description</th>
+      <th>Product Buy Price</th>
+      <th>Product Sell Price</th>
+      <th>Product Notes</th>
+      <th>Product URL</th>
+      <th>Paid</th>
+      <th>Notes</th>
+
     </tr>
   </thead>
   <tbody>
-	<select>
-	  <option value="volvo">Volvo</option>
-	</select>
-</select>
+    <%= for order <- @data.orders do %>
+    <tr>
+      <td><%= order.updated_at %></td>
+      <td><%= order.product.brand %></td>
+      <td><%= order.product.name %></td>
+      <td><%= order.product.description %></td>
+      <td><%= order.product.buy_price %></td>
+      <td><%= order.product.sell_price %></td>
+      <td><%= order.product.notes %></td>
+      <td><%= order.product.url %></td>
+      <td><%= order.paid %></td>
+      <td><%= order.notes %></td>
+
+      <td>
+        <%= link "Show", to: Routes.order_path(@conn, :show, order) %>
+        <%= link "Edit", to: Routes.order_path(@conn, :edit, order) %>
+        <%= link "Delete", to: Routes.order_path(@conn, :delete, order), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
   </tbody>
 </table>
-</div>
+
+<span><%= link "New Order", to: Routes.order_path(@conn, :new) %></span>
+<div>

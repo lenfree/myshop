@@ -139,4 +139,14 @@ defmodule Myshop.Orders do
   defp put_product(changeset, product) do
     changeset |> Ecto.Changeset.put_assoc(:product, product)
   end
+
+  def get_all_orders_from_user(user_id) do
+    query =
+      from o in Order,
+        where: o.user_id == ^user_id,
+        order_by: o.updated_at,
+        preload: [{:user, :credential}, :product]
+
+    Repo.all(query)
+  end
 end

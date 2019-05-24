@@ -100,11 +100,27 @@ productOrderChannel.on("add_product", payload => {
   console.log(payload);
 })
 
-let checkout = document.getElementById("checkout")
+let checkoutForm = document.getElementById("checkout-form")
 productOrderChannel.on('add_product_to_cart_successful', payload => {
-  var btn = document.createElement("BUTTON");
-  btn.innerHTML = "CHECKOUT";
-  checkout.appendChild(btn);
+  let checkout = document.getElementById("checkout")
+
+  if (checkout === null) {
+    var btn = document.createElement("FORM");
+    btn.setAttribute("id", "checkout");
+    checkoutForm.appendChild(btn);
+
+
+    var y = document.createElement("A");
+    y.href = "/manageorder/" + userOrderInput.value;
+    y.innerHTML = "CHECKOUT";
+    btn.appendChild(y);
+    checkout.appendChild(btn);
+  };
+
+  //  var b = document.getElementById("checkout").action = "/action"
+  //  document.getElementById("checkout").innerHTML = "Check"
+
+
   console.log(payload.user_id);
 })
 

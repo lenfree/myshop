@@ -51,5 +51,5 @@ Select customer by email:
 </section>
 
 <section>
-  <div id="checkout"></div>
+<div id="checkout-form"></div>
 <section>

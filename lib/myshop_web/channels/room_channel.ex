@@ -31,17 +31,15 @@ defmodule MyshopWeb.RoomChannel do
 
   def handle_in(
         "add_product",
-        %{"product_id" => _product_id, "user_id" => user_id} = body,
+        %{"product_id" => _product_id, "user_id" => user_id} = attrs,
         socket
       ) do
-    attrs = put_in(body, ["notes"], "test123")
-
     case Orders.create_order(attrs) do
       {:error, %Ecto.Changeset{} = changeset} ->
         broadcast!(socket, "add_product", %{info: "error", message: changeset})
         {:reply, {:error, %{errors: changeset}}, socket}
 
-      order ->
+      %Order{} ->
         broadcast!(socket, "add_product", %{info: "successful"})
         #  response = MyshopWeb.PageView.render("index.html", product: %Products.Product{})
 
