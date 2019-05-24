@@ -109,18 +109,12 @@ productOrderChannel.on('add_product_to_cart_successful', payload => {
     btn.setAttribute("id", "checkout");
     checkoutForm.appendChild(btn);
 
-
     var y = document.createElement("A");
     y.href = "/manageorder/" + userOrderInput.value;
     y.innerHTML = "CHECKOUT";
     btn.appendChild(y);
     checkout.appendChild(btn);
   };
-
-  //  var b = document.getElementById("checkout").action = "/action"
-  //  document.getElementById("checkout").innerHTML = "Check"
-
-
   console.log(payload.user_id);
 })
 

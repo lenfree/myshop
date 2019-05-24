@@ -3,9 +3,7 @@ defmodule MyshopWeb.RoomChannel do
 
   alias Myshop.Orders.Order
   alias Myshop.Orders
-  alias Myshop.Products
   alias Myshop.Accounts
-  alias Myshop.Repo
 
   def join("room:user-order" = channel, _message, socket) do
     {:ok, %{channel: channel}, socket}
@@ -36,20 +34,16 @@ defmodule MyshopWeb.RoomChannel do
       ) do
     case Orders.create_order(attrs) do
       {:error, %Ecto.Changeset{} = changeset} ->
-        broadcast!(socket, "add_product", %{info: "error", message: changeset})
         {:reply, {:error, %{errors: changeset}}, socket}
 
       %Order{} ->
         broadcast!(socket, "add_product", %{info: "successful"})
         #  response = MyshopWeb.PageView.render("index.html", product: %Products.Product{})
-
         #        html =
         #          Phoenix.View.render_to_string(MyshopWeb.ManageorderView, "red.html", products: products)
 
         broadcast!(socket, "add_product_to_cart_successful", %{user_id: user_id})
         {:noreply, socket}
-
-        #        {:reply, {:ok, %{products: products}}, socket}
     end
   end
 end
