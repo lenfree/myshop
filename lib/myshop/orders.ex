@@ -144,6 +144,7 @@ defmodule Myshop.Orders do
     query =
       from o in Order,
         where: o.user_id == ^user_id,
+        where: o.paid == false,
         order_by: o.updated_at,
         preload: [{:user, :credential}, :product]
 

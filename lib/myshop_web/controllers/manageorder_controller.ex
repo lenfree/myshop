@@ -18,7 +18,21 @@ defmodule MyshopWeb.ManageorderController do
 
   def show(conn, %{"id" => user_id}) do
     orders = Orders.get_all_orders_from_user(user_id)
-    %Order{user: %Accounts.User{} = user} = orders |> hd
-    render(conn, "checkout.html", %{data: %{orders: orders, user: user}})
+
+    case orders do
+      [] ->
+        case Accounts.get_user(user_id) do
+          %Accounts.User{} = user ->
+            render(conn, "checkout_empty_order.html", %{user: user})
+
+          nil ->
+            conn
+            |> redirect(to: Routes.manageorder_path(conn, :index))
+        end
+
+      _order_exist ->
+        %Order{user: %Accounts.User{} = user} = orders |> hd
+        render(conn, "checkout.html", %{data: %{orders: orders, user: user}})
+    end
   end
 end

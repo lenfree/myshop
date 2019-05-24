@@ -1,0 +1,11 @@
+<section>
+<form>
+<ul style="list-style-type: none;">
+<li>First Name: <strong><%= @user.first_name %></strong></li>
+<li>Last Name: <strong><%= @user.last_name %></strong></li>
+<li>Email address: <strong><%= @user.credential.email %></strong></li>
+</ul>
+</form>
+</section>
+
+<h3>Cart empty</h3>
