@@ -63,6 +63,6 @@ defmodule MyshopWeb.OrderController do
 
     conn
     |> put_flash(:info, "Order deleted successfully.")
-    |> redirect(to: Routes.order_path(conn, :index))
+    |> redirect(to: Routes.manageorder_path(conn, :show, order.user_id))
   end
 end
