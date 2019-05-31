@@ -1,0 +1,23 @@
+<h1>Show Payment</h1>
+
+<ul>
+
+  <li>
+    <strong>Balance:</strong>
+    <%= @payment.balance %>
+  </li>
+
+  <li>
+    <strong>Credit:</strong>
+    <%= @payment.credit %>
+  </li>
+
+  <li>
+    <strong>Notes:</strong>
+    <%= @payment.notes %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.payment_path(@conn, :edit, @payment) %></span>
+<span><%= link "Back", to: Routes.payment_path(@conn, :index) %></span>

@@ -37,7 +37,7 @@ defmodule MyshopWeb.RoomChannel do
         {:reply, {:error, %{errors: changeset}}, socket}
 
       %Order{} ->
-        broadcast!(socket, "add_product", %{info: "successful"})
+        # broadcast!(socket, "add_product", %{info: "successful"})
         #  response = MyshopWeb.PageView.render("index.html", product: %Products.Product{})
         #        html =
         #          Phoenix.View.render_to_string(MyshopWeb.ManageorderView, "red.html", products: products)

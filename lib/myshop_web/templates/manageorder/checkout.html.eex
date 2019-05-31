@@ -1,14 +1,44 @@
 <section>
 <form>
 <ul style="list-style-type: none;">
-<li>First Name: <strong><%= @data.user.first_name %></strong></li>
+<li>First Name: <strong><%= @data.user.first_name %></input></strong></li>
 <li>Last Name: <strong><%= @data.user.last_name %></strong></li>
 <li>Email address: <strong><%= @data.user.credential.email %></strong></li>
 </ul>
 </form>
 </section>
 
-<table>  <thead>
+<%= form_for @data.payment, Routes.payment_path(@conn, :create), fn cf -> %>
+  <%= if @data.payment.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+  <div>
+  <%= label cf, :user_id %>
+  <%= textarea cf, :user_id, [hidden: true] %>
+  <%= error_tag cf, :user_id %>
+
+  <%= label cf, "TOTAL" %>
+  $<%= number_input cf, :balance, [value: compute_total(@data.orders), style: "width: 10em"] %>
+  <%= error_tag cf, :balance %>
+
+  <%= label cf, "PAY" %>
+  $<%= number_input cf, :credit, [value: compute_total(@data.orders), style: "width: 10em"] %>
+  <%= error_tag cf, :credit %>
+
+  <%= label cf, :notes %>
+  <%= textarea cf, :notes %>
+  <%= error_tag cf, :notes %>
+  </div> 
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>
+
+<table>
+  <thead>
     <tr>
       <th>Date ordered</th>
       <th>Brand</th>
@@ -36,20 +66,13 @@
         method: :delete, data: [confirm: "Are you sure?"] %>
       </td>
     </tr>
-<% end %>
+    <% end %>
   </tbody>
 </table>
 
-
-<div class="row">
-<div class="column column-4">
-<h1>TOTAL: $<%= compute_total(@data.orders) %></h1>
-</div>
-<div class="column column-20">
-<div class="align-right">
+<div class="float-right">
 <h3><%= button "Pay Now",
-  to: Routes.order_path(@conn, :index),
+  to: Routes.payment_path(@conn, :create),
   method: :post, data: [confirm: "Are you sure?"] %></h3>
 </div>
-</div>
-</div>
+
