@@ -1,15 +1,25 @@
 <h1>Show Payment</h1>
 
 <ul>
+  <li>
+    <strong>Total Amount:</strong>
+    <%= @payment.total %>
+  </li>
+
+  <li>
+    <strong>Paid:</strong>
+    <%= @payment.paid%>
+  </li>
+
+  <li>
+    <strong>Additional Credit:</strong>
+    <%= @payment.additional_credit %>
+  </li>
+
 
   <li>
     <strong>Balance:</strong>
     <%= @payment.balance %>
-  </li>
-
-  <li>
-    <strong>Credit:</strong>
-    <%= @payment.credit %>
   </li>
 
   <li>

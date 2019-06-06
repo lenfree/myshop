@@ -3,27 +3,60 @@ defmodule MyshopWeb.PaymentController do
 
   alias Myshop.Accounting
   alias Myshop.Accounting.Payment
-  alias Myshop.Accounts
+  alias Myshop.Orders
+
+  def index(conn, %{"user_id" => user_id}) do
+    payments = Accounting.list_payments_by_user!(user_id)
+    render(conn, "index.html", payments: payments)
+  end
 
   def index(conn, _params) do
     payments = Accounting.list_payments()
     render(conn, "index.html", payments: payments)
   end
 
-  def new(conn, _params) do
+  def new(conn, %{"user_id" => user_id}) do
+    payments = Accounting.list_payments_by_user!(user_id)
     changeset = Accounting.change_payment(%Payment{})
-    render(conn, "new.html", changeset: changeset)
+    data = %{changeset: changeset, payments: payments}
+    render(conn, "new.html", data)
+    # changeset = Accounting.get
   end
 
   def create(conn, %{"payment" => payment_params}) do
+    require IEx
+
+    payment_params =
+      payment_params
+      |> Enum.into(%{
+        "additional_credit" => check_additional_credit(payment_params, "additional_credit"),
+        "paid" => check_additional_credit(payment_params, "paid"),
+        "total" => check_additional_credit(payment_params, "total")
+      })
+
     case Accounting.create_payment(payment_params) do
       {:ok, payment} ->
+        Orders.update_order_item_to_paid!(%{
+          user_id: payment_params["user_id"],
+          payment_id: payment.id
+        })
+
         conn
         |> put_flash(:info, "Payment created successfully.")
         |> redirect(to: Routes.payment_path(conn, :show, payment))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
+    end
+  end
+
+  def check_additional_credit(params, param_name) do
+    case Map.has_key?(params, param_name) do
+      true ->
+        params["#{param_name}"]
+
+      false ->
+        0
     end
   end
 

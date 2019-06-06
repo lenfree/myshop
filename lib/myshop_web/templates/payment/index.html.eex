@@ -1,11 +1,12 @@
-<h1>Listing Payments</h1>
+<h1>Listing Payments of <strong><%= get_name(@payments) %></strong></h1>
 
 <table>
   <thead>
     <tr>
-      <th>Customer</th>
+      <th>Total Amount</th>
+      <th>Paid</th>
+      <th>Additional Credit</th>
       <th>Balance</th>
-      <th>Credit</th>
       <th>Notes</th>
 
       <th></th>
@@ -14,9 +15,10 @@
   <tbody>
 <%= for payment <- @payments do %>
     <tr>
-      <td><%= payment.user.credential.email %></td>
+      <td><%= payment.total %></td>
+      <td><%= payment.paid %></td>
+      <td><%= payment.additional_credit %></td>
       <td><%= payment.balance %></td>
-      <td><%= payment.credit %></td>
       <td><%= payment.notes %></td>
 
       <td>
@@ -28,5 +30,5 @@
 <% end %>
   </tbody>
 </table>
+<span><%= link "New Payment", to: Routes.payment_path(@conn, :new, %{user_id: get_user_id(@payments)}) %></span>
 
-<span><%= link "New Payment", to: Routes.payment_path(@conn, :new) %></span>

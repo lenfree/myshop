@@ -8,4 +8,7 @@ defmodule MyshopWeb.ManageorderView do
   defp sum([head | tail], acc) do
     sum(tail, head.product.sell_price + acc)
   end
+
+  def get_name(data), do: parse_name(data)
+  defp parse_name(input), do: input.user.first_name <> " " <> input.user.last_name
 end

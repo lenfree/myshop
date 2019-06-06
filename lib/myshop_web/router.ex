@@ -22,6 +22,10 @@ defmodule MyshopWeb.Router do
 
     resources "/manageorder", ManageorderController, only: [:index, :show]
     resources "/payments", PaymentController, only: [:index, :show, :new, :create, :update]
+
+    resources "/users", UserController, only: [:index] do
+      resources "/payments", PaymentController
+    end
   end
 
   scope "/manage", MyshopWeb do

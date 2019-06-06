@@ -1,8 +1,7 @@
 <section>
 <form>
 <ul style="list-style-type: none;">
-<li>First Name: <strong><%= @data.user.first_name %></input></strong></li>
-<li>Last Name: <strong><%= @data.user.last_name %></strong></li>
+<li>Customer: <strong><%= get_name(@data) %></strong></li>
 <li>Email address: <strong><%= @data.user.credential.email %></strong></li>
 </ul>
 </form>
@@ -15,20 +14,19 @@
     </div>
   <% end %>
   <div>
-  <%= label cf, :user_id %>
   <%= textarea cf, :user_id, [hidden: true] %>
   <%= error_tag cf, :user_id %>
 
   <%= label cf, "TOTAL" %>
-  $<%= number_input cf, :balance, [value: compute_total(@data.orders), style: "width: 10em"] %>
-  <%= error_tag cf, :balance %>
+  $<%= number_input cf, :total, [value: compute_total(@data.orders), style: "width: 10em"] %>
+  <%= error_tag cf, :total %>
 
   <%= label cf, "PAY" %>
-  $<%= number_input cf, :credit, [value: compute_total(@data.orders), style: "width: 10em"] %>
-  <%= error_tag cf, :credit %>
+  $<%= number_input cf, :paid, [value: compute_total(@data.orders), style: "width: 10em"] %>
+  <%= error_tag cf, :paid %>
 
   <%= label cf, :notes %>
-  <%= textarea cf, :notes %>
+  <%= textarea cf, :notes, [style: "width: 30em"] %>
   <%= error_tag cf, :notes %>
   </div> 
 

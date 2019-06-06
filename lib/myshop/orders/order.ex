@@ -8,6 +8,7 @@ defmodule Myshop.Orders.Order do
     field :active, :boolean, default: false
     belongs_to :user, Myshop.Accounts.User
     belongs_to :product, Myshop.Products.Product
+    belongs_to :payment, Myshop.Products.Payment
     # , foreign_key: :id
     timestamps()
   end
