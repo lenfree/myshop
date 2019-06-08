@@ -6,7 +6,6 @@
       <th>Total Amount</th>
       <th>Paid</th>
       <th>Additional Credit</th>
-      <th>Balance</th>
       <th>Notes</th>
 
       <th></th>
@@ -18,7 +17,6 @@
       <td><%= payment.total %></td>
       <td><%= payment.paid %></td>
       <td><%= payment.additional_credit %></td>
-      <td><%= payment.balance %></td>
       <td><%= payment.notes %></td>
 
       <td>
