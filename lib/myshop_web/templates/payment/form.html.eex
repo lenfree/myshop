@@ -1,7 +1,7 @@
 <section>
 <form>
 <ul style="list-style-type: none;">
-<li>Name: <strong><%= get_name(@payments) %></strong></li>
+<li>Name: <strong><%= parse_user(@payments).name %></strong></li>
 </ul>
 </form>
 </section>
@@ -14,7 +14,7 @@
   <% end %>
 
   <%= label f, :user_id %>
-  <%= textarea f, :user_id, [value: get_user_id(@payments), hidden: true] %>
+  <%= textarea f, :user_id, [value: parse_user(@payments).id, hidden: true] %>
   <%= error_tag f, :user_id %>
 
   <%= label f, :total %>

@@ -1,4 +1,4 @@
-<h1>Payments for <strong><%= get_name(@user) %></strong></h1>
+<h1>Payments for <strong><%= parse_name(@user).name %></strong></h1>
 
 <table>
   <thead>
@@ -31,5 +31,5 @@
   </tbody>
 </table>
 <%= if length(@payments) > 0 do %>
-<span><%= link "New Payment", to: Routes.payment_path(@conn, :new, %{user_id: get_user_id(@user)}) %></span>
+<span><%= link "New Payment", to: Routes.payment_path(@conn, :new, %{user_id: parse_user(@user).id}) %></span>
 <% end %>

@@ -1,11 +1,13 @@
 defmodule MyshopWeb.PaymentView do
   use MyshopWeb, :view
 
-  def get_name(user), do: parse_name(user)
+  def parse_user(user), do: parse_name(user)
 
-  def get_user_id(user), do: user.id
+  defp parse_name([%{user: user} | _tail]), do: parse_name(user)
 
-  def parse_name(input), do: "#{input.first_name} #{input.last_name}"
+  defp parse_name(input) do
+    Enum.into(%{}, %{id: input.id, name: "#{input.first_name} #{input.last_name}"})
+  end
 
   def calculate_balance(payments), do: calculate_balance(payments, 0)
 
