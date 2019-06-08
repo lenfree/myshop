@@ -57,7 +57,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
   <a href="<%= Routes.manageorder_path(@conn, :index) %>"><i class="fa fa-fw fa-shopping-cart"></i> New Order</a> 
   <a href="<%= Routes.payment_path(@conn, :index) %>"><i class="fa fa-fw fa-money"></i> Show Payments</a> 
   <a href="<%= Routes.product_path(@conn, :index) %>"><i class="fa fa-fw fa-material-icons"></i> Manage Products</a> 
-  <a href="<%= Routes.user_path(@conn, :index) %>"><i class="fa fa-fw fa-users"></i> Manage Users</a> 
+  <a href="<%= Routes.user_path(@conn, :index) %>"><i class="fa fa-fw fa-users"></i> Manage Customers</a>
   <%= if @current_user do %>
   <%= @current_user.first_name %>
   <%= link "Log out", to: Routes.session_path(@conn, :delete, @current_user), method: "delete" %>

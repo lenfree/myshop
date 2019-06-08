@@ -17,7 +17,7 @@
       <td><%= user.first_name %></td>
       <td><%= user.last_name %></td>
       <td><%= user.credential.email %></td>
-      <td>placeholder</td>
+      <td><%= user.role %></td>
 
       <%= if @conn.assigns.current_user && @conn.assigns.current_user.id == 3 do %>
       <td>
