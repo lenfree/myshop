@@ -56,6 +56,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
   <a href="<%= Routes.manageorder_path(@conn, :index) %>"><i class="fa fa-fw fa-home"></i> Home</a> 
   <a href="<%= Routes.manageorder_path(@conn, :index) %>"><i class="fa fa-fw fa-shopping-cart"></i> New Order</a> 
   <a href="<%= Routes.payment_path(@conn, :index) %>"><i class="fa fa-fw fa-money"></i> Show Payments</a> 
+  <a href="<%= Routes.order_path(@conn, :index) %>"><i class="fa fa-fw fa-shopping-bag"></i> Order Summary</a> 
+  <a href="<%= Routes.reporting_path(@conn, :index) %>"><i class="fa fa-fw fa fa-line-chart"></i> Trend</a> 
   <a href="<%= Routes.product_path(@conn, :index) %>"><i class="fa fa-fw fa-material-icons"></i> Manage Products</a> 
   <a href="<%= Routes.user_path(@conn, :index) %>"><i class="fa fa-fw fa-users"></i> Manage Customers</a>
   <%= if @current_user do %>

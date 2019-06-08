@@ -42,6 +42,8 @@ defmodule MyshopWeb.Router do
 
     resources "/payments", PaymentController,
       only: [:index, :show, :new, :create, :edit, :update, :delete]
+
+    resources "/reporting", ReportingController, only: [:index, :show]
   end
 
   # Other scopes may use custom stacks.

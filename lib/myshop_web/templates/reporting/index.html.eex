@@ -1,0 +1,32 @@
+<h1>Listing Orders</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product Brand</th>
+      <th>Product Name</th>
+      <th>Product Description</th>
+      <th>Product Buy Price</th>
+      <th>Product Sell Price</th>
+      <th>Product Notes</th>
+      <th>Product URL</th>
+      <th>Total Sold</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <%= for order <- @orders do %>
+    <tr>
+      <td><%= order.product.brand %></td>
+      <td><%= order.product.name %></td>
+      <td><%= order.product.description %></td>
+      <td><%= order.product.buy_price %></td>
+      <td><%= order.product.sell_price %></td>
+      <td><%= order.product.notes %></td>
+      <td><%= order.product.url %></td>
+      <td><%= order.total %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+<div>

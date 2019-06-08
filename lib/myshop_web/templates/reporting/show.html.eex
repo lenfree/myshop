@@ -1,0 +1,68 @@
+<h1>Show Order</h1>
+
+<ul>
+
+  <li>
+    <strong>User Email:</strong>
+    <%= @order.user.credential.email %>
+  </li>
+
+  <li>
+    <strong>First Name:</strong>
+    <%= @order.user.first_name %>
+  </li>
+  
+  <li>
+    <strong>Last Name:</strong>
+    <%= @order.user.last_name %>
+  </li>
+
+  <li>
+    <strong>Product Brand:</strong>
+    <%= @order.product.brand %>
+  </li>
+    
+  <li>
+    <strong>Product Name:</strong>
+    <%= @order.product.name %>
+  </li>
+  
+  <li>
+    <strong>Product Description:</strong>
+    <%= @order.product.description %>
+  </li>
+  
+  <li>
+    <strong>Product Buy Price:</strong>
+    <%= @order.product.buy_price %>
+  </li>
+  
+  <li>
+    <strong>Product Sell Price:</strong>
+    <%= @order.product.sell_price %>
+  </li>
+  
+  <li>
+    <strong>Product Notes:</strong>
+    <%= @order.product.notes %>
+  </li>
+  
+  <li>
+    <strong>Product URL:</strong>
+    <%= @order.product.url%>
+  </li>
+  
+  <li>
+    <strong>Paid:</strong>
+    <%= @order.paid %>
+  </li>
+  
+  <li>
+    <strong>Notes:</strong>
+    <%= @order.notes %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.order_path(@conn, :edit, @order) %></span>
+<span><%= link "Back", to: Routes.order_path(@conn, :index) %></span>

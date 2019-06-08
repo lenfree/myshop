@@ -158,4 +158,14 @@ defmodule Myshop.Orders do
     )
     |> Repo.update_all(set: [paid: true, payment_id: payment_id])
   end
+
+  def order_group_by_product do
+    list_orders()
+    |> Enum.group_by(fn %{product: %{} = product} -> product end)
+  end
+
+  def order_summary do
+    order_group_by_product()
+    |> Enum.map(fn {product, list} -> %{product: product, total: length(list)} end)
+  end
 end
