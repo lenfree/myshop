@@ -6,6 +6,8 @@ defmodule MyshopWeb.ManageorderController do
   alias Myshop.Orders
   alias Myshop.Orders.Order
   alias Myshop.Accounts
+  alias Myshop.Accounting
+  alias Myshop.Accounting.Payment
   alias MyshopWeb.Router.Helpers, as: Routes
   plug :authenticate_user when action in [:index]
 
@@ -17,6 +19,7 @@ defmodule MyshopWeb.ManageorderController do
 
   def show(conn, %{"id" => user_id}) do
     orders = Orders.get_all_orders_from_user(user_id)
+    payment = Accounting.change_payment(%Payment{user_id: user_id})
 
     case orders do
       [] ->
@@ -31,7 +34,7 @@ defmodule MyshopWeb.ManageorderController do
 
       _order_exist ->
         %Order{user: %Accounts.User{} = user} = orders |> hd
-        render(conn, "checkout.html", %{data: %{orders: orders, user: user}})
+        render(conn, "checkout.html", %{data: %{orders: orders, user: user, payment: payment}})
     end
   end
 end

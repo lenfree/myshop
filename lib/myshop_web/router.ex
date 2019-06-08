@@ -21,6 +21,11 @@ defmodule MyshopWeb.Router do
     resources "/sessions", SessionController, only: [:new, :create, :delete]
 
     resources "/manageorder", ManageorderController, only: [:index, :show]
+    resources "/payments", PaymentController, only: [:index, :show, :new, :create, :update]
+
+    resources "/users", UserController, only: [:index] do
+      resources "/payments", PaymentController
+    end
   end
 
   scope "/manage", MyshopWeb do
@@ -33,6 +38,9 @@ defmodule MyshopWeb.Router do
       only: [:index, :show, :new, :create, :edit, :update, :delete]
 
     resources "/orders", OrderController,
+      only: [:index, :show, :new, :create, :edit, :update, :delete]
+
+    resources "/payments", PaymentController,
       only: [:index, :show, :new, :create, :edit, :update, :delete]
   end
 

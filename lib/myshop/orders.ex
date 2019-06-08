@@ -150,4 +150,12 @@ defmodule Myshop.Orders do
 
     Repo.all(query)
   end
+
+  def update_order_item_to_paid!(%{user_id: user_id, payment_id: payment_id}) do
+    from(o in Order,
+      where: o.user_id == ^user_id,
+      where: o.paid == false
+    )
+    |> Repo.update_all(set: [paid: true, payment_id: payment_id])
+  end
 end
