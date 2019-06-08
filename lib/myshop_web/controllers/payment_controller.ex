@@ -7,7 +7,7 @@ defmodule MyshopWeb.PaymentController do
 
   def index(conn, %{"user_id" => user_id}) do
     payments = Accounting.list_payments_by_user!(user_id)
-    render(conn, "index.html", payments: payments)
+    render(conn, "index_user.html", payments: payments)
   end
 
   def index(conn, _params) do
@@ -24,8 +24,6 @@ defmodule MyshopWeb.PaymentController do
   end
 
   def create(conn, %{"payment" => payment_params}) do
-    require IEx
-
     payment_params =
       payment_params
       |> Enum.into(%{

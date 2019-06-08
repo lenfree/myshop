@@ -1,4 +1,4 @@
-<h1>Listing All Payments</h1>
+<h1>Listing Payments of <strong><%= get_name(@payments) %></strong></h1>
 
 <table>
   <thead>

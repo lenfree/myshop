@@ -14,20 +14,58 @@
     <header>
       <section class="container">
         <nav role="navigation">
-        <div class="float-right">
-          <ul>
-          <%= if @current_user do %>
-          <li><%= @current_user.first_name %></li>
-          <li><%= link "Log out", to: Routes.session_path(@conn, :delete, @current_user), method: "delete" %></li>
-          <% else %>
-          <li><%= link "Register", to: Routes.user_path(@conn, :new) %></li> <li><%= link "Log in", to: Routes.session_path(@conn, :new) %></li>
-          <% end %>
-          </ul>
-		  </div>
         </nav>
         <a href="http://phoenixframework.org/" class="phx-logo">
         <img src="<%= Routes.static_url(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
         </a>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+.navbar {
+  width: 100%;
+  background-color: #000;
+  overflow: auto;
+}
+
+.navbar a {
+  float: left;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background-color: #000;
+}
+
+.active {
+  background-color: #4CAF50;
+}
+
+@media screen and (max-width: 500px) {
+  .navbar a {
+    float: none;
+    display: block;
+  }
+}
+</style>
+<body>
+<div class="navbar">
+  <a href="<%= Routes.manageorder_path(@conn, :index) %>"><i class="fa fa-fw fa-home"></i> Home</a> 
+  <a href="<%= Routes.manageorder_path(@conn, :index) %>"><i class="fa fa-fw fa-shopping-cart"></i> New Order</a> 
+  <a href="<%= Routes.payment_path(@conn, :index) %>"><i class="fa fa-fw fa-money"></i> Show Payments</a> 
+  <a href="<%= Routes.product_path(@conn, :index) %>"><i class="fa fa-fw fa-material-icons"></i> Manage Products</a> 
+  <a href="<%= Routes.user_path(@conn, :index) %>"><i class="fa fa-fw fa-users"></i> Manage Users</a> 
+  <%= if @current_user do %>
+  <%= @current_user.first_name %>
+  <%= link "Log out", to: Routes.session_path(@conn, :delete, @current_user), method: "delete" %>
+  <% else %>
+  <%= link "Register", to: Routes.user_path(@conn, :new) %><%= link "Log in", to: Routes.session_path(@conn, :new) %>
+  <% end %>
+</div>
+
       </section>
     </header>
     <main role="main" class="container">
