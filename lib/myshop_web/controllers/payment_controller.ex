@@ -4,10 +4,12 @@ defmodule MyshopWeb.PaymentController do
   alias Myshop.Accounting
   alias Myshop.Accounting.Payment
   alias Myshop.Orders
+  alias Myshop.Accounts
 
   def index(conn, %{"user_id" => user_id}) do
+    user = Accounts.get_user!(user_id)
     payments = Accounting.list_payments_by_user!(user_id)
-    render(conn, "index_user.html", payments: payments)
+    render(conn, "index_user.html", %{payments: payments, user: user})
   end
 
   def index(conn, _params) do

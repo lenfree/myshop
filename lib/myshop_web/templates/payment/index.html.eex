@@ -1,8 +1,10 @@
-<h1>Listing All Payments</h1>
+<h1>All Payments</h1>
 
 <table>
   <thead>
     <tr>
+      <th>Date</th>
+      <th>Customer Name</th>
       <th>Total Amount</th>
       <th>Paid</th>
       <th>Additional Credit</th>
@@ -15,6 +17,8 @@
   <tbody>
 <%= for payment <- @payments do %>
     <tr>
+      <td><%= payment.updated_at %></td>
+      <td><%= payment.user.first_name %></td>
       <td><%= payment.total %></td>
       <td><%= payment.paid %></td>
       <td><%= payment.additional_credit %></td>
@@ -30,5 +34,4 @@
 <% end %>
   </tbody>
 </table>
-<span><%= link "New Payment", to: Routes.payment_path(@conn, :new, %{user_id: get_user_id(@payments)}) %></span>
 

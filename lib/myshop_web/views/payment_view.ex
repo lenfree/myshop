@@ -1,10 +1,11 @@
 defmodule MyshopWeb.PaymentView do
   use MyshopWeb, :view
 
-  def get_name([head | _list]), do: parse_name(head)
-  def get_user_id([head | _list]), do: head.user_id
+  def get_name(user), do: parse_name(user)
 
-  def parse_name(input), do: input.user.first_name <> " " <> input.user.last_name
+  def get_user_id(user), do: user.id
+
+  def parse_name(input), do: "#{input.first_name} #{input.last_name}"
 
   def calculate_balance(payments), do: calculate_balance(payments, 0)
 
