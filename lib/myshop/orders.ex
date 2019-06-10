@@ -19,6 +19,17 @@ defmodule Myshop.Orders do
       [%Order{}, ...]
 
   """
+
+  def list_orders(user_id) do
+    from(o in Order,
+      where: o.user_id == ^user_id,
+      where: o.paid == false,
+      order_by: o.updated_at,
+      preload: [{:user, :credential}, :product]
+    )
+    |> Repo.all()
+  end
+
   def list_orders do
     Repo.all(
       from o in Order,
@@ -140,17 +151,7 @@ defmodule Myshop.Orders do
     changeset |> Ecto.Changeset.put_assoc(:product, product)
   end
 
-  def get_all_orders_from_user(user_id) do
-    query =
-      from o in Order,
-        where: o.user_id == ^user_id,
-        where: o.paid == false,
-        order_by: o.updated_at,
-        preload: [{:user, :credential}, :product]
-
-    Repo.all(query)
-  end
-
+  # DRY with line 107
   def update_order_item_to_paid!(%{user_id: user_id, payment_id: payment_id}) do
     from(o in Order,
       where: o.user_id == ^user_id,

@@ -2,7 +2,6 @@ defmodule MyshopWeb.ManageorderController do
   use MyshopWeb, :controller
 
   alias Myshop.Products
-  alias Myshop.Products.Product
   alias Myshop.Orders
   alias Myshop.Orders.Order
   alias Myshop.Accounts
@@ -18,7 +17,7 @@ defmodule MyshopWeb.ManageorderController do
   end
 
   def show(conn, %{"id" => user_id}) do
-    orders = Orders.get_all_orders_from_user(user_id)
+    orders = Orders.list_orders(user_id)
     payment = Accounting.change_payment(%Payment{user_id: user_id})
 
     case orders do
