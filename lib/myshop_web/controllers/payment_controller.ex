@@ -8,18 +8,14 @@ defmodule MyshopWeb.PaymentController do
 
   def index(conn, %{"user_id" => user_id}) do
     user = Accounts.get_user!(user_id)
-    payments = Accounting.list_payments_by_user!(user_id)
+    payments = Accounting.list_payments(user_id)
 
     case length(payments) > 0 do
       true ->
         render(conn, "index_user.html", %{payments: payments, user: user})
 
       _ ->
-        orders = Orders.get_all_orders_from_user(user_id)
         redirect(conn, to: Routes.manageorder_path(conn, :show, user.id))
-        # render(conn, MyshopWeb.ManageorderView, "checkout.html", %{
-        #  data: %{orders: orders, user: user, payment: payments}
-        # })
     end
   end
 
@@ -29,7 +25,7 @@ defmodule MyshopWeb.PaymentController do
   end
 
   def new(conn, %{"user_id" => user_id}) do
-    payments = Accounting.list_payments_by_user!(user_id)
+    payments = Accounting.list_payments(user_id)
     changeset = Accounting.change_payment(%Payment{})
     data = %{changeset: changeset, payments: payments}
     render(conn, "new.html", data)

@@ -19,6 +19,14 @@ defmodule Myshop.Accounting do
       [%Payment{}, ...]
 
   """
+  def list_payments(user_id) do
+    Repo.all(
+      from p in Payment,
+        where: p.user_id == ^user_id,
+        preload: [{:user, :credential}]
+    )
+  end
+
   def list_payments do
     Repo.all(
       from p in Payment,
@@ -121,27 +129,5 @@ defmodule Myshop.Accounting do
   """
   def change_payment(%Payment{} = payment) do
     Payment.changeset(payment, %{})
-  end
-
-  @doc """
-  Get all payments for a user.
-
-  Raises `Ecto.NoResultsError` if the Payment does not exist.
-
-  ## Examples
-
-      iex> get_payment_by_user!(123)
-      %Payment{}
-
-      iex> get_payment!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def list_payments_by_user!(user_id) do
-    Repo.all(
-      from p in Payment,
-        where: p.user_id == ^user_id,
-        preload: [{:user, :credential}]
-    )
   end
 end
