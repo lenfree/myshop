@@ -9,10 +9,6 @@ defmodule MyshopWeb.RoomChannel do
     {:ok, %{channel: channel}, socket}
   end
 
-  def join("room:product-order" = channel, _message, socket) do
-    {:ok, %{channel: channel}, socket}
-  end
-
   def join("room:" <> _private_room_id, _params, _socket) do
     {:error, %{reason: "unauthorized"}}
   end

@@ -18,11 +18,11 @@
   <%= error_tag f, :user_id %>
 
   <%= label f, :total %>
-  $<%= number_input f, :_total, [value: calculate_balance(@payments), readonly: true, style: "width: 10em"] %>
+  $<%= number_input f, :_total, [value: calculate_balance(@payments), readonly: true, style: "width: 10em", step: "any"] %>
   <%= error_tag f, :total %>
 
   <%= label f, :paid %>
-  $<%= number_input f, :additional_credit, [value: calculate_balance(@payments), style: "width: 10em"] %>
+  $<%= number_input f, :additional_credit, [value: calculate_balance(@payments), style: "width: 10em", step: "any"] %>
   <%= error_tag f, :additional_credit%>
   
   <%= label f, :notes %>

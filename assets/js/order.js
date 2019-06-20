@@ -78,9 +78,9 @@ userOrderChannel.join()
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 
-let productOrderChannel = socket.channel("room:product-order", {})
-let productOrderInput = document.querySelector("#product-order-add")
-let productOrderContainer = document.querySelector("#product-order-container")
+//let productOrderChannel = socket.channel("room:product-order", {})
+//let productOrderInput = document.querySelector("#product-order-add")
+//let productOrderContainer = document.querySelector("#product-order-container")
 
 let user = document.getElementById("user-add").getAttribute
 var theParent = document.querySelector("#product-order-add");
@@ -91,17 +91,17 @@ function doSomething(e) {
   if (e.target !== e.currentTarget) {
     alert(userOrderInput.value);
     console.log(userOrderInput.value);
-    productOrderChannel.push("add_product", { product_id: e.target.value, user_id: userOrderInput.value })
+    userOrderChannel.push("add_product", { product_id: e.target.value, user_id: userOrderInput.value })
   }
   e.stopPropagation();
 }
 
-productOrderChannel.on("add_product", payload => {
+userOrderChannel.on("add_product", payload => {
   console.log(payload);
 })
 
 let checkoutForm = document.getElementById("checkout-form")
-productOrderChannel.on('add_product_to_cart_successful', payload => {
+userOrderChannel.on('add_product_to_cart_successful', payload => {
   let checkout = document.getElementById("checkout")
 
   if (checkout === null) {
@@ -118,8 +118,8 @@ productOrderChannel.on('add_product_to_cart_successful', payload => {
   console.log(payload.user_id);
 })
 
-productOrderChannel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+//productOrderChannel.join()
+//  .receive("ok", resp => { console.log("Joined successfully", resp) })
+//  .receive("error", resp => { console.log("Unable to join", resp) })
 
 export default socket

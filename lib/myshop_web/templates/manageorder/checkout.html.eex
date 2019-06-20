@@ -18,11 +18,11 @@
   <%= error_tag cf, :user_id %>
 
   <%= label cf, "TOTAL" %>
-  $<%= number_input cf, :total, [value: compute_total(@data.orders), style: "width: 10em"] %>
+  $<%= number_input cf, :total, [value: compute_total(@data.orders), style: "width: 10em", step: "any"] %>
   <%= error_tag cf, :total %>
 
   <%= label cf, "PAY" %>
-  $<%= number_input cf, :paid, [value: compute_total(@data.orders), style: "width: 10em"] %>
+  $<%= number_input cf, :paid, [value: compute_total(@data.orders), style: "width: 10em", step: "any"] %>
   <%= error_tag cf, :paid %>
 
   <%= label cf, :notes %>
