@@ -4,11 +4,11 @@ defmodule Myshop.Products.Product do
 
   schema "products" do
     field :brand, :string
-    field :buy_price, :float
+    field :buy_price, :decimal
     field :description, :string
     field :name, :string
     field :notes, :string
-    field :sell_price, :float
+    field :sell_price, :decimal
     field :url, :string
 
     timestamps()

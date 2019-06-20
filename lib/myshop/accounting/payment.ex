@@ -3,11 +3,11 @@ defmodule Myshop.Accounting.Payment do
   import Ecto.Changeset
 
   schema "payments" do
-    field :balance, :float
-    field :paid, :float
+    field :balance, :decimal
+    field :paid, :decimal
     # this is an additional payment made after purchase for paying debt.
-    field :additional_credit, :float
-    field :total, :float
+    field :additional_credit, :decimal
+    field :total, :decimal
     field :notes, :string
     belongs_to :user, Myshop.Accounts.User
     has_many :order, Myshop.Orders.Order
