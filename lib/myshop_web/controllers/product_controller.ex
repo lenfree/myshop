@@ -5,6 +5,7 @@ defmodule MyshopWeb.ProductController do
   alias Myshop.Products.Product
   alias MyshopWeb.Router.Helpers, as: Routes
   plug :authenticate_user when action in [:index, :show]
+  plug :load_categories when action in [:new, :create, :edit, :update]
 
   def index(conn, _params) do
     products = Products.list_products()
@@ -60,5 +61,9 @@ defmodule MyshopWeb.ProductController do
     conn
     |> put_flash(:info, "Product deleted successfully.")
     |> redirect(to: Routes.product_path(conn, :index))
+  end
+
+  defp load_categories(conn, _) do
+    assign(conn, :categories, Products.list_categories())
   end
 end

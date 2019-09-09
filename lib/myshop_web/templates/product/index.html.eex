@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Category</th>
       <th>Name</th>
       <th>Url</th>
       <th>Notes</th>
@@ -17,6 +18,7 @@
   <tbody>
 <%= for product <- @products do %>
     <tr>
+      <td><%= product.category.name %></td>
       <td><%= product.name %></td>
       <td><%= product.url %></td>
       <td><%= product.notes %></td>
