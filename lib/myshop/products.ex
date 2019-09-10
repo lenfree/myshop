@@ -213,4 +213,9 @@ defmodule Myshop.Products do
   def change_category(%Category{} = category) do
     Category.changeset(category, %{})
   end
+
+  def to_price(value) do
+    require IEx
+    Decimal.mult(Decimal.new(value), Decimal.new(100))
+  end
 end

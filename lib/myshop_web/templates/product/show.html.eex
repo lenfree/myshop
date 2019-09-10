@@ -34,12 +34,12 @@
 
   <li>
     <strong>Buy price:</strong>
-    <%= @product.buy_price %>
+    <%= to_price(@product.buy_price) %>
   </li>
 
   <li>
     <strong>Sell price:</strong>
-    <%= @product.sell_price %>
+    <%= to_price(@product.sell_price) %>
   </li>
 
 </ul>

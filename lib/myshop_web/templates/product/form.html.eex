@@ -29,7 +29,7 @@
   <%= error_tag f, :description %>
 
   <%= label f, :buy_price %>
-  <%= number_input f, :buy_price, step: "any" %>
+  <%= number_input f, to_price(:buy_price), step: "any" %>
   <%= error_tag f, :buy_price %>
 
   <%= label f, :sell_price %>

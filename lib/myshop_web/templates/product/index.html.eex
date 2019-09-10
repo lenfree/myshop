@@ -24,8 +24,8 @@
       <td><%= product.notes %></td>
       <td><%= product.brand %></td>
       <td><%= product.description %></td>
-      <td><%= product.buy_price %></td>
-      <td><%= product.sell_price %></td>
+      <td><%= to_price(product.buy_price) %></td>
+      <td><%= to_price(product.sell_price) %></td>
 
       <td><%= link "Show", to: Routes.product_path(@conn, :show, product) %></td>
       <td><%= link "Edit", to: Routes.product_path(@conn, :edit, product) %></td>
