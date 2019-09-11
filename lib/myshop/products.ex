@@ -23,9 +23,10 @@ defmodule Myshop.Products do
 
   def list_asc_products do
     # TODO: create an interface for join or complicated queries
-    # q = from p in Product, order_by: p.brand
-    #    query = Repo.all(Product)
-    query = from q in Product, order_by: q.brand
+    query =
+      from q in Product,
+        order_by: [asc: q.name]
+
     Repo.all(query)
   end
 

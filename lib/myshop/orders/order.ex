@@ -6,9 +6,11 @@ defmodule Myshop.Orders.Order do
     field :notes, :string
     field :paid, :boolean, default: false
     field :active, :boolean, default: false
+    field :ordered_at, :utc_datetime, read_after_writes: true
+    field :state, :string, read_after_writes: true
     belongs_to :user, Myshop.Accounts.User
-    belongs_to :product, Myshop.Products.Product
-    # , foreign_key: :id
+    embeds_many :product_items, Myshop.Orders.Item
+
     timestamps()
   end
 
@@ -17,9 +19,10 @@ defmodule Myshop.Orders.Order do
   @doc false
   def changeset(order, attrs) do
     order
-    |> cast(attrs, [:paid, :notes, :user_id, :product_id])
-    |> validate_required([:paid, :notes, :user_id, :product_id])
+    |> cast(attrs, [:paid, :notes, :user_id, :state, :ordered_at])
+    |> validate_required([:paid, :notes])
+    |> cast_embed(:product_items)
     |> assoc_constraint(:user)
-    |> assoc_constraint(:product)
+    |> foreign_key_constraint(:user)
   end
 end

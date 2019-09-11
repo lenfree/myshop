@@ -9,8 +9,7 @@
       <th>Notes</th>
       <th>Brand</th>
       <th>Description</th>
-      <th>Buy price</th>
-      <th>Sell price</th>
+      <th>Price</th>
 
       <th></th>
     </tr>
@@ -24,8 +23,7 @@
       <td><%= product.notes %></td>
       <td><%= product.brand %></td>
       <td><%= product.description %></td>
-      <td><%= to_price(product.buy_price) %></td>
-      <td><%= to_price(product.sell_price) %></td>
+      <td><%= to_price(product.price) %></td>
 
       <td><%= link "Show", to: Routes.product_path(@conn, :show, product) %></td>
       <td><%= link "Edit", to: Routes.product_path(@conn, :edit, product) %></td>

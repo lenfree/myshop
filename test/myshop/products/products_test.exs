@@ -1,8 +1,8 @@
 defmodule Myshop.ProductsTest do
-  use Myshop.DataCase
+  use Myshop.DataCase, aync: true
 
   alias Myshop.Products
-  alias Myshop.Products.Product
+  alias Myshop.Products.{Product, Category}
 
   describe "products" do
     @valid_attrs %{
@@ -24,19 +24,24 @@ defmodule Myshop.ProductsTest do
       sell_price: nil,
       url: nil
     }
+
     test "list_asc_products/0" do
-      ~w(nike puma adidas)
-      |> Enum.each(fn product ->
-        Products.create_product(put_in(@valid_attrs, [:brand], product))
+      %Category{id: id} = category = category_fixture()
+
+      attrs = put_in(@valid_attrs, [:category_id], category.id)
+
+      ~w(nike adidas puma)
+      |> Enum.map(fn product ->
+        Products.create_product(put_in(attrs, [:name], product))
       end)
 
-      list_product_brands =
+      list_products =
         Products.list_asc_products()
-        |> Enum.map(fn %Product{brand: brand} ->
-          brand
+        |> Enum.map(fn %Product{name: name} ->
+          name
         end)
 
-      assert list_product_brands == ~w(adidas nike puma)
+      assert list_products == ~w(adidas nike puma)
     end
 
     test "list_products/0 return all products" do
@@ -52,11 +57,13 @@ defmodule Myshop.ProductsTest do
     test "create product/1 with valid data creates a product" do
       assert {:ok, %Product{} = product} = Products.create_product(@valid_attrs)
       assert product.brand == "brand A"
-      assert product.buy_price == 5.6
+      # in cents
+      assert Decimal.to_float(product.buy_price) == 0.056
       assert product.description == "brand 6"
       assert product.name == "brand 6"
       assert product.notes == "new"
-      assert product.sell_price == 5.9
+      # in cents
+      assert Decimal.to_float(product.sell_price) == 0.059
       assert product.url == "a"
     end
 
@@ -113,15 +120,6 @@ defmodule Myshop.ProductsTest do
     @valid_attrs %{description: "some description", name: "some name"}
     @update_attrs %{description: "some updated description", name: "some updated name"}
     @invalid_attrs %{description: nil, name: nil}
-
-    def category_fixture(attrs \\ %{}) do
-      {:ok, category} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Products.create_category()
-
-      category
-    end
 
     test "list_categories/0 returns all categories" do
       category = category_fixture()

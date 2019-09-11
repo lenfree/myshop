@@ -30,11 +30,10 @@ defmodule Myshop.TestHelpers do
       attrs
       |> Enum.into(%{
         brand: attrs[:brand] || "Apple",
-        buy_price: attrs[:buy_price] || 5.6,
+        price: attrs[:price] || 5.6,
         description: attrs[:description] || "iPhone 6",
         name: attrs[:name] || "Apple iPhone 6",
         notes: attrs[:notes] || "brand new",
-        sell_price: attrs[:sell_price] || 5.9,
         url: attrs[:url] || "http://apple.com/au/iphone6"
       })
       |> Products.create_product()
@@ -42,13 +41,31 @@ defmodule Myshop.TestHelpers do
     product
   end
 
-  def order_fixture(%Accounts.User{} = user, %Products.Product{} = product, attrs \\ %{}) do
+  def category_fixture(attrs \\ %{}) do
+    {:ok, category} =
+      attrs
+      |> Enum.into(%{
+        description: attrs[:description] || "all shoes",
+        name: attrs[:name] || "shoes"
+      })
+      |> Products.create_category()
+
+    category
+  end
+
+  # def order_fixture(%Accounts.User{} = user, %Products.Product{} = product, attrs \\ %{}) do
+  def order_fixture(attrs \\ %{}) do
     attrs
     |> Enum.into(%{
       notes: attrs[:notes] || "this is a note",
       paid: attrs[:paid] || false,
-      user_id: user.id,
-      product_id: product.id
+      user_id: attrs.user_id,
+      state: "ordered",
+      product_items:
+        attrs.product_items ||
+          [
+            %{product_id: attrs.product.id, quantity: 2}
+          ]
     })
     |> Orders.create_order()
   end

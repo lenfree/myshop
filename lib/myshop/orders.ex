@@ -22,7 +22,7 @@ defmodule Myshop.Orders do
   def list_orders do
     Repo.all(
       from o in Order,
-        preload: [{:user, :credential}, :product]
+        preload: [{:user, :credential}]
     )
   end
 
@@ -44,7 +44,7 @@ defmodule Myshop.Orders do
     Repo.one!(
       from o in Order,
         where: o.id == ^id,
-        preload: [{:user, :credential}, :product]
+        preload: [{:user, :credential}]
     )
   end
 
@@ -61,23 +61,17 @@ defmodule Myshop.Orders do
 
   """
   def create_order(attrs \\ %{}) do
-    changeset =
-      %Order{}
-      |> Order.changeset(attrs)
+    attrs = Map.update(attrs, :product_items, [], &build_items/1)
 
-    #    comment = Products.change_product(%Products.Product{}, %{id: attrs[:product_id]})
-    #    post = Ecto.Changeset.put_assoc(changeset, :product, [comment])
-    #    case changeset do
-    #      {:error, message} ->
-    #        {:error, message}
-    #
-    #      _ ->
-    case Repo.insert(changeset) do
-      {:ok, repo} ->
-        Repo.preload(repo, [{:user, :credential}, :product])
+    %Order{}
+    |> Order.changeset(attrs)
+    |> Repo.insert()
+  end
 
-      {:error, changeset} ->
-        {:error, changeset}
+  defp build_items(items) do
+    for item <- items do
+      product_item = Myshop.Products.get_product!(item.product_item_id)
+      %{name: product_item.name, price: product_item.price, quantity: item.quantity}
     end
   end
 
