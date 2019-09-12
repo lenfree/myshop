@@ -34,7 +34,8 @@ defmodule Myshop.TestHelpers do
         description: attrs[:description] || "iPhone 6",
         name: attrs[:name] || "Apple iPhone 6",
         notes: attrs[:notes] || "brand new",
-        url: attrs[:url] || "http://apple.com/au/iphone6"
+        url: attrs[:url] || "http://apple.com/au/iphone6",
+        category_id: attrs[:category_id] || category_fixture().id
       })
       |> Products.create_product()
 

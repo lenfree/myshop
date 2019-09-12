@@ -4,9 +4,9 @@ defmodule Myshop.Products.Product do
 
   schema "products" do
     field :brand, :string
+    field :name, :string
     field :price, :decimal
     field :description, :string
-    field :name, :string
     field :notes, :string
     field :url, :string
     belongs_to(:category, Myshop.Products.Category)
@@ -29,21 +29,5 @@ defmodule Myshop.Products.Product do
     |> unique_constraint(:name)
     |> foreign_key_constraint(:category_id)
     |> assoc_constraint(:category)
-    |> price_to_cents(:price)
-  end
-
-  def price_to_cents(changeset, attr) do
-    case changeset.changes == %{} do
-      false ->
-        changeset
-        |> put_change(attr, to_cents(get_field(changeset, attr)))
-
-      true ->
-        changeset
-    end
-  end
-
-  def to_cents(value) do
-    Decimal.div(Decimal.new(value), Decimal.new(100))
   end
 end

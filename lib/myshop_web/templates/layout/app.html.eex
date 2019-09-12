@@ -57,19 +57,19 @@ body {font-family: Arial, Helvetica, sans-serif;}
   <a href="<%= Routes.product_path(@conn, :index) %>"><i class="fa fa-fw fa-material-icons"></i> Manage Products</a>
   <a href="<%= Routes.category_path(@conn, :index) %>"><i class="fa fa-fw fa-material-icons"></i> Manage Categories</a>
   <a href="<%= Routes.user_path(@conn, :index) %>"><i class="fa fa-fw fa-users"></i> Manage Customers</a>
-  <%= if @current_user do %>
-  <%= @current_user.first_name %>
-  <%= link "Log out", to: Routes.session_path(@conn, :delete, @current_user), method: "delete" %>
-  <% else %>
-  <%= link "Register", to: Routes.user_path(@conn, :new) %><%= link "Log in", to: Routes.session_path(@conn, :new) %>
-  <% end %>
+ <%# <%= if @current_user do  %>
+ <%# <%= @current_user.first_name  %>
+ <%# <%= link "Log out", to: Routes.session_path(@conn, :delete, @current_user), method: "delete" %>
+ <%# <% else  %>
+ <%# <%= link "Register", to: Routes.user_path(@conn, :new) %><%# <%= link "Log in", to: Routes.session_path(@conn, :new) %>
+ <%# <% end %>
 </div>
 
       </section>
     </header>
     <main role="main" class="container">
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <%# <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) </p>%>
+      <%# <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) </p>%>
       <%= render @view_module, @view_template, assigns %>
     </main>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>

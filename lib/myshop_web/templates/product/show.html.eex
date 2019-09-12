@@ -34,7 +34,7 @@
 
   <li>
     <strong>Price:</strong>
-    <%= to_price(@product.price) %>
+    <%= @product.price %>
   </li>
 
 </ul>

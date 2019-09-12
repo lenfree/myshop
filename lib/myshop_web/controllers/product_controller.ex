@@ -4,7 +4,7 @@ defmodule MyshopWeb.ProductController do
   alias Myshop.Products
   alias Myshop.Products.Product
   alias MyshopWeb.Router.Helpers, as: Routes
-  plug :authenticate_user when action in [:index, :show]
+  #  plug :authenticate_user when action in [:index, :show]
   plug :load_categories when action in [:new, :create, :edit, :update]
 
   def index(conn, _params) do

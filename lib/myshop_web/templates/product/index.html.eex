@@ -23,7 +23,7 @@
       <td><%= product.notes %></td>
       <td><%= product.brand %></td>
       <td><%= product.description %></td>
-      <td><%= to_price(product.price) %></td>
+      <td><%= product.price %></td>
 
       <td><%= link "Show", to: Routes.product_path(@conn, :show, product), class: "button button-outline" %></td>
       <td><%= link "Edit", to: Routes.product_path(@conn, :edit, product), class: "button button-outline" %></td>

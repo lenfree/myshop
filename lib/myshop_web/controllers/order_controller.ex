@@ -6,7 +6,9 @@ defmodule MyshopWeb.OrderController do
   alias Myshop.Products
   alias Myshop.Accounts
   alias MyshopWeb.Router.Helpers, as: Routes
-  plug :authenticate_user when action in [:index, :show]
+  #  plug :authenticate_user when action in [:index, :show]
+  plug :load_products when action in [:new, :create, :edit, :update]
+  plug :load_users when action in [:new, :create, :edit, :update]
 
   def index(conn, _params) do
     orders = Orders.list_orders()
@@ -14,9 +16,12 @@ defmodule MyshopWeb.OrderController do
   end
 
   def new(conn, _params) do
-    changeset = Orders.change_order(%Order{}, %Accounts.User{}, %Products.Product{})
-    users = Accounts.list_users() |> Enum.map(&{&1.credential.email, &1.id})
-    render(conn, "new.html", changeset: changeset, users: users)
+    #    changeset = Orders.change_order(%Order{}, %Accounts.User{}, %Products.Product{})
+
+    changeset = Orders.change_order(%Order{})
+    render(conn, "new.html", changeset: changeset)
+    #    users = Accounts.list_users() |> Enum.map(&{&1.credential.email, &1.id})
+    #   render(conn, "new.html", changeset: changeset, users: users)
   end
 
   def create(conn, %{"order" => order_params}) do
@@ -65,5 +70,13 @@ defmodule MyshopWeb.OrderController do
     conn
     |> put_flash(:info, "Order deleted successfully.")
     |> redirect(to: Routes.order_path(conn, :index))
+  end
+
+  defp load_products(conn, _) do
+    assign(conn, :products, Products.list_products())
+  end
+
+  defp load_users(conn, _) do
+    assign(conn, :users, Accounts.list_users())
   end
 end

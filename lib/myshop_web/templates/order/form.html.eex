@@ -5,20 +5,18 @@
     </div>
   <% end %>
   <fieldset>
-    <%= label f, :paid %>
-    <%= checkbox f, :paid %>
-    <%= error_tag f, :paid %>
-  
+
+    <%= label f, :user_id, "User"%>
+    <%= select f, :user_id, user_select_options(@users), prompt: "Choose a user" %>
+    <%= error_tag f, :user_id %>
+
+    <%= label f, :product_id, "Product"%>
+    <%= select f, :product_id, product_select_options(@products), prompt: "Choose a product" %>
+    <%= error_tag f, :product_id %>
+
     <%= label f, :notes %>
     <%= textarea f, :notes %>
     <%= error_tag f, :notes %>
-  
-    <%= inputs_for f, :user, fn p -> %>
-    <label>
-    Customer: <%= select p, :id, @users %>
-    <%= error_tag f, :id%>
-    <label>
-    <% end %>
     
     <div>
       <%= submit "Save" %>

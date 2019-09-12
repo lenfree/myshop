@@ -61,10 +61,18 @@ defmodule Myshop.Products do
 
   """
   def create_product(attrs \\ %{}) do
+    # this is to remind how to update attribute in the future
+    # attrs = Map.update(attrs, "price", nil, &to_cents/1)
+
     %Product{}
     |> Product.changeset(attrs)
     |> Repo.insert()
   end
+
+  # this is to remind how to update attribute in the future
+  # def to_cents(value) do
+  #  Decimal.div(Decimal.new(value), Decimal.new(100))
+  # end
 
   @doc """
   Updates a product.
@@ -216,7 +224,6 @@ defmodule Myshop.Products do
   end
 
   def to_price(value) do
-    require IEx
-    Decimal.mult(Decimal.new(value), Decimal.new(100))
+    Decimal.mult(Decimal.new(value), Decimal.new(100)) |> Decimal.round(2)
   end
 end

@@ -7,21 +7,19 @@ defmodule Myshop.ProductsTest do
   describe "products" do
     @valid_attrs %{
       brand: "brand A",
-      buy_price: 5.6,
+      price: 5.6,
       description: "brand 6",
       name: "brand 6",
       notes: "new",
-      sell_price: 5.9,
       url: "a"
     }
 
     @invalid_attrs %{
       brand: nil,
-      buy_price: nil,
+      price: 1,
       description: nil,
       name: nil,
       notes: nil,
-      sell_price: nil,
       url: nil
     }
 
@@ -45,25 +43,31 @@ defmodule Myshop.ProductsTest do
     end
 
     test "list_products/0 return all products" do
-      %Product{id: id} = product_fixture()
+      category = category_fixture()
+      attrs = put_in(@valid_attrs, [:category_id], category.id)
+
+      %Product{id: id} = product_fixture(attrs)
       assert [%Product{id: ^id}] = Products.list_products()
     end
 
     test "get_product/1 return a product" do
-      %Product{id: id} = product_fixture()
+      category = category_fixture()
+      attrs = put_in(@valid_attrs, [:category_id], category.id)
+
+      %Product{id: id} = product_fixture(attrs)
       assert %Product{id: ^id} = Products.get_product!(id)
     end
 
     test "create product/1 with valid data creates a product" do
-      assert {:ok, %Product{} = product} = Products.create_product(@valid_attrs)
+      category = category_fixture()
+      attrs = put_in(@valid_attrs, [:category_id], category.id)
+
+      assert {:ok, %Product{} = product} = Products.create_product(attrs)
       assert product.brand == "brand A"
-      # in cents
-      assert Decimal.to_float(product.buy_price) == 0.056
+      assert product.price == Decimal.from_float(5.6)
       assert product.description == "brand 6"
       assert product.name == "brand 6"
       assert product.notes == "new"
-      # in cents
-      assert Decimal.to_float(product.sell_price) == 0.059
       assert product.url == "a"
     end
 
@@ -72,7 +76,6 @@ defmodule Myshop.ProductsTest do
 
       assert %{
                brand: ["can't be blank"],
-               buy_price: ["can't be blank"],
                description: ["can't be blank"],
                name: ["can't be blank"],
                url: ["can't be blank"]
@@ -80,19 +83,26 @@ defmodule Myshop.ProductsTest do
     end
 
     test "update_product/1 with valid data updates" do
-      product = product_fixture()
+      category = category_fixture()
+      attrs = put_in(@valid_attrs, [:category_id], category.id)
+
+      product = product_fixture(attrs)
+
       assert {:ok, product} = Products.update_product(product, %{brand: "puma"})
       assert %Product{} = product
       assert product.brand == "puma"
     end
 
     test "update_product/1 with invalid data updates" do
-      %Product{id: id} = product = product_fixture()
+      category = category_fixture()
+      attrs = put_in(@valid_attrs, [:category_id], category.id)
+
+      %Product{id: id} = product = product_fixture(attrs)
+
       assert {:error, changeset} = Products.update_product(product, @invalid_attrs)
 
       assert %{
                brand: ["can't be blank"],
-               buy_price: ["can't be blank"],
                description: ["can't be blank"],
                name: ["can't be blank"],
                url: ["can't be blank"]
@@ -102,14 +112,20 @@ defmodule Myshop.ProductsTest do
     end
 
     test "delete_product/1 deletes a product" do
-      product = product_fixture()
+      category = category_fixture()
+      attrs = put_in(@valid_attrs, [:category_id], category.id)
+
+      product = product_fixture(attrs)
 
       assert {:ok, product} = Products.delete_product(product)
       assert Products.list_products() == []
     end
 
     test "change_product/2 returns a changeset" do
-      product = product_fixture()
+      category = category_fixture()
+      attrs = put_in(@valid_attrs, [:category_id], category.id)
+
+      product = product_fixture(attrs)
       assert %Ecto.Changeset{} = Products.change_product(product)
     end
   end

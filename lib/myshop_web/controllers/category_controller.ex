@@ -3,6 +3,7 @@ defmodule MyshopWeb.CategoryController do
 
   alias Myshop.Products
   alias Myshop.Products.Category
+  alias MyshopWeb.Router.Helpers, as: Routes
 
   def index(conn, _params) do
     categories = Products.list_categories()
