@@ -1,6 +1,8 @@
 defmodule MyshopWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :myshop
 
+  socket "/live", Phoenix.LiveView.Socket
+
   socket "/socket", MyshopWeb.UserSocket,
     websocket: true,
     longpoll: false

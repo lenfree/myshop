@@ -15,7 +15,10 @@ config :myshop, MyshopWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "jJ0TRRnUPbXXgn+mZvTO0sYgoVFq4GfkDr0EstBP7KNiyDzpKmrlTDoGW5MbJ1NS",
   render_errors: [view: MyshopWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Myshop.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Myshop.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [
+    signing_salt: "V2wMO3jMLaZ6sySlFfCKJt51ztFqzicB"
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -24,6 +27,10 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+# Use leex for liveview
+config :phoenix,
+  template_engines: [leex: Phoenix.LiveView.Engine]
 
 # config :plug_session_mnesia,
 #  table: :session,

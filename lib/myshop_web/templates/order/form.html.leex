@@ -1,0 +1,49 @@
+<%= f = form_for @changeset, "#", [phx_change: :suggest, phx_submit: :search] %>
+
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+  <fieldset>
+
+    <input type="text" name="user" value="<%= @query %>" list="matches"
+           placeholder="Search user..."
+           <%= if @loading, do: "readonly" %>/>
+    <datalist id="matches">
+      <%= for match <- @matches do %>
+        <option value="<%= match.credential.email %>"><%= match.first_name <> " " <> match.last_name %></option>
+      <% end %>
+    </datalist>
+    <%= error_tag f, :user_id %>
+
+  <input type="text" name="item" value="<%= @item %>" list="item_matches"
+           placeholder="Search item..."
+           <%= if @loading_item, do: "readonly" %>/>
+           <button phx-click="add" value="<%= @item  %>" > Add </button>
+           <button phx-click="remove" value="<%= @item %>" > Remove </button>
+    <datalist id="item_matches">
+      <%= for match <- @item_matches do %>
+        <option value="<%= match.name %>"><%= match.name %></option>
+      <% end %>
+    </datalist>
+
+    <p>List of orders</p>
+
+    <ul>
+      <%= for item <- @items do %><li><%= item %><% end %>
+    </ul>
+
+    <%= label f, :notes %>
+    <%= textarea f, :notes %>
+    <%= error_tag f, :notes %>
+
+<%= inputs_for f, :permalink, fn fp -> %>
+    <%= text_input fp, :url %>
+  <% end %>
+
+ 
+    <div>
+      <%= submit "Save" %>
+    </div>
+  </fieldset>

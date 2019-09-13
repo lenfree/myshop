@@ -1,5 +1,7 @@
 defmodule MyshopWeb.OrderController do
   use MyshopWeb, :controller
+  alias Phoenix.LiveView
+  alias MyshopWeb.OrderLive.{Index, New}
 
   alias Myshop.Orders
   alias Myshop.Orders.Order
@@ -15,11 +17,16 @@ defmodule MyshopWeb.OrderController do
     render(conn, "index.html", orders: orders)
   end
 
+  # def index(conn, _params) do
+  #  LiveView.Controller.live_render(conn, Index, session: %{})
+  # end
+
   def new(conn, _params) do
     #    changeset = Orders.change_order(%Order{}, %Accounts.User{}, %Products.Product{})
+    LiveView.Controller.live_render(conn, New, session: %{})
 
-    changeset = Orders.change_order(%Order{})
-    render(conn, "new.html", changeset: changeset)
+    #    changeset = Orders.change_order(%Order{})
+    #    render(conn, "new.html", changeset: changeset)
     #    users = Accounts.list_users() |> Enum.map(&{&1.credential.email, &1.id})
     #   render(conn, "new.html", changeset: changeset, users: users)
   end

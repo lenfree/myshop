@@ -254,4 +254,13 @@ defmodule Myshop.Accounts do
   end
 
   defp join_query(query, join_table), do: Repo.preload(query, join_table)
+
+  def search_user_by_name(param) do
+    query =
+      from u in User,
+        where: like(u.first_name, ^"%#{param}%")
+
+    Repo.all(query)
+    |> join_query(:credential)
+  end
 end

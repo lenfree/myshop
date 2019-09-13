@@ -53,7 +53,8 @@ config :myshop, MyshopWeb.Endpoint,
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/myshop_web/views/.*(ex)$},
-      ~r{lib/myshop_web/templates/.*(eex)$}
+      ~r{lib/myshop_web/templates/.*(eex)$},
+      ~r{lib/myshop_web/live/.*(ex)$}
     ]
   ]
 

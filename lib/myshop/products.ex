@@ -30,6 +30,14 @@ defmodule Myshop.Products do
     Repo.all(query)
   end
 
+  def search_product_by_name(param) do
+    query =
+      from p in Product,
+        where: like(p.name, ^"%#{param}%")
+
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single product.
 
@@ -44,6 +52,10 @@ defmodule Myshop.Products do
       ** (Ecto.NoResultsError)
 
   """
+  def get_product_by_name!(name) do
+    Repo.get!(Product, name) |> Repo.preload(:category)
+  end
+
   def get_product!(id) do
     Repo.get!(Product, id) |> Repo.preload(:category)
   end
