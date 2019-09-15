@@ -18,9 +18,10 @@ defmodule Myshop.Orders.Order do
   #  has_many :children, Comment, foreign_key: :parent_id, references: :id
   @doc false
   def changeset(order, attrs) do
+    IO.inspect(attrs)
+
     order
     |> cast(attrs, [:paid, :notes, :user_id, :state, :ordered_at])
-    |> validate_required([:paid, :notes])
     |> cast_embed(:product_items)
     |> assoc_constraint(:user)
     |> foreign_key_constraint(:user)

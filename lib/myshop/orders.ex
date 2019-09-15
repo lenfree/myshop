@@ -70,8 +70,17 @@ defmodule Myshop.Orders do
 
   defp build_items(items) do
     for item <- items do
-      product_item = Myshop.Products.get_product!(item.product_item_id)
-      %{name: product_item.name, price: product_item.price, quantity: item.quantity}
+      require IEx
+
+      case is_integer(item.product_item_id) do
+        true ->
+          product_item = Myshop.Products.get_product!(item.product_item_id)
+          %{name: product_item.name, price: product_item.price, quantity: item.quantity}
+
+        false ->
+          product_item = Myshop.Products.get_product!(String.to_integer(item.product_item_id))
+          %{name: product_item.name, price: product_item.price, quantity: item.quantity}
+      end
     end
   end
 

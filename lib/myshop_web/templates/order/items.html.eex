@@ -1,0 +1,10 @@
+<%= inputs_for @f, :product_items, fn a -> %>
+    <div class="form-group">
+
+  <li><%= text_input a, :product_id %></li>
+
+  <%= inspect @products %>
+ <%= inspect a %>
+     </div>
+
+<% end %>

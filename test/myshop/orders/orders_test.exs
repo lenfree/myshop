@@ -9,7 +9,7 @@ defmodule Myshop.OrdersTest do
 
     @valid_attrs %{
       notes: "some notes",
-      paid: true,
+      notes: "some notes",
       active: false,
       user_id: 212
     }
@@ -31,7 +31,7 @@ defmodule Myshop.OrdersTest do
           [%{product_item_id: product.id, quantity: 3}]
         )
 
-      {:ok, order} = order_fixture(attrs)
+      order = order_fixture(attrs)
       orders = Orders.list_orders()
       assert 1 == Enum.count(orders)
     end
@@ -47,8 +47,7 @@ defmodule Myshop.OrdersTest do
           [%{product_item_id: product.id, quantity: 3}]
         )
 
-      {:ok, order} = order_fixture(attrs)
-
+      order = order_fixture(attrs)
       assert order = Orders.get_order!(order.id)
     end
 

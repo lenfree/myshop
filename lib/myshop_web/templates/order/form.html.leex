@@ -7,43 +7,91 @@
   <% end %>
   <fieldset>
 
-    <input type="text" name="user" value="<%= @query %>" list="matches"
-           placeholder="Search user..."
-           <%= if @loading, do: "readonly" %>/>
+<%= if @show_products do %>
+      <div class="row">
+      <div class="column column-50">
+      <input type="search" name="item" value="<%= @item %>" list="item_matches"
+            placeholder="Search item..."
+            <%= if @loading_item, do: "readonly" %> />
+        <datalist id="item_matches">
+          <%= for match <- @item_matches do %>
+          <option value="<%= match.name %>"><%= match.name %></option>
+          <% end %>
+        </datalist>
+      </div>
+</div>
+<% end %>
+
+<%= if @show_products do %>
+ITEMS
+<%= for {item, index}<- Enum.with_index(@products) do %>
+      <div class="row">
+      <div class="column column-10">
+      <td>
+        <ul>
+        <input type="text" name="<%= item.name %>" value=<%= item.name %> />
+        <button phx-click="place" phx-value="<%= item.id %>" class="<%= item.id %>">Add to cart</button>
+        </ul>
+      <td>
+      </div>
+      </div>
+<% end %>
+<% end %>
+
+<div>
+       <%= if @checkout_button do %>
+        <button phx-click="checkout-page" value="true">Checkout</button>
+        <% end %>
+</div>
+
+<%= if @checkout do %>
+    <div class="row">
+    <div class="column column-50">
+    <input type="search" name="user" value="<%= @query %>" list="matches"
+      placeholder="Search user..."
+      <%= if @loading, do: "readonly" %>/>
     <datalist id="matches">
       <%= for match <- @matches do %>
         <option value="<%= match.credential.email %>"><%= match.first_name <> " " <> match.last_name %></option>
       <% end %>
     </datalist>
     <%= error_tag f, :user_id %>
+    </div>
+    </div>
 
-  <input type="text" name="item" value="<%= @item %>" list="item_matches"
-           placeholder="Search item..."
-           <%= if @loading_item, do: "readonly" %>/>
-           <button phx-click="add" value="<%= @item  %>" > Add </button>
-           <button phx-click="remove" value="<%= @item %>" > Remove </button>
-    <datalist id="item_matches">
-      <%= for match <- @item_matches do %>
-        <option value="<%= match.name %>"><%= match.name %></option>
-      <% end %>
-    </datalist>
+        <button phx-click="list-changeset" value="true">list products</button>
 
-    <p>List of orders</p>
+<div class="container">
+ <p>List of orders</p>
+<table> 
+  <tr>
+    <td>Product name</td>
+    <td>Product description</td>
+    <td>Quantity</td>
+    <td>Price</td>
+  </tr>
+    <%= for item <- @changeset.data.product_items do %>
+  <tr>
+    <td><%= item.product_item_id %></td>
+    <td> Description placeholder </td>
+    <td><input type="number" id="order_product_items_price" name="orders[product_items][<%= item.product_item_id %>][quantity]" step="any" type="number" value="1"></td>
+    <td> PRICE placeholder </td>
+  </tr>
+    <% end %>
+</table>
+</div>
 
-    <ul>
-      <%= for item <- @items do %><li><%= item %><% end %>
-    </ul>
-
+    <div class="row">
+    <div class="column column-50">
     <%= label f, :notes %>
     <%= textarea f, :notes %>
     <%= error_tag f, :notes %>
+    </div>
+    </div>
 
-<%= inputs_for f, :permalink, fn fp -> %>
-    <%= text_input fp, :url %>
-  <% end %>
-
- 
     <div>
       <%= submit "Save" %>
     </div>
   </fieldset>
+
+  <% end %>

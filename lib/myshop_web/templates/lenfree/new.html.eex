@@ -1,0 +1,5 @@
+<h1>New Lenfree</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.lenfree_path(@conn, :create)) %>
+
+<span><%= link "Back", to: Routes.lenfree_path(@conn, :index) %></span>
