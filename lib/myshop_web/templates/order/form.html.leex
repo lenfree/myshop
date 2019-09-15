@@ -47,7 +47,7 @@ ITEMS
 <%= if @checkout do %>
     <div class="row">
     <div class="column column-50">
-    <input type="search" name="user" value="<%= @query %>" list="matches"
+    <input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required="required" type="search" name="user" value="<%= @query %>" list="matches"
       placeholder="Search user..."
       <%= if @loading, do: "readonly" %>/>
     <datalist id="matches">
@@ -59,10 +59,8 @@ ITEMS
     </div>
     </div>
 
-        <button phx-click="list-changeset" value="true">list products</button>
-
 <div class="container">
- <p>List of orders</p>
+ <h3>Order Review</h3>
 <table> 
   <tr>
     <td>Product name</td>
@@ -72,10 +70,11 @@ ITEMS
   </tr>
     <%= for item <- @changeset.data.product_items do %>
   <tr>
-    <td><%= item.product_item_id %></td>
-    <td> Description placeholder </td>
-    <td><input type="number" id="order_product_items_price" name="orders[product_items][<%= item.product_item_id %>][quantity]" step="any" type="number" value="1"></td>
-    <td> PRICE placeholder </td>
+    <td><%= Myshop.Products.get_product!(item.product_item_id).name %></td>
+    <td><%= Myshop.Products.get_product!(item.product_item_id).description %></td>
+    <td><input pattern="[0-9]{1,100}" required="required" type="number" id="order_product_items_price" name="orders[product_items][<%= item.product_item_id %>][quantity]" step="any" type="number" value="1"></td>
+    <td><%= Myshop.Products.get_product!(item.product_item_id).price %></td>
+    <td><button phx-click="delete_item" value="<%= item.product_item_id %>">DELETE</button></td>
   </tr>
     <% end %>
 </table>

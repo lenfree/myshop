@@ -22,6 +22,7 @@ defmodule Myshop.Orders.Order do
 
     order
     |> cast(attrs, [:paid, :notes, :user_id, :state, :ordered_at])
+    |> validate_required(:user_id)
     |> cast_embed(:product_items)
     |> assoc_constraint(:user)
     |> foreign_key_constraint(:user)
