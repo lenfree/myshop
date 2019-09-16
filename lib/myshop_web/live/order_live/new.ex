@@ -63,6 +63,7 @@ defmodule MyshopWeb.OrderLive.New do
       end
 
     changeset = Map.put(assigns.changeset, :data, data)
+    changeset = changeset.data |> Orders.change_order()
     {:noreply, assign(socket, checkout_button: true, changeset: changeset)}
   end
 
@@ -83,16 +84,18 @@ defmodule MyshopWeb.OrderLive.New do
   end
 
   def handle_event("search", params, socket) do
-    user = Accounts.get_user_by_email(params["user"])
-
-    data = Map.put(socket.assigns.changeset.data, :user_id, user.id)
-
-    items =
-      params["orders"]["product_items"]
-      |> Enum.map(fn {key, val} -> Map.put(val, "product_item_id", key) end)
+    data = Map.put(socket.assigns.changeset.data, :email, params["user"])
 
     new_items =
-      Enum.map(items, fn x -> for {key, val} <- x, into: %{}, do: {String.to_atom(key), val} end)
+      case params["orders"]["product_items"] != nil do
+        true ->
+          params["orders"]["product_items"]
+          |> Enum.map(fn {key, val} -> Map.put(val, "product_item_id", key) end)
+          |> Enum.map(fn x -> for {key, val} <- x, into: %{}, do: {String.to_atom(key), val} end)
+
+        false ->
+          []
+      end
 
     new_data = Map.put(data, :product_items, new_items)
 
@@ -105,7 +108,28 @@ defmodule MyshopWeb.OrderLive.New do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         IO.inspect(changeset)
-        {:noreply, assign(socket, changeset: changeset)}
+        changeset = %{changeset | data: new_data}
+
+        case changeset.errors do
+          [user_id: _] ->
+            {:noreply,
+             assign(socket,
+               changeset: changeset
+             )}
+
+          [product_items: _] ->
+            {:noreply,
+             assign(socket,
+               changeset: changeset,
+               query: Accounts.get_user(changeset.changes.user_id).credential.email
+             )}
+
+          _ ->
+            {:noreply,
+             assign(socket,
+               changeset: changeset
+             )}
+        end
     end
   end
 

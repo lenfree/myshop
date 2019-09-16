@@ -7,8 +7,8 @@ defmodule Myshop.Orders do
   alias Myshop.Repo
   alias Myshop.Accounts
   alias Myshop.Products
-
   alias Myshop.Orders.Order
+  require IEx
 
   @doc """
   Returns the list of orders.
@@ -62,16 +62,29 @@ defmodule Myshop.Orders do
   """
   def create_order(attrs \\ %{}) do
     attrs = Map.update(attrs, :product_items, [], &build_items/1)
+    attrs = Map.put(attrs, :user_id, get_user_id_from_email(attrs))
 
     %Order{}
     |> Order.changeset(attrs)
     |> Repo.insert()
   end
 
+  defp get_user_id_from_email(param) do
+    case Accounts.get_user_by_email(param.email) do
+      nil ->
+        nil
+
+      user ->
+        user.id
+    end
+  end
+
+  defp build_items(items) when items == [] do
+    nil
+  end
+
   defp build_items(items) do
     for item <- items do
-      require IEx
-
       case is_integer(item.product_item_id) do
         true ->
           product_item = Myshop.Products.get_product!(item.product_item_id)

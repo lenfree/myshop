@@ -8,6 +8,7 @@ defmodule Myshop.Accounts do
 
   alias Myshop.Accounts.User
   alias Myshop.Accounts.Credential
+  require IEx
 
   @doc """
   Returns the list of users.
@@ -228,6 +229,10 @@ defmodule Myshop.Accounts do
   def get_user_and_assoc!(id), do: Repo.get!(User, id) |> Repo.preload(:credential)
 
   def get_user_by_email(email) do
+    Repo.get_by(Credential, email: email)
+  end
+
+  def noget_user_by_email(email) do
     from(u in User, join: c in assoc(u, :credential), where: c.email == ^email)
     |> Repo.one()
     |> Repo.preload(:credential)
@@ -257,8 +262,9 @@ defmodule Myshop.Accounts do
 
   def search_user_by_name(param) do
     query =
-      from u in User,
+      from(u in User,
         where: like(u.first_name, ^"%#{param}%")
+      )
 
     Repo.all(query)
     |> join_query(:credential)
