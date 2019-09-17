@@ -24,6 +24,7 @@ defmodule MyshopWeb.OrderLive.New do
        products: Myshop.Products.list_products(),
        load_items: nil,
        show_products: true,
+       show_add_products: false,
        checkout: false,
        checkout_button: false
      })}
@@ -33,6 +34,8 @@ defmodule MyshopWeb.OrderLive.New do
     OrderView.render("new.html", assigns)
   end
 
+  @spec handle_event(<<_::40, _::_*8>>, any, Phoenix.LiveView.Socket.t()) ::
+          {:noreply, any} | {:stop, Phoenix.LiveView.Socket.t()}
   def handle_event("suggest", params, socket) do
     case Map.fetch!(params, "_target") do
       ["item"] ->
@@ -81,6 +84,12 @@ defmodule MyshopWeb.OrderLive.New do
     changeset_data = Map.put(assigns.changeset.data, :product_items, new_items)
     new_changeset = Map.put(assigns.changeset, :data, changeset_data)
     {:noreply, assign(socket, changeset: new_changeset)}
+  end
+
+  def handle_event("start_again", params, %{assigns: assigns} = socket) do
+    {:stop,
+     socket
+     |> redirect(to: Routes.order_path(MyshopWeb.Endpoint, :new, order: nil))}
   end
 
   def handle_event("search", params, socket) do

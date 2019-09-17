@@ -7,8 +7,8 @@
   <% end %>
   <fieldset>
 
-<%= if @show_products do %>
-      <div class="row">
+  <%= if @show_products do %>
+    <div class="row">
       <div class="column column-50">
       <input type="search" name="item" value="<%= @item %>" list="item_matches"
             placeholder="Search item..."
@@ -19,67 +19,66 @@
           <% end %>
         </datalist>
       </div>
-</div>
-<% end %>
+    </div>
+  <% end %>
 
-<%= if @show_products do %>
-ITEMS
-<%= for {item, index}<- Enum.with_index(@products) do %>
+  <%= if @show_products do %>
+    <%= for {item, index}<- Enum.with_index(@products) do %>
       <div class="row">
-      <div class="column column-10">
-      <td>
-        <ul>
-        <input type="text" name="<%= item.name %>" value=<%= item.name %> />
-        <button phx-click="place" phx-value="<%= item.id %>" class="<%= item.id %>">Add to cart</button>
-        </ul>
-      <td>
+        <div class="column column-10">
+        <td>
+          <ul>
+          <input type="text" name="<%= item.name %>" value=<%= item.name %> />
+          <button phx-click="place" phx-value="<%= item.id %>" class="<%= item.id %>">Add to cart</button>
+          </ul>
+        <td>
+        </div>
       </div>
-      </div>
-<% end %>
-<% end %>
-
-<div>
-       <%= if @checkout_button do %>
-        <button phx-click="checkout-page" value="true">Checkout</button>
-        <% end %>
-</div>
-
-<%= if @checkout do %>
-    <div class="row">
-    <div class="column column-50">
-    <input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required="required" type="search" name="user" value="<%= @query %>" list="matches"
-      placeholder="Search user..."
-      <%= if @loading, do: "readonly" %>/>
-    <datalist id="matches">
-      <%= for match <- @matches do %>
-        <option value="<%= match.credential.email %>"><%= match.first_name <> " " <> match.last_name %></option>
-      <% end %>
-    </datalist>
-    <%= error_tag f, :user_id %>
-    </div>
-    </div>
-
-<div class="container">
- <h3>Order Review</h3>
-<table> 
-  <tr>
-    <td>Product name</td>
-    <td>Product description</td>
-    <td>Quantity</td>
-    <td>Price</td>
-  </tr>
-    <%= for item <- @changeset.data.product_items do %>
-  <tr>
-    <td><%= Myshop.Products.get_product!(item.product_item_id).name %></td>
-    <td><%= Myshop.Products.get_product!(item.product_item_id).description %></td>
-    <td><input pattern="[0-9]{1,100}" required="required" type="number" id="order_product_items_price" name="orders[product_items][<%= item.product_item_id %>][quantity]" step="any" type="number" value="<%= item.quantity %>"></td>
-    <td><%= Myshop.Products.get_product!(item.product_item_id).price %></td>
-    <td><button phx-click="delete_item" value="<%= item.product_item_id %>">DELETE</button></td>
-  </tr>
     <% end %>
-</table>
-    <%= error_tag f, :product_items %>
-</div>
+  <% end %>
+
+  <div>
+    <%= if @checkout_button do %>
+      <button phx-click="checkout-page" value="true">Checkout</button>
+    <% end %>
+  </div>
+
+  <%= if @checkout do %>
+    <div class="row">
+      <div class="column column-50">
+      <input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required="required" type="search" name="user" value="<%= @query %>" list="matches"
+        placeholder="Search user..."
+        <%= if @loading, do: "readonly" %>/>
+      <datalist id="matches">
+        <%= for match <- @matches do %>
+          <option value="<%= match.credential.email %>"><%= match.first_name <> " " <> match.last_name %></option>
+        <% end %>
+      </datalist>
+      <%= error_tag f, :user_id %>
+      </div>
+    </div>
+
+    <div class="container">
+     <h3>Order Review</h3>
+    <table> 
+      <tr>
+        <td>Product name</td>
+        <td>Product description</td>
+        <td>Quantity</td>
+        <td>Price</td>
+      </tr>
+        <%= for item <- @changeset.data.product_items do %>
+      <tr>
+        <td><%= Myshop.Products.get_product!(item.product_item_id).name %></td>
+        <td><%= Myshop.Products.get_product!(item.product_item_id).description %></td>
+        <td><input pattern="[0-9]{1,100}" required="required" type="number" id="order_product_items_price" name="orders[product_items][<%= item.product_item_id %>][quantity]" step="any" type="number" value="<%= item.quantity %>"></td>
+        <td><%= Myshop.Products.get_product!(item.product_item_id).price %></td>
+        <td><button phx-click="delete_item" value="<%= item.product_item_id %>">DELETE</button></td>
+      </tr>
+        <% end %>
+    </table>
+        <%= error_tag f, :product_items %>
+    </div>
 
     <div class="row">
     <div class="column column-50">
@@ -89,6 +88,9 @@ ITEMS
     </div>
     </div>
 
+    <div>
+      <button phx-click="start_again">Start again</button>
+    </div>
     <div>
       <%= submit "Save" %>
     </div>
