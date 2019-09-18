@@ -66,16 +66,28 @@
         <td>Product description</td>
         <td>Quantity</td>
         <td>Price</td>
+        <td>Total Price</td>
       </tr>
         <%= for item <- @changeset.data.product_items do %>
       <tr>
         <td><%= Myshop.Products.get_product!(item.product_item_id).name %></td>
         <td><%= Myshop.Products.get_product!(item.product_item_id).description %></td>
-        <td><input pattern="[0-9]{1,100}" required="required" type="number" id="order_product_items_price" name="orders[product_items][<%= item.product_item_id %>][quantity]" step="any" type="number" value="<%= item.quantity %>"></td>
+        <td><input pattern="[0-9]{1,100}" required="required" type="number"
+          id="order_product_items_price" 
+          name="orders[product_items][<%= item.product_item_id %>][quantity]"
+          step="any" type="number" value="<%= item.quantity %>"></td>
         <td><%= Myshop.Products.get_product!(item.product_item_id).price %></td>
+        <td><%= Myshop.Orders.compute_price(item.product_item_id, item.quantity) %></td>
         <td><button phx-click="delete_item" value="<%= item.product_item_id %>">DELETE</button></td>
       </tr>
         <% end %>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><strong>SUBTOTAL: </strong></td>
+        <td><strong><%= Myshop.Orders.compute_subtotal(@changeset.data.product_items) %></strong></td>
+      </tr>
     </table>
         <%= error_tag f, :product_items %>
     </div>
@@ -88,12 +100,12 @@
     </div>
     </div>
 
+  <span>
     <div>
       <button phx-click="start_again">Start again</button>
+      <button type="submit" phx-disable-with="Saving...">Save</button>
     </div>
-    <div>
-      <%= submit "Save" %>
-    </div>
+  </span>
   </fieldset>
 
   <% end %>

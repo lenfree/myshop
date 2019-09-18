@@ -26,7 +26,8 @@ defmodule MyshopWeb.OrderLive.New do
        show_products: true,
        show_add_products: false,
        checkout: false,
-       checkout_button: false
+       checkout_button: false,
+       qty: 1
      })}
   end
 
@@ -34,9 +35,7 @@ defmodule MyshopWeb.OrderLive.New do
     OrderView.render("new.html", assigns)
   end
 
-  @spec handle_event(<<_::40, _::_*8>>, any, Phoenix.LiveView.Socket.t()) ::
-          {:noreply, any} | {:stop, Phoenix.LiveView.Socket.t()}
-  def handle_event("suggest", params, socket) do
+  def handle_event("suggest", params, %{assigns: assigns} = socket) do
     case Map.fetch!(params, "_target") do
       ["item"] ->
         items = manage_items(params)
@@ -46,8 +45,24 @@ defmodule MyshopWeb.OrderLive.New do
         users = manage_users(params)
         {:noreply, assign(socket, matches: users)}
 
+      ["orders", "product_items", item_id, "quantity"] ->
+        {:ok, items} = Map.fetch(assigns.changeset.data, :product_items)
+        new_qty = get_in(params, ["orders", "product_items", item_id, "quantity"])
+
+        new_items =
+          Enum.map(items, fn %{product_item_id: id, quantity: qty} ->
+            case id == item_id do
+              false -> %{product_item_id: id, quantity: qty}
+              true -> %{product_item_id: item_id, quantity: new_qty}
+            end
+          end)
+
+        updated_changeset_data = Map.put(assigns.changeset.data, :product_items, new_items)
+        updated_changeset = Map.put(assigns.changeset, :data, updated_changeset_data)
+        {:noreply, assign(socket, changeset: updated_changeset)}
+
       _ ->
-        {:noreply, assign(socket, matches: [], item_matches: [])}
+        {:noreply, socket}
     end
   end
 
@@ -56,7 +71,7 @@ defmodule MyshopWeb.OrderLive.New do
       case Map.fetch(assigns.changeset.data, :product_items) do
         {:ok, items} ->
           Map.put(assigns.changeset.data, :product_items, [
-            %{product_item_id: params, quantity: nil} | items
+            %{product_item_id: params, quantity: 1} | items
           ])
 
         :error ->

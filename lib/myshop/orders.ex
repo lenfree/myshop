@@ -155,4 +155,19 @@ defmodule Myshop.Orders do
   defp put_product(changeset, product) do
     changeset |> Ecto.Changeset.put_assoc(:product, product)
   end
+
+  def compute_price(item_id, quantity) do
+    item = Products.get_product!(item_id)
+    Decimal.mult(item.price, Decimal.new(quantity))
+  end
+
+  def compute_subtotal(items) do
+    Enum.map(
+      items,
+      fn %{product_item_id: id, quantity: qty} ->
+        Myshop.Orders.compute_price(id, qty)
+      end
+    )
+    |> Enum.reduce(fn total, subtotal -> Decimal.add(total, Decimal.new(subtotal)) end)
+  end
 end

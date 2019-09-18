@@ -57,6 +57,7 @@ defmodule Myshop.Products do
   end
 
   def get_product!(id) do
+    require IEx
     Repo.get!(Product, id) |> Repo.preload(:category)
   end
 
