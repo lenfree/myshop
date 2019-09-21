@@ -49,17 +49,23 @@ defmodule MyshopWeb.OrderLive.New do
         {:ok, items} = Map.fetch(assigns.changeset.data, :product_items)
         new_qty = get_in(params, ["orders", "product_items", item_id, "quantity"])
 
-        new_items =
-          Enum.map(items, fn %{product_item_id: id, quantity: qty} ->
-            case id == item_id do
-              false -> %{product_item_id: id, quantity: qty}
-              true -> %{product_item_id: item_id, quantity: new_qty}
-            end
-          end)
+        case Integer.parse(new_qty) do
+          :error ->
+            {:noreply, socket}
 
-        updated_changeset_data = Map.put(assigns.changeset.data, :product_items, new_items)
-        updated_changeset = Map.put(assigns.changeset, :data, updated_changeset_data)
-        {:noreply, assign(socket, changeset: updated_changeset)}
+          _ ->
+            new_items =
+              Enum.map(items, fn %{product_item_id: id, quantity: qty} ->
+                case id == item_id do
+                  false -> %{product_item_id: id, quantity: qty}
+                  true -> %{product_item_id: item_id, quantity: new_qty}
+                end
+              end)
+
+            updated_changeset_data = Map.put(assigns.changeset.data, :product_items, new_items)
+            updated_changeset = Map.put(assigns.changeset, :data, updated_changeset_data)
+            {:noreply, assign(socket, changeset: updated_changeset)}
+        end
 
       _ ->
         {:noreply, socket}
