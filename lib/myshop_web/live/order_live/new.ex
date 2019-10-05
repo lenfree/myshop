@@ -27,7 +27,8 @@ defmodule MyshopWeb.OrderLive.New do
        show_add_products: false,
        checkout: false,
        checkout_button: false,
-       qty: 1
+       qty: 1,
+       show_product_item_search: false
      })}
   end
 

@@ -1,0 +1,15 @@
+<%= form_for @conn, Routes.upload_path(@conn, :create), 
+                    [multipart: true], fn f-> %>
+
+    <%= file_input f, :upload %>
+    <%= error_tag f, :upload %>
+
+    <%= label f, :product_id %>
+    <%= select f, :product_id, product_select_options(@products), prompt: "Choose a product" %>
+    <%= error_tag f, :product_id %>
+    
+    <div>
+    <%= submit "Upload", class: "btn btn-primary" %>
+    </div>
+
+<% end %>

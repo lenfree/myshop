@@ -1,0 +1,24 @@
+<table class="table">
+  <thead>
+    <th></th>
+    <th>ID</th>
+    <th>Filename</th>
+    <th>Type</th>
+    <th>Time</th>
+    <th>Product</th>
+  </thead>
+  <tbody>
+		
+    <%= for upload <- @uploads do %>
+      <tr>
+        <td><%= img_tag Routes.upload_thumbnail_path(@conn, :thumbnail, upload.id) %></td>
+        <td><%= upload.id %></td>
+        <td><%= upload.filename %></td>
+        <td><%= upload.content_type %></td>
+        <td><%= upload.inserted_at %></td>
+        <td><%= upload.product_id %></td>
+      </tr>
+    <% end %>
+		
+  </tbody>
+</table>

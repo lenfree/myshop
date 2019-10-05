@@ -4,13 +4,13 @@ defmodule MyshopWeb.OrderController do
   alias MyshopWeb.OrderLive.{Index, New}
 
   alias Myshop.Orders
-  alias Myshop.Orders.Order
   alias Myshop.Products
   alias Myshop.Accounts
   alias MyshopWeb.Router.Helpers, as: Routes
   #  plug :authenticate_user when action in [:index, :show]
   plug :load_products when action in [:new, :create, :edit, :update]
   plug :load_users when action in [:new, :create, :edit, :update]
+  plug :load_order_state when action in [:edit, :update]
 
   def index(conn, _params) do
     orders = Orders.list_orders()
@@ -85,5 +85,9 @@ defmodule MyshopWeb.OrderController do
 
   defp load_users(conn, _) do
     assign(conn, :users, Accounts.list_users())
+  end
+
+  defp load_order_state(conn, _) do
+    assign(conn, :state, ~w(created cancelled))
   end
 end

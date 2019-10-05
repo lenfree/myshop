@@ -1,13 +1,18 @@
 <%= f = form_for @changeset, "#", [phx_change: :suggest, phx_submit: :search] %>
-
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
+  <%= if @checkout_button do %>
+   <div class="float-right" style="clear:both;">
+      <button class="button button-outline" phx-click="checkout-page" value="true">Checkout</button>
+    </div>
+  <% end %>
+
   <fieldset>
 
-  <%= if @show_products do %>
+  <%= if @show_product_item_search do %>
     <div class="row">
       <div class="column column-50">
       <input type="search" name="item" value="<%= @item %>" list="item_matches"
@@ -21,27 +26,25 @@
       </div>
     </div>
   <% end %>
-
   <%= if @show_products do %>
-    <%= for {item, index}<- Enum.with_index(@products) do %>
+    <div class="container">
+    <%= for products <- Enum.chunk_every(@products, 5) do %>
       <div class="row">
-        <div class="column column-10">
-        <td>
-          <ul>
-          <input type="text" name="<%= item.name %>" value=<%= item.name %> />
-          <button phx-click="place" phx-value="<%= item.id %>" class="<%= item.id %>">Add to cart</button>
-          </ul>
-        <td>
+        <%= for {item, index} <- Enum.with_index(products) do %>
+        <div style="width:800px; margin:0 auto;">
+          <% primary_thumbnail = List.first(item.upload) %>
+          <div style="clear:both;">
+            <%= img_tag Routes.upload_thumbnail_path(@socket, :thumbnail, primary_thumbnail.id) %><br />
+            <button phx-click="place" phx-value="<%= item.id %>" class="<%= item.id %>">Add to cart</button>
+          </div>
         </div>
+        <% end %>
       </div>
     <% end %>
+    </div>
   <% end %>
 
-  <div>
-    <%= if @checkout_button do %>
-      <button phx-click="checkout-page" value="true">Checkout</button>
-    <% end %>
-  </div>
+
 
   <%= if @checkout do %>
     <div class="row">

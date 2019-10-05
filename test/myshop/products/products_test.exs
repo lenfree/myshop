@@ -1,5 +1,5 @@
 defmodule Myshop.ProductsTest do
-  use Myshop.DataCase, aync: true
+  use Myshop.DataCase, async: true
 
   alias Myshop.Products
   alias Myshop.Products.{Product, Category}

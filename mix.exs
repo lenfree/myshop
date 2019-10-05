@@ -46,7 +46,8 @@ defmodule Myshop.MixProject do
       {:comeonin, "~> 4.1"},
       {:pbkdf2_elixir, "~> 0.12"},
       {:phoenix_live_view, "~> 0.1.1", override: true},
-      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false}
+      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
+      {:mogrify, "~> 0.7.3"}
     ]
   end
 

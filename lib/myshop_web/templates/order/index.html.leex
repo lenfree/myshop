@@ -1,33 +1,38 @@
-<h1>Listing Orders</h1>
+<h1>Orders Summary</h1>
+
+<span><%= link "New Order", to: Routes.order_path(@conn, :new), class: "button" %></span>
 
 <table>
   <thead>
     <tr>
+      <th>Order Made</th>
       <th>User Email</th>
       <th>First Name</th>
       <th>Last Name</th>
-      <th>Paid</th>
       <th>Notes</th>
+      <th>Status</th>
 
     </tr>
   </thead>
   <tbody>
     <%= for order <- @orders do %>
     <tr>
+      <td><%= order.updated_at %></td>
       <td><%= order.user.credential.email %></td>
       <td><%= order.user.first_name%></td>
       <td><%= order.user.last_name %></td>
-      <td><%= order.paid %></td>
       <td><%= order.notes %></td>
+      <td><%= order.state %></td>
 
       <td>
-        <%= link "Show", to: Routes.order_path(@conn, :show, order) %>
-        <%= link "Edit", to: Routes.order_path(@conn, :edit, order) %>
-        <%= link "Delete", to: Routes.order_path(@conn, :delete, order), method: :delete, data: [confirm: "Are you sure?"] %>
+        <div>
+        <%= link "Show", to: Routes.order_path(@conn, :show, order), class: "button" %>
+        </div>
+        <div>
+        <%= link "Edit", to: Routes.order_path(@conn, :edit, order), class: "button" %>
+        </div>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
-
-<span><%= link "New Order", to: Routes.order_path(@conn, :new) %></span>

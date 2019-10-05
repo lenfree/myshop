@@ -5,7 +5,7 @@ defmodule Myshop.Products do
 
   import Ecto.Query, warn: false
   alias Myshop.Repo
-  alias Myshop.Products.{Product, Category}
+  alias Myshop.Products.{Product, Category, Upload}
 
   @doc """
   Returns the list of products.
@@ -19,6 +19,7 @@ defmodule Myshop.Products do
   def list_products do
     Repo.all(Product)
     |> Repo.preload(:category)
+    |> Repo.preload(:upload)
   end
 
   def list_asc_products do
@@ -57,8 +58,8 @@ defmodule Myshop.Products do
   end
 
   def get_product!(id) do
-    require IEx
-    Repo.get!(Product, id) |> Repo.preload(:category)
+    Repo.get!(Product, id)
+    |> Repo.preload(:category)
   end
 
   @doc """
@@ -238,5 +239,111 @@ defmodule Myshop.Products do
 
   def to_price(value) do
     Decimal.mult(Decimal.new(value), Decimal.new(100)) |> Decimal.round(2)
+  end
+
+  # Uploads
+
+  def create_upload_from_plug_upload(
+        %Plug.Upload{
+          filename: filename,
+          path: tmp_path,
+          content_type: content_type
+        },
+        product_id
+      ) do
+    hash =
+      File.stream!(tmp_path, [], 2048)
+      |> sha256()
+
+    with {:ok, %File.Stat{size: size}} <- File.stat(tmp_path),
+         {:ok, upload} <-
+           %Upload{}
+           |> Upload.changeset(%{
+             filename: filename,
+             content_type: content_type,
+             hash: hash,
+             size: size,
+             product_id: product_id
+           })
+           |> Repo.insert(),
+         :ok <-
+           File.cp(
+             tmp_path,
+             local_path(upload)
+           ),
+         {:ok, upload} <- create_thumbnail(upload) do
+      {:ok, upload}
+    else
+      {:error, reason} = error -> error
+    end
+  end
+
+  def list_uploads do
+    Repo.all(Upload)
+    |> Repo.preload(:product)
+  end
+
+  def delete_uploads(upload = %Upload{}) do
+    Repo.delete(upload)
+  end
+
+  def get_upload!(id) do
+    Repo.get!(Upload, id) |> Repo.preload(:product)
+  end
+
+  def change_upload(%Upload{} = upload) do
+    Upload.changeset(upload, %{})
+  end
+
+  def update_upload(%Upload{} = upload, attrs) do
+    upload
+    |> Upload.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def create_thumbnail(%Upload{} = upload) do
+    original_path = local_path(upload)
+    thumb_path = thumbnail_path(upload)
+    result = mogrify_thumbnail(original_path, thumb_path)
+    # Investigate how to catch failure!
+    {:ok, upload}
+  end
+
+  @upload_directory Application.get_env(:myshop, :uploads_directory)
+
+  def local_path(%{id: id, filename: filename}) do
+    [@upload_directory, "#{id}-#{filename}"]
+    |> Path.join()
+  end
+
+  def create_local_path_directory(path, %{id: id, filename: filename}) do
+    File.mkdir("#{path}/#{id}-#{filename}")
+  end
+
+  def thumbnail_path(%{id: id}) do
+    [@upload_directory, "thumb-#{id}.jpg"]
+    |> Path.join()
+  end
+
+  def thumbnail_path(id) do
+    [@upload_directory, "thumb-#{id}.jpg"]
+    |> Path.join()
+  end
+
+  def sha256(chunks_enum) do
+    chunks_enum
+    |> Enum.reduce(
+      :crypto.hash_init(:sha256),
+      &:crypto.hash_update(&2, &1)
+    )
+    |> :crypto.hash_final()
+    |> Base.encode16()
+    |> String.downcase()
+  end
+
+  def mogrify_thumbnail(src, dst) do
+    Mogrify.open(src)
+    |> Mogrify.resize_to_limit("200x200")
+    |> Mogrify.save(path: dst)
   end
 end
