@@ -7,7 +7,7 @@ defmodule Myshop.Orders.Order do
     field :paid, :boolean, default: false
     field :active, :boolean, default: false
     field :ordered_at, :utc_datetime, read_after_writes: true
-    field :state, :string, read_after_writes: true
+    field :state, :string, read_after_writes: true, default: "created"
     belongs_to :user, Myshop.Accounts.User
     embeds_many :product_items, Myshop.Orders.Item
 

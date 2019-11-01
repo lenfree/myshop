@@ -1,6 +1,6 @@
-<h1>Listing Products</h1>
+<h1>Products</h1>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th></th>
@@ -11,7 +11,6 @@
       <th>Brand</th>
       <th>Description</th>
       <th>Price</th>
-      <th>Images</th>
 
       <th></th>
     </tr>
@@ -20,9 +19,9 @@
 <%= for product <- @products do %>
     <tr>
       <td>
-      <%= for upload <- product.upload do %>
-      <%= img_tag Routes.upload_thumbnail_path(@conn, :thumbnail, upload.id) %>
-      <% end %>
+        <%= for upload <- product.upload do %>
+        <%= img_tag Routes.upload_thumbnail_path(@conn, :thumbnail, upload.id) %>
+        <% end %>
       </td>
       <td><%= product.category.name %></td>
       <td><%= product.name %></td>
@@ -31,13 +30,13 @@
       <td><%= product.brand %></td>
       <td><%= product.description %></td>
       <td><%= product.price %></td>
+      <td>
+        <%= link "Show", to: Routes.product_path(@conn, :show, product), class: "btn btn-outline-success" %>
+        <%= link "Delete", to: Routes.product_path(@conn, :delete, product), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger" %>
       </td>
-      <td><%= link "Show", to: Routes.product_path(@conn, :show, product), class: "button button-outline" %></td>
-      <td><%= link "Edit", to: Routes.product_path(@conn, :edit, product), class: "button button-outline" %></td>
-      <td><%= link "Delete", to: Routes.product_path(@conn, :delete, product), method: :delete, data: [confirm: "Are you sure?"], class: "button button-outline" %></td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<span><%= link "New Product", to: Routes.product_path(@conn, :new), class: "button" %></span>
+<span><%= link "New Product", to: Routes.product_path(@conn, :new), class: "btn btn-success" %></span>

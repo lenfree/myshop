@@ -5,15 +5,17 @@
     </div>
   <% end %>
 
-  <%= label f, :name %>
-  <%= text_input f, :name %>
-  <%= error_tag f, :name %>
-
-  <%= label f, :description %>
-  <%= textarea f, :description %>
-  <%= error_tag f, :description %>
-
-  <div>
-    <%= submit "Save" %>
+  <div class="form-group">
+    <%= label f, :name %>
+    <input type="text" class="form-control" id="category_name" name="category[name]">
+    <%= error_tag f, :name %>
   </div>
+
+  <div class="form-group">
+    <%= label f, :description %>
+    <textarea class="form-control" id="category_description" name="category[description]"></textarea>
+     <%= error_tag f, :description %>
+  </div>
+
+  <%= submit "Save", class: "btn btn-success" %>
 <% end %>

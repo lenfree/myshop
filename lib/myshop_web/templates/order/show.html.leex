@@ -1,28 +1,27 @@
 <h1>Show Order</h1>
+<ul class="list-group">
 
-<ul>
-
-  <li>
+  <li class="list-group-item">
     <strong>User Email:</strong>
     <%= @order.user.credential.email %>
   </li>
 
-  <li>
+  <li class="list-group-item">
     <strong>First Name:</strong>
     <%= @order.user.first_name %>
   </li>
   
-  <li>
+  <li class="list-group-item">
     <strong>Last Name:</strong>
     <%= @order.user.last_name %>
   </li>
 
-  <li>
+  <li class="list-group-item">
     <strong>Paid:</strong>
     <%= @order.paid %>
   </li>
   
-  <li>
+  <li class="list-group-item">
     <strong>Notes:</strong>
     <%= @order.notes %>
   </li>
@@ -30,7 +29,7 @@
 </ul>
 
   <%= if @order.product_items do %>
-  <table>
+  <table class="table table-striped">
   <tr>
     <th>Item name</th>
     <th>Item price </th>
@@ -51,6 +50,4 @@
   </table>
   <% end %>
 
-
-<span><%= link "Edit", to: Routes.order_path(@conn, :edit, @order) %></span>
 <span><%= link "Back", to: Routes.order_path(@conn, :index) %></span>

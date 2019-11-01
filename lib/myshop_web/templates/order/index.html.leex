@@ -1,8 +1,8 @@
-<h1>Orders Summary</h1>
+<h1>Summary</h1>
 
-<span><%= link "New Order", to: Routes.order_path(@conn, :new), class: "button" %></span>
+<span><%= link "New Order", to: Routes.order_path(@conn, :new), class: "btn btn-success" %></span>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Order Made</th>
@@ -26,10 +26,7 @@
 
       <td>
         <div>
-        <%= link "Show", to: Routes.order_path(@conn, :show, order), class: "button" %>
-        </div>
-        <div>
-        <%= link "Edit", to: Routes.order_path(@conn, :edit, order), class: "button" %>
+        <%= link "Show", to: Routes.order_path(@conn, :show, order), class: "btn btn-outline-success" %>
         </div>
       </td>
     </tr>

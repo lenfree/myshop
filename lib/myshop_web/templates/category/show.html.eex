@@ -14,5 +14,4 @@
 
 </ul>
 
-<span><%= link "Edit", to: Routes.category_path(@conn, :edit, @category) %></span>
-<span><%= link "Back", to: Routes.category_path(@conn, :index) %></span>
+<span><%= link "Back", to: Routes.category_path(@conn, :index), class: "btn btn-success" %></span>

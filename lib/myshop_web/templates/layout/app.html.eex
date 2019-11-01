@@ -2,77 +2,75 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Myshop · Phoenix Framework</title>
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
-    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Mypos · Phoenix Framework</title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-</div>
     <header>
       <section class="container">
-        <nav role="navigation">
-        </nav>
         <a href="http://phoenixframework.org/" class="phx-logo">
-        <img src="<%= Routes.static_url(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
+          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
         </a>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body {font-family: Arial, Helvetica, sans-serif;}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="#">GB</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a class="nav-link" href="<%= Routes.order_path(@conn, :index) %>"><i class="fa fa-fw fa-shopping-bag"></i>Home<span class="sr-only">(current)</span></a>
+              </li>
 
-.navbar {
-  width: 110%;
-  background-color: #6495ED;
-  overflow: auto;
-}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Order 
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="<%= Routes.order_path(@conn, :new) %>"><i class="fa fa-fw fa-shopping-bag"></i>New</a>
+                  <a class="dropdown-item" href="<%= Routes.order_path(@conn, :index) %>"><i class="fa fa-fw fa-shopping-bag"></i>Summary</a>
+                </div>
+              </li>
 
-.navbar a {
-  float: left;
-  padding: 12px;
-  color: white;
-  text-decoration: none;
-  font-size: 17px;
-}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Products
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="<%= Routes.product_path(@conn, :index) %>"><i class="fa fa-fw fa-material-icons"></i>View Products</a>
+                  <a class="dropdown-item" href="<%= Routes.product_path(@conn, :new) %>"><i class="fa fa-fw fa-material-icons"></i>New Product</a>
+                  <a class="dropdown-item" href="<%= Routes.category_path(@conn, :index) %>"><i class="fa fa-fw fa-material-icons"></i>View Categories</a>
+                  <a class="dropdown-item" href="<%= Routes.category_path(@conn, :new) %>"><i class="fa fa-fw fa-material-icons"></i>New Category</a>
+                </div>
+              </li>
 
-.navbar a:hover {
-  background-color: #000;
-}
-
-.active {
-  background-color: #4CAF50;
-}
-
-@media screen and (max-width: 500px) {
-  .navbar a {
-    float: none;
-    display: block;
-  }
-}
-</style>
-<body>
-<div class="navbar">
-  <a href="<%= Routes.order_path(@conn, :index) %>"><i class="fa fa-fw fa-shopping-bag"></i> Order Summary</a>
-  <a href="<%= Routes.product_path(@conn, :index) %>"><i class="fa fa-fw fa-material-icons"></i> Manage Products</a>
-  <a href="<%= Routes.category_path(@conn, :index) %>"><i class="fa fa-fw fa-material-icons"></i> Manage Categories</a>
-  <a href="<%= Routes.user_path(@conn, :index) %>"><i class="fa fa-fw fa-users"></i> Manage Customers</a>
- <%# <%= if @current_user do  %>
- <%# <%= @current_user.first_name  %>
- <%# <%= link "Log out", to: Routes.session_path(@conn, :delete, @current_user), method: "delete" %>
- <%# <% else  %>
- <%# <%= link "Register", to: Routes.user_path(@conn, :new) %><%# <%= link "Log in", to: Routes.session_path(@conn, :new) %>
- <%# <% end %>
-</div>
-
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Customers
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="<%= Routes.user_path(@conn, :new) %>"><i class="fa fa-fw fa-users"></i>New</a>
+                  <a class="dropdown-item" href="<%= Routes.user_path(@conn, :index) %>"><i class="fa fa-fw fa-users"></i>View</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
       </section>
     </header>
     <main role="main" class="container">
-      <%# <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) </p>%>
-      <%# <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) </p>%>
+      <%= unless is_nil(get_flash(@conn, :info)) do %>
+        <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <% end %>
+      <%= unless is_nil(get_flash(@conn, :error)) do %>
+        <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <% end %>
       <%= render @view_module, @view_template, assigns %>
     </main>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

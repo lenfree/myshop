@@ -5,25 +5,35 @@
     </div>
   <% end %>
 
-	<div>
-		<%= text_input f, :first_name, placeholder: "First name" %>
-		<%= error_tag f, :first_name %>
+  	<div class="form-row">
+ 	    <div class="form-group col-md-6">
+      		<%= label f, :first_Name %>
+			<input type="text" class="form-control" id="user_first_name" name="user[first_name]">
+			<%= error_tag f, :first_name %>
+		</div>
+ 	    <div class="form-group col-md-6">
+      		<%= label f, :Last_Name %>
+			<input type="text" class="form-control" id="user_last_name" name="user[last_name]">
+			<%= error_tag f, :last_name %>
+		</div>
 	</div>
-	<div>
-		<%= text_input f, :last_name, placeholder: "Last name" %>
-		<%= error_tag f, :last_name %>
-	</div>
-
-  <div>
 		<%= inputs_for f, :credential, fn cf -> %>
-			<%= email_input cf, :email, placeholder: "Email" %>
-			<%= error_tag cf, :email %>
-			<%= password_input cf, :password, placeholder: "Password" %> <%= error_tag cf, :password %>
-			<%= password_input cf, :password_confirmation, placeholder: "Confirm Password" %> <%= error_tag cf, :password_confirmation %>
-
+  			<div class="form-group">
+      			<%= label f, :email_address %>
+				<input type="email" name="user[credential][email]" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+				<%= error_tag cf, :email %>
+			</div>
+  			<div class="form-row">
+ 	 			<div class="form-group col-md-6">
+      				<%= label f, :password %>
+					<input type="password" name="user[credential][password]" class="form-control"  placeholder="Password">
+				</div>
+ 	 			<div class="form-group col-md-6">
+      				<%= label f, :confirm_password %>
+					<input type="password" user[credential][password_confirmation]" class="form-control"  placeholder="Confirm Password">
+				</div>
+			</div>
 		<% end %>
-  </div>
-  <div>
-    <%= submit "Save" %>
-  </div>
+  
+    <%= submit "Save", class: "btn btn-success" %>
 <% end %>

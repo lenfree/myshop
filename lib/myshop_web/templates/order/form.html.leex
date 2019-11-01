@@ -29,7 +29,7 @@
   <%= if @show_products do %>
     <div class="container">
     <%= for products <- Enum.chunk_every(@products, 5) do %>
-      <div class="row">
+    <ul class="list-group list-group-horizontal-lg">
         <%= for {item, index} <- Enum.with_index(products) do %>
         <div style="width:800px; margin:0 auto;">
           <% primary_thumbnail = List.first(item.upload) %>
@@ -39,7 +39,7 @@
           </div>
         </div>
         <% end %>
-      </div>
+        </ul>
     <% end %>
     </div>
   <% end %>
@@ -47,9 +47,10 @@
 
 
   <%= if @checkout do %>
-    <div class="row">
-      <div class="column column-50">
-      <input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required="required" type="search" name="user" value="<%= @query %>" list="matches"
+    <div class="form-row">
+      <div class="form-group col-md-6">
+      <input class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required="required"
+        type="search" name="user" value="<%= @query %>" list="matches"
         placeholder="Search user..."
         <%= if @loading, do: "readonly" %>/>
       <datalist id="matches">
@@ -58,12 +59,12 @@
         <% end %>
       </datalist>
       <%= error_tag f, :user_id %>
-      </div>
+    </div>
     </div>
 
     <div class="container">
      <h3>Order Review</h3>
-    <table> 
+    <table class="table table-striped"> 
       <tr>
         <td>Product name</td>
         <td>Product description</td>
