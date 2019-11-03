@@ -1,5 +1,7 @@
 <h1>Categories</h1>
 
+<span><%= link "New Category", to: Routes.category_path(@conn, :new), class: "btn btn-success" %></span>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -22,5 +24,3 @@
 <% end %>
   </tbody>
 </table>
-
-<span><%= link "New Category", to: Routes.category_path(@conn, :new), class: "btn btn-success" %></span>

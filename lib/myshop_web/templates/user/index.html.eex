@@ -1,4 +1,6 @@
 <h1>Users</h1>
+<span><%= link "New User", to: Routes.user_path(@conn, :new), class: "btn btn-success" %></span>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -27,5 +29,3 @@
 <% end %>
   </tbody>
 </table>
-
-<span><%= link "New User", to: Routes.user_path(@conn, :new) %></span>
