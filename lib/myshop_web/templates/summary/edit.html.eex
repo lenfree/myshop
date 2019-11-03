@@ -1,0 +1,5 @@
+<h1>Edit Summary</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.summary_path(@conn, :update, @summary)) %>
+
+<span><%= link "Back", to: Routes.summary_path(@conn, :index) %></span>

@@ -170,4 +170,103 @@ defmodule Myshop.Orders do
     )
     |> Enum.reduce(fn total, subtotal -> Decimal.add(total, Decimal.new(subtotal)) end)
   end
+
+  #  alias Myshop.Orders.Summary
+  #
+  #  @doc """
+  #  Returns the list of summaries.
+  #
+  #  ## Examples
+  #
+  #      iex> list_summaries()
+  #      [%Summary{}, ...]
+  #
+  #  """
+  #  def list_summaries do
+  #    raise "TODO"
+  #  end
+  #
+  #  @doc """
+  #  Gets a single summary.
+  #
+  #  Raises if the Summary does not exist.
+  #
+  #  ## Examples
+  #
+  #      iex> get_summary!(123)
+  #      %Summary{}
+  #
+  #  """
+  #  def get_summary!(id) do
+  #    #    query =
+  #    #      from o in "orders",
+  #    #        where: o.inserted_at > 900,
+  #    #        select: [t.id, t.title, a.title]
+  #    #
+  #    #    Repo.query(queryi
+  #    #    from p in Post, where: p.published_at >
+  #    #    datetime_add(^Ecto.DateTime.utc, -1, "month")
+  #    #    https://github.com/elixir-ecto/ecto/issues/1071
+  #  end
+  #
+  #  @doc """
+  #  Creates a summary.
+  #
+  #  ## Examples
+  #
+  #      iex> create_summary(%{field: value})
+  #      {:ok, %Summary{}}
+  #
+  #      iex> create_summary(%{field: bad_value})
+  #      {:error, ...}
+  #
+  #  """
+  #  def create_summary(attrs \\ %{}) do
+  #    raise "TODO"
+  #  end
+  #
+  #  @doc """
+  #  Updates a summary.
+  #
+  #  ## Examples
+  #
+  #      iex> update_summary(summary, %{field: new_value})
+  #      {:ok, %Summary{}}
+  #
+  #      iex> update_summary(summary, %{field: bad_value})
+  #      {:error, ...}
+  #
+  #  """
+  #  def update_summary(%Summary{} = summary, attrs) do
+  #    raise "TODO"
+  #  end
+  #
+  #  @doc """
+  #  Deletes a Summary.
+  #
+  #  ## Examples
+  #
+  #      iex> delete_summary(summary)
+  #      {:ok, %Summary{}}
+  #
+  #      iex> delete_summary(summary)
+  #      {:error, ...}
+  #
+  #  """
+  #  def delete_summary(%Summary{} = summary) do
+  #    raise "TODO"
+  #  end
+  #
+  #  @doc """
+  #  Returns a data structure for tracking summary changes.
+  #
+  #  ## Examples
+  #
+  #      iex> change_summary(summary)
+  #      %Todo{...}
+  #
+  #  """
+  #  def change_summary(%Summary{} = summary) do
+  #    raise "TODO"
+  #  end
 end

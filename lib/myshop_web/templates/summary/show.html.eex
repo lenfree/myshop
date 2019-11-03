@@ -1,0 +1,8 @@
+<h1>Show Summary</h1>
+
+<ul>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.summary_path(@conn, :edit, @summary) %></span>
+<span><%= link "Back", to: Routes.summary_path(@conn, :index) %></span>

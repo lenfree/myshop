@@ -3,6 +3,8 @@ defmodule MyshopWeb.ProductController do
 
   alias Myshop.Products
   alias Myshop.Products.Product
+  alias Myshop.Products.Upload
+
   alias MyshopWeb.Router.Helpers, as: Routes
   #  plug :authenticate_user when action in [:index, :show]
   plug :load_categories when action in [:new, :create, :edit, :update]
@@ -13,20 +15,47 @@ defmodule MyshopWeb.ProductController do
   end
 
   def new(conn, _params) do
-    changeset = Products.change_product(%Product{})
+    upload = Products.change_upload(%Products.Upload{})
+    changeset = Products.change_product(%Product{upload: [upload]})
+    IO.inspect(changeset.data)
+
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"product" => product_params}) do
-    case Products.create_product(product_params) do
-      {:ok, product} ->
-        conn
-        |> put_flash(:info, "Product created successfully.")
-        |> redirect(to: Routes.product_path(conn, :show, product))
+  def create(conn, params = %{"product" => product_params}) do
+    with {:ok, product} <- create_product(product_params),
+         {:ok, upload} <- upload_product_thumbnails(product_params, product.id) do
+      conn
+      |> put_flash(:info, "Product created successfully.")
+      |> redirect(to: Routes.product_path(conn, :show, product.id))
+    else
+      {:error, changeset} ->
+        require IEx
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        changeset = changeset |> Ecto.Changeset.cast_assoc(:upload)
+
+        conn
+        |> put_flash(:error, "error upload file: #{inspect(changeset)}")
+        |> render("new.html", changeset: changeset)
     end
+  end
+
+  def create_product(product_params) do
+    Products.create_product(product_params)
+  end
+
+  def upload_product_thumbnails(%{"upload" => uploads}, product_id) do
+    files =
+      Enum.map(
+        uploads,
+        fn {_, y} -> y end
+      )
+      |> Enum.map(&upload_product_thumbnail(&1, product_id))
+      |> List.first()
+  end
+
+  def upload_product_thumbnail(%{"upload" => %Plug.Upload{} = upload}, product_id) do
+    Products.create_upload_from_plug_upload(upload, product_id)
   end
 
   def show(conn, %{"id" => id}) do

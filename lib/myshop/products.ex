@@ -259,7 +259,7 @@ defmodule Myshop.Products do
          {:ok, upload} <-
            %Upload{}
            |> Upload.changeset(%{
-             filename: filename,
+             filename: "#{filename}_#{Ecto.UUID.generate()}",
              content_type: content_type,
              hash: hash,
              size: size,
@@ -273,8 +273,6 @@ defmodule Myshop.Products do
            ),
          {:ok, upload} <- create_thumbnail(upload) do
       {:ok, upload}
-    else
-      {:error, reason} = error -> error
     end
   end
 

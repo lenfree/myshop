@@ -1,0 +1,24 @@
+<h1>Listing Summaries</h1>
+
+<table>
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for summary <- @summaries do %>
+    <tr>
+
+      <td>
+        <span><%= link "Show", to: Routes.summary_path(@conn, :show, summary) %></span>
+        <span><%= link "Edit", to: Routes.summary_path(@conn, :edit, summary) %></span>
+        <span><%= link "Delete", to: Routes.summary_path(@conn, :delete, summary), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Summary", to: Routes.summary_path(@conn, :new) %></span>

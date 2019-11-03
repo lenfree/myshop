@@ -9,13 +9,13 @@ defmodule MyshopWeb.UploadController do
     assign(conn, :products, Products.list_products())
   end
 
-  @spec new(Plug.Conn.t(), any) :: Plug.Conn.t()
   def new(conn, _params) do
     changeset = Products.change_upload(%Upload{})
+    IO.inspect(changeset)
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"upload" => %Plug.Upload{} = upload, "product_id" => product_id}) do
+  def create(conn, params = %{"upload" => %Plug.Upload{} = upload, "product_id" => product_id}) do
     case Products.create_upload_from_plug_upload(upload, product_id) do
       {:ok, upload} ->
         put_flash(conn, :info, "file uploaded correctly")
