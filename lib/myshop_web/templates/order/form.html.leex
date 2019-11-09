@@ -4,16 +4,12 @@
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
-  <%= if @checkout_button do %>
-   <div class="float-right" style="clear:both;">
-      <button class="button button-outline" phx-click="checkout-page" value="true">Checkout</button>
-    </div>
-  <% end %>
 
   <fieldset>
 
+  <div class="form-group">
   <%= if @show_product_item_search do %>
-    <div class="row">
+    <div class="form-control">
       <div class="column column-50">
       <input type="search" name="item" value="<%= @item %>" list="item_matches"
             placeholder="Search item..."
@@ -26,23 +22,40 @@
       </div>
     </div>
   <% end %>
+
+
   <%= if @show_products do %>
     <div class="container">
     <%= for products <- Enum.chunk_every(@products, 5) do %>
-    <ul class="list-group list-group-horizontal-lg">
+    <ul class="list-group list-group-horizontal">
         <%= for {item, index} <- Enum.with_index(products) do %>
         <div style="width:800px; margin:0 auto;">
           <% primary_thumbnail = List.first(item.upload) %>
-          <div style="clear:both;">
+          <div class="list-group-item">
             <%= img_tag Routes.upload_thumbnail_path(@socket, :thumbnail, primary_thumbnail.id) %><br />
-            <button phx-click="place" phx-value="<%= item.id %>" class="<%= item.id %>">Add to cart</button>
+            <div class="text-center">
+              <label><%= item.name %>
+            </div>
+            <div class="text-center">
+              <label>P <%= item.price %>
+              </div>
+            <div class="text-center">
+            <button phx-click="place" phx-value="<%= item.id %>" class="btn btn-success">Add to cart</button>
+            </div>
           </div>
         </div>
         <% end %>
-        </ul>
+    </ul>
+    <% end %>
+    <%= if @checkout_button do %>
+    <div class="float-left">
+      <button class="btn btn-warning btn-lg" phx-click="checkout-page" value="true">Checkout</button>
+    </div>
     <% end %>
     </div>
+
   <% end %>
+    </div>
 
 
 
@@ -82,7 +95,7 @@
           step="any" type="number" value="<%= item.quantity %>"></td>
         <td><%= Myshop.Products.get_product!(item.product_item_id).price %></td>
         <td><%= Myshop.Orders.compute_price(item.product_item_id, item.quantity) %></td>
-        <td><button phx-click="delete_item" value="<%= item.product_item_id %>">DELETE</button></td>
+        <td><button class="btn btn-danger" phx-click="delete_item" value="<%= item.product_item_id %>">DELETE</button></td>
       </tr>
         <% end %>
       <tr>
@@ -96,20 +109,17 @@
         <%= error_tag f, :product_items %>
     </div>
 
-    <div class="row">
-    <div class="column column-50">
+    <div class="form-group">
     <%= label f, :notes %>
-    <%= textarea f, :notes %>
+    <%= textarea f, :notes, class: "form-control" %>
     <%= error_tag f, :notes %>
-    </div>
     </div>
 
   <span>
     <div>
-      <button phx-click="start_again">Start again</button>
-      <button type="submit" phx-disable-with="Saving...">Save</button>
+      <button class="btn btn-warning" phx-click="start_again">Start again</button>
+      <button class="btn btn-success" type="submit" phx-disable-with="Saving...">Save</button>
     </div>
   </span>
   </fieldset>
-
   <% end %>

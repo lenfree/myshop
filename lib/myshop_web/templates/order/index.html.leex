@@ -1,6 +1,15 @@
 <h1>Summary</h1>
 
-<span><%= link "New Order", to: Routes.order_path(@conn, :new), class: "btn btn-success" %></span>
+<span><%= link "New Order", to: Routes.order_path(@conn, :new),
+  class: "btn btn-success" %></span>
+
+
+<p class="text-danger">Customer count per day chart last 7 days</p>
+<%= raw Chartkick.line_chart datetime_poison_encode(@orders.daily_customer_count) %>
+
+<% history_graph = parse_order_history(@orders.history) %>
+<p class="text-danger">Order history chart last 7 days</p>
+<%= raw Chartkick.line_chart datetime_poison_encode(history_graph) %>
 
 <table class="table table-striped">
   <thead>
@@ -11,11 +20,12 @@
       <th>Last Name</th>
       <th>Notes</th>
       <th>Status</th>
+      <th>Total</th>
 
     </tr>
   </thead>
   <tbody>
-    <%= for order <- @orders do %>
+    <%= for order <- @orders.current do %>
     <tr>
       <td><%= order.updated_at %></td>
       <td><%= order.user.credential.email %></td>
@@ -23,7 +33,8 @@
       <td><%= order.user.last_name %></td>
       <td><%= order.notes %></td>
       <td><%= order.state %></td>
-
+      <td><%= calculate_total(order) %>
+      
       <td>
         <div>
         <%= link "Show", to: Routes.order_path(@conn, :show, order), class: "btn btn-outline-success" %>

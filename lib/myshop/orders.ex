@@ -7,7 +7,9 @@ defmodule Myshop.Orders do
   alias Myshop.Repo
   alias Myshop.Accounts
   alias Myshop.Products
+  alias Myshop.Orders.OrderItems
   alias Myshop.Orders.Order
+  alias Timex
   require IEx
 
   @doc """
@@ -22,6 +24,24 @@ defmodule Myshop.Orders do
   def list_orders do
     Repo.all(
       from o in Order,
+        preload: [{:user, :credential}]
+    )
+  end
+
+  # TODO: parametise this, make it re-usable
+  def list_by_day_customer_count do
+    query =
+      OrderItems
+      |> group_by([e], fragment("date(?)", e.updated_at))
+      |> select([e], %{fragment("date(?)", e.updated_at) => count(e.id)})
+      |> order_by([e], asc: fragment("date(?)", e.updated_at))
+
+    Repo.all(query)
+  end
+
+  def list_orders_history do
+    Repo.all(
+      from o in OrderItems,
         preload: [{:user, :credential}]
     )
   end

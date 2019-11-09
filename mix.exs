@@ -19,7 +19,7 @@ defmodule Myshop.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Myshop.Application, []},
+      mod: {Myshop.Application, [:timex]},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -47,7 +47,10 @@ defmodule Myshop.MixProject do
       {:pbkdf2_elixir, "~> 0.12"},
       {:phoenix_live_view, "~> 0.1.1", override: true},
       {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
-      {:mogrify, "~> 0.7.3"}
+      {:mogrify, "~> 0.7.3"},
+      {:chartkick, "~>0.4.0"},
+      {:poison, "~> 3.1.0"},
+      {:timex, "~> 3.5"}
     ]
   end
 

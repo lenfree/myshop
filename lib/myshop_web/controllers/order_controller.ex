@@ -14,7 +14,18 @@ defmodule MyshopWeb.OrderController do
 
   def index(conn, _params) do
     orders = Orders.list_orders()
-    render(conn, "index.html", orders: orders)
+    order_history = Orders.list_orders_history()
+    daily_customer_count = Orders.list_by_day_customer_count()
+
+    render(
+      conn,
+      "index.html",
+      orders: %{
+        current: orders,
+        history: order_history,
+        daily_customer_count: daily_customer_count
+      }
+    )
   end
 
   # def index(conn, _params) do

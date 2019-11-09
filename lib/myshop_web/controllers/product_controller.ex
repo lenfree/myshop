@@ -17,7 +17,6 @@ defmodule MyshopWeb.ProductController do
   def new(conn, _params) do
     upload = Products.change_upload(%Products.Upload{})
     changeset = Products.change_product(%Product{upload: [upload]})
-    IO.inspect(changeset.data)
 
     render(conn, "new.html", changeset: changeset)
   end
@@ -30,8 +29,6 @@ defmodule MyshopWeb.ProductController do
       |> redirect(to: Routes.product_path(conn, :show, product.id))
     else
       {:error, changeset} ->
-        require IEx
-
         changeset = changeset |> Ecto.Changeset.cast_assoc(:upload)
 
         conn

@@ -25,6 +25,7 @@
         <%= img_tag Routes.upload_thumbnail_path(@conn, :thumbnail, upload.id) %>
         <% end %>
       </td>
+      <td><%= product.category.name %></td>
       <td><%= product.name %></td>
       <td><%= product.url %></td>
       <td><%= product.notes %></td>

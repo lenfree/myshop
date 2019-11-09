@@ -10,7 +10,7 @@ defmodule Myshop.Products.Product do
     field :notes, :string
     field :url, :string
     belongs_to(:category, Myshop.Products.Category)
-    has_many(:upload, Myshop.Products.Upload)
+    has_many :upload, Myshop.Products.Upload, on_delete: :delete_all
 
     timestamps()
   end
