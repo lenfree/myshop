@@ -11,6 +11,12 @@
 <p class="text-danger">Order history chart last 7 days</p>
 <%= raw Chartkick.line_chart datetime_poison_encode(history_graph) %>
 
+<% pie_graph = @orders.history
+                  |> summary_group_by_product
+                  |> Poison.encode!() # Wrap this in view.
+%>
+<%= raw Chartkick.pie_chart pie_graph %>
+
 <table class="table table-striped">
   <thead>
     <tr>

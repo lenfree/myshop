@@ -95,4 +95,13 @@ defmodule MyshopWeb.OrderView do
       fn x, acc -> Decimal.add(x, acc) end
     )
   end
+
+  def summary_group_by_product(data) do
+    data
+    |> Enum.group_by(& &1.name, & &1.quantity)
+    |> Enum.reduce(
+      [],
+      fn {id, qty}, acc -> [[id, Enum.sum(qty)] | acc] end
+    )
+  end
 end
