@@ -8,14 +8,15 @@
 <%= raw Chartkick.line_chart datetime_poison_encode(@orders.daily_customer_count) %>
 
 <% history_graph = parse_order_history(@orders.history) %>
-<p class="text-danger">Order history chart last 7 days</p>
-<%= raw Chartkick.line_chart datetime_poison_encode(history_graph) %>
+<p class="text-danger">Order history chart last 7 days in $</p>
+<%= raw Chartkick.line_chart datetime_poison_encode(history_graph), prefix: "$" %>
 
-<% pie_graph = @orders.history
-                  |> summary_group_by_product
-                  |> Poison.encode!() # Wrap this in view.
+<% 
+  pie_graph = @orders.history
+                |> summary_group_by_product
+                |> Poison.encode!() # Wrap this in view.
 %>
-<%= raw Chartkick.pie_chart pie_graph %>
+<%= raw Chartkick.pie_chart pie_graph, donut: true %>
 
 <table class="table table-striped">
   <thead>
