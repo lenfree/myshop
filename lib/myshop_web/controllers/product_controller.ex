@@ -3,7 +3,6 @@ defmodule MyshopWeb.ProductController do
 
   alias Myshop.Products
   alias Myshop.Products.Product
-  alias Myshop.Products.Upload
 
   alias MyshopWeb.Router.Helpers, as: Routes
   #  plug :authenticate_user when action in [:index, :show]
@@ -21,9 +20,9 @@ defmodule MyshopWeb.ProductController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, params = %{"product" => product_params}) do
+  def create(conn, _params = %{"product" => product_params}) do
     with {:ok, product} <- create_product(product_params),
-         {:ok, upload} <- upload_product_thumbnails(product_params, product.id) do
+         {:ok, _upload} <- upload_product_thumbnails(product_params, product.id) do
       conn
       |> put_flash(:info, "Product created successfully.")
       |> redirect(to: Routes.product_path(conn, :show, product.id))
@@ -42,13 +41,12 @@ defmodule MyshopWeb.ProductController do
   end
 
   def upload_product_thumbnails(%{"upload" => uploads}, product_id) do
-    files =
-      Enum.map(
-        uploads,
-        fn {_, y} -> y end
-      )
-      |> Enum.map(&upload_product_thumbnail(&1, product_id))
-      |> List.first()
+    Enum.map(
+      uploads,
+      fn {_, y} -> y end
+    )
+    |> Enum.map(&upload_product_thumbnail(&1, product_id))
+    |> List.first()
   end
 
   def upload_product_thumbnail(%{"upload" => %Plug.Upload{} = upload}, product_id) do

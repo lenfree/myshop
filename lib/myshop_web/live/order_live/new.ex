@@ -108,7 +108,7 @@ defmodule MyshopWeb.OrderLive.New do
     {:noreply, assign(socket, changeset: new_changeset)}
   end
 
-  def handle_event("start_again", params, %{assigns: assigns} = socket) do
+  def handle_event("start_again", _params, %{assigns: _assigns} = socket) do
     {:stop,
      socket
      |> redirect(to: Routes.order_path(MyshopWeb.Endpoint, :new, order: nil))}

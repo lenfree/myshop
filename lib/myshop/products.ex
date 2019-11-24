@@ -302,7 +302,7 @@ defmodule Myshop.Products do
   def create_thumbnail(%Upload{} = upload) do
     original_path = local_path(upload)
     thumb_path = thumbnail_path(upload)
-    result = mogrify_thumbnail(original_path, thumb_path)
+    _result = mogrify_thumbnail(original_path, thumb_path)
     # Investigate how to catch failure!
     {:ok, upload}
   end

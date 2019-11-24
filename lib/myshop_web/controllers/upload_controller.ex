@@ -15,7 +15,7 @@ defmodule MyshopWeb.UploadController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, params = %{"upload" => %Plug.Upload{} = upload, "product_id" => product_id}) do
+  def create(conn, _params = %{"upload" => %Plug.Upload{} = upload, "product_id" => product_id}) do
     case Products.create_upload_from_plug_upload(upload, product_id) do
       {:ok, upload} ->
         put_flash(conn, :info, "file uploaded correctly")
