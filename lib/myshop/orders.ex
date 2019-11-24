@@ -31,8 +31,8 @@ defmodule Myshop.Orders do
   # TODO: parametise this, make it re-usable
   def list_by_day_customer_count do
     OrderItems
-    |> where([e], e.ordered_at >= ^Timex.beginning_of_day(Timex.shift(Timex.now(), days: -7)))
-    |> where([e], e.ordered_at <= ^Timex.end_of_day(Timex.now()))
+    # |> where([e], e.ordered_at >= ^Timex.beginning_of_day(Timex.shift(Timex.now(), days: -7)))
+    # |> where([e], e.ordered_at <= ^Timex.end_of_day(Timex.now()))
     |> group_by([e], fragment("date(?)", e.updated_at))
     |> select([e], %{fragment("date(?)", e.updated_at) => count(e.id)})
     |> order_by([e], asc: fragment("date(?)", e.updated_at))
@@ -41,8 +41,8 @@ defmodule Myshop.Orders do
 
   def list_orders_history do
     OrderItems
-    |> where([e], e.ordered_at >= ^Timex.beginning_of_day(Timex.shift(Timex.now(), days: -7)))
-    |> where([e], e.ordered_at <= ^Timex.end_of_day(Timex.now()))
+    # |> where([e], e.ordered_at >= ^Timex.beginning_of_day(Timex.shift(Timex.now(), days: -7)))
+    # |> where([e], e.ordered_at <= ^Timex.end_of_day(Timex.now()))
     |> preload([{:user, :credential}])
     |> Repo.all()
   end

@@ -44,13 +44,15 @@ defmodule MyshopWeb.UserController do
     user = Accounts.get_user_and_assoc!(id)
 
     case Accounts.update_user(user, user_params) do
-      {:ok, user} ->
+      {:ok, _user_changeset} ->
         conn
         |> put_flash(:info, "User updated successfully.")
         |> redirect(to: Routes.user_path(conn, :show, user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", user: user, changeset: changeset)
+        conn
+        |> put_flash(:error, "Error updating user")
+        |> render("edit.html", user: user, changeset: changeset)
     end
   end
 

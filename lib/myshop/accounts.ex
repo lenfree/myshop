@@ -75,6 +75,15 @@ defmodule Myshop.Accounts do
   end
 
   @doc """
+  Creates a user and fail when something is wrong.
+  """
+  def create_user!(attrs \\ %{}) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert!()
+  end
+
+  @doc """
   Updates a user.
 
   ## Examples
@@ -188,7 +197,7 @@ defmodule Myshop.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_credential(%Credential{} = credential, attrs) do
+  def update_credential(%Credential{} = credential, %{"credential" => attrs}) do
     credential
     |> Credential.changeset(attrs)
     |> Repo.update()

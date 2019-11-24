@@ -17,6 +17,7 @@ defmodule Myshop.Accounts.User do
     |> cast(attrs, [:first_name, :last_name])
     |> validate_required([:first_name, :last_name])
     |> validate_length(:first_name, min: 3, max: 20)
+    |> cast_assoc(:credential, with: &Credential.changeset/2, required: true)
   end
 
   def registration_changeset(user, params) do

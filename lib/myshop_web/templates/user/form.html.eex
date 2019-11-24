@@ -7,30 +7,32 @@
 
   	<div class="form-row">
  	    <div class="form-group col-md-6">
-      		<%= label f, :first_Name %>
-			<input type="text" class="form-control" id="user_first_name" name="user[first_name]">
+      		<%= label f, :first_name %>
+			<%= text_input f, :first_name, class: "form-control" %>
 			<%= error_tag f, :first_name %>
 		</div>
  	    <div class="form-group col-md-6">
       		<%= label f, :Last_Name %>
-			<input type="text" class="form-control" id="user_last_name" name="user[last_name]">
+			<%= text_input f, :last_name, class: "form-control" %>
 			<%= error_tag f, :last_name %>
 		</div>
 	</div>
 		<%= inputs_for f, :credential, fn cf -> %>
   			<div class="form-group">
-      			<%= label f, :email_address %>
-				<input type="email" name="user[credential][email]" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+      			<%= label cf, :email_address %>
+				<%= text_input cf, :email, class: "form-control" %>
 				<%= error_tag cf, :email %>
 			</div>
   			<div class="form-row">
  	 			<div class="form-group col-md-6">
-      				<%= label f, :password %>
-					<input type="password" name="user[credential][password]" class="form-control"  placeholder="Password">
+      				<%= label cf, :password %>
+					<%= password_input cf, :password, class: "form-control" %>
+					<%= error_tag cf, :password %>
 				</div>
  	 			<div class="form-group col-md-6">
-      				<%= label f, :confirm_password %>
-					<input type="password" user[credential][password_confirmation]" class="form-control"  placeholder="Confirm Password">
+      				<%= label cf, :confirm_password %>
+					<%= password_input cf, :password_confirmation, class: "form-control" %>
+					<%= error_tag cf, :password_confirmation %>
 				</div>
 			</div>
 		<% end %>

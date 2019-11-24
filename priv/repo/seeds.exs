@@ -9,3 +9,20 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Myshop.Accounts
+
+users = [
+  %{
+    first_name: "admin",
+    last_name: "admin",
+    credential: %{
+      email: "admin@admin.example.com",
+      password: "admin123"
+    }
+  }
+]
+
+Enum.each(users, fn user ->
+  Accounts.create_user!(user)
+end)
