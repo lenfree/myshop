@@ -17,9 +17,28 @@ defmodule Myshop.Products do
 
   """
   def list_products do
-    Repo.all(Product)
+    Product
+    |> order_by(asc: :name)
+    |> Repo.all()
     |> Repo.preload(:category)
     |> Repo.preload(:upload)
+  end
+
+  def list_products(category_id) when category_id == "" do
+    from(p in Product,
+      order_by: p.name,
+      preload: [:category, :upload]
+    )
+    |> Repo.all()
+  end
+
+  def list_products(category_id) do
+    from(p in Product,
+      where: p.category_id == ^category_id,
+      order_by: p.name,
+      preload: [:category, :upload]
+    )
+    |> Repo.all()
   end
 
   def list_asc_products do

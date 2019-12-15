@@ -26,37 +26,38 @@
 
   <%= if @show_products do %>
     <div class="container">
+    <label>
+      Category: <%= select f, :category_id, @categories,
+       prompt: "All", class: "form-control" %>
+    </label>
     <%= for products <- Enum.chunk_every(@products, 5) do %>
-    <ul class="list-group list-group-horizontal">
-        <%= for {item, index} <- Enum.with_index(products) do %>
-        <div style="width:800px; margin:0 auto;">
-          <% primary_thumbnail = List.first(item.upload) %>
-          <div class="list-group-item">
-            <%= img_tag Routes.upload_thumbnail_path(@socket, :thumbnail, primary_thumbnail.id) %><br />
-            <div class="text-center">
-              <label><%= item.name %>
-            </div>
-            <div class="text-center">
-              <label>P <%= item.price %>
+      <div class="row col-1 col-1">
+        <ul class="list-group list-group-horizontal">
+          <%= for {item, index} <- Enum.with_index(products) do %>
+            <% primary_thumbnail = List.first(item.upload) %>
+            <div class="list-group-item">
+              <%= img_tag Routes.upload_thumbnail_path(@socket, :thumbnail, primary_thumbnail.id) %><br />
+              <div class="text-center">
+                <label><%= item.name %>
               </div>
-            <div class="text-center">
-            <button phx-click="place" phx-value="<%= item.id %>" class="btn btn-success">Add to cart</button>
+              <div class="text-center">
+                <label>P <%= item.price %>
+                </div>
+              <div class="text-center">
+              <button phx-click="place" phx-value="<%= item.id %>" class="btn btn-success">Add to cart</button>
+              </div>
             </div>
-          </div>
-        </div>
-        <% end %>
-    </ul>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
     <%= if @checkout_button do %>
-    <div class="float-left">
-      <button class="btn btn-warning btn-lg" phx-click="checkout-page" value="true">Checkout</button>
-    </div>
+      <div class="float-left">
+        <button class="btn btn-warning btn-lg" phx-click="checkout-page" value="true">Checkout</button>
+      </div>
     <% end %>
     </div>
-
   <% end %>
-    </div>
-
 
 
   <%= if @checkout do %>

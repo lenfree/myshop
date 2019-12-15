@@ -5,42 +5,42 @@
   <div class="form-group row">
     <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm font-weight-bold">Email</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm" readonly value="<%= @order.user.credential.email %>">
+      <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="" readonly value="<%= @order.user.credential.email %>">
     </div>
   </div>
 
   <div class="form-group row">
     <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm font-weight-bold">First Name</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm" readonly value="<%= @order.user.first_name %>">
+      <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="" readonly value="<%= @order.user.first_name %>">
     </div>
   </div>
 
   <div class="form-group row">
     <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm font-weight-bold">Last Name</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm" readonly value="<%= @order.user.last_name %>">
+      <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="" readonly value="<%= @order.user.last_name %>">
     </div>
   </div>
 
   <div class="form-group row">
     <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm font-weight-bold">Paid</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm" readonly value="<%= @order.paid %>">
+      <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="" readonly value="<%= @order.paid %>">
     </div>
   </div>
 
   <div class="form-group row">
     <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm font-weight-bold">Notes</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm" readonly value="<%= @order.notes %>">
+      <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="" readonly value="<%= @order.notes %>">
     </div>
   </div>
 
   <div class="form-group row">
     <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm font-weight-bold">Total</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm" readonly value="<%= calculate_total(@order) %>">
+      <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="" readonly value="<%= calculate_total(@order) %>">
     </div>
   </div>
 </form>

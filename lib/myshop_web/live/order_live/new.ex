@@ -21,7 +21,8 @@ defmodule MyshopWeb.OrderLive.New do
        matches: [],
        item_matches: [],
        items: [],
-       products: Myshop.Products.list_products(),
+       products: list_products(),
+       categories: category_select_options(),
        load_items: nil,
        show_products: true,
        show_add_products: false,
@@ -30,6 +31,14 @@ defmodule MyshopWeb.OrderLive.New do
        qty: 1,
        show_product_item_search: false
      })}
+  end
+
+  def list_products(%{"order" => %{"category_id" => category_id}}) do
+    Myshop.Products.list_products(category_id)
+  end
+
+  def list_products() do
+    Myshop.Products.list_products()
   end
 
   def render(assigns) do
@@ -45,6 +54,9 @@ defmodule MyshopWeb.OrderLive.New do
       ["user"] ->
         users = manage_users(params)
         {:noreply, assign(socket, matches: users)}
+
+      ["order", "category_id"] ->
+        {:noreply, assign(socket, products: list_products(params))}
 
       ["orders", "product_items", item_id, "quantity"] ->
         {:ok, items} = Map.fetch(assigns.changeset.data, :product_items)
@@ -177,5 +189,10 @@ defmodule MyshopWeb.OrderLive.New do
 
   def manage_users(%{"user" => user}) do
     Accounts.search_user_by_name(user)
+  end
+
+  # TODO: fix duplicate function
+  def category_select_options do
+    for category <- Myshop.Products.list_categories(), do: {category.name, category.id}
   end
 end
