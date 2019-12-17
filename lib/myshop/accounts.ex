@@ -278,4 +278,20 @@ defmodule Myshop.Accounts do
     Repo.all(query)
     |> join_query(:credential)
   end
+
+  def search_user_by_name(first_name, last_name) do
+    query =
+      from(u in User,
+        where:
+          u.first_name == ^name_to_lowercase(first_name) and
+            u.last_name == ^name_to_lowercase(last_name)
+      )
+
+    Repo.one(query)
+    |> join_query(:credential)
+  end
+
+  def name_to_lowercase(name) do
+    String.downcase(name)
+  end
 end

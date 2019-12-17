@@ -127,7 +127,13 @@ defmodule MyshopWeb.OrderLive.New do
   end
 
   def handle_event("search", params, socket) do
-    data = Map.put(socket.assigns.changeset.data, :email, params["user"])
+    customer_name = String.split(params["user"])
+
+    first_name = List.first(customer_name)
+    last_name = List.last(customer_name)
+    user = Myshop.Accounts.search_user_by_name(first_name, last_name)
+
+    data = Map.put(socket.assigns.changeset.data, :user_id, user.id)
 
     new_items =
       case params["orders"]["product_items"] != nil do
@@ -164,7 +170,7 @@ defmodule MyshopWeb.OrderLive.New do
             {:noreply,
              assign(socket,
                changeset: changeset,
-               query: Accounts.get_user(changeset.changes.user_id).credential.email
+               query: Accounts.get_user(changeset.changes.user_id).first_name
              )}
 
           _ ->

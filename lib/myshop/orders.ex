@@ -83,21 +83,11 @@ defmodule Myshop.Orders do
   """
   def create_order(attrs \\ %{}) do
     attrs = Map.update(attrs, :product_items, [], &build_items/1)
-    attrs = Map.put(attrs, :user_id, get_user_id_from_email(attrs))
+    attrs = Map.put(attrs, :user_id, attrs.user_id)
 
     %Order{}
     |> Order.changeset(attrs)
     |> Repo.insert()
-  end
-
-  defp get_user_id_from_email(param) do
-    case Accounts.get_user_by_email(param.email) do
-      nil ->
-        nil
-
-      user ->
-        user.id
-    end
   end
 
   defp build_items(items) when items == [] do
