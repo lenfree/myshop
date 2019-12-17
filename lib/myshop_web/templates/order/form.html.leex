@@ -26,10 +26,12 @@
 
   <%= if @show_products do %>
     <div class="container">
+     <div class="form-group">
     <label>
       Category: <%= select f, :category_id, @categories,
-       prompt: "All", class: "form-control" %>
+       prompt: "All", class: "btn btn-light btn-lg dropdown-toggle" %>
     </label>
+    </div>
     <%= for products <- Enum.chunk_every(@products, 5) do %>
       <div class="row col-1 col-1">
         <ul class="list-group list-group-horizontal">
