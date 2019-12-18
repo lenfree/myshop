@@ -6,6 +6,9 @@ defmodule Myshop.Accounts.User do
   schema "users" do
     field :first_name, :string
     field :last_name, :string
+    field :mobile, :string
+    field :address, :string
+    field :type, :string
     has_one(:credential, Credential)
 
     timestamps()
@@ -14,9 +17,10 @@ defmodule Myshop.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:first_name, :last_name])
-    |> validate_required([:first_name, :last_name])
+    |> cast(attrs, [:first_name, :last_name, :mobile, :address, :type])
+    |> validate_required([:first_name, :last_name, :mobile])
     |> validate_length(:first_name, min: 3, max: 20)
+    |> validate_length(:last_name, min: 3, max: 20)
     |> cast_assoc(:credential, with: &Credential.changeset/2, required: true)
   end
 

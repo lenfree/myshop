@@ -6,8 +6,11 @@
     <tr>
       <th>First name</th>
       <th>Last name</th>
-      <th>email</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Mobile</th>
       <th>Role</th>
+      <th>Type</th>
 
       <th></th>
     </tr>
@@ -18,8 +21,10 @@
       <td><%= user.first_name %></td>
       <td><%= user.last_name %></td>
       <td><%= user.credential.email %></td>
+      <td><%= user.address %></td>
+      <td><%= user.mobile %></td>
       <td>placeholder</td>
-
+      <td><%= user.type%></td>
       <td>
         <%= link "Show", to: Routes.user_path(@conn, :show, user), class: "btn btn-outline-success" %>
         <%= link "Edit", to: Routes.user_path(@conn, :edit, user), class: "btn btn-outline-success" %>
