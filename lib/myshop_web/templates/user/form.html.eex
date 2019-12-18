@@ -36,11 +36,6 @@
                  [key: "Wholesaler", value: "wholesaler"]], class: "form-control" %>
 			<%= error_tag f, :type %>
 		</div>
- 	    <div class="form-group col-md-6">
-      		<%= label f, :address %>
-			<%= text_input f, :address, class: "form-control" %>
-			<%= error_tag f, :address %>
-		</div>
 	</div>
 		<%= inputs_for f, :credential, fn cf -> %>
   			<div class="form-group">
