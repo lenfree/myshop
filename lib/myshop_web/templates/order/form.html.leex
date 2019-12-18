@@ -7,6 +7,7 @@
 
   <fieldset>
 
+    <div class="container">
   <%= if @show_product_item_search do %>
     <div class="form-group has-search">
     <span class="fa fa-search form-control-feedback"></span>
@@ -20,16 +21,13 @@
         </datalist>
       </div>
   <% end %>
+</div>
 
-
+<br>
+<br>
+<br>
   <%= if @show_products do %>
     <div class="container">
-     <div class="form-group">
-    <label>
-      Category: <%= select f, :category_id, @categories,
-       prompt: "All", class: "btn btn-light btn-lg dropdown-toggle" %>
-    </label>
-    </div>
     <%= for products <- Enum.chunk_every(@products, 5) do %>
       <div class="row col-1 col-1">
         <ul class="list-group list-group-horizontal">
@@ -104,6 +102,7 @@
         <td><%= Myshop.Products.get_product!(item.product_item_id).wholesale %></td>
         <td><input pattern="[0-9]{1,100}" required="required" type="number"
           id="order_product_item_price"
+          step="any"
           name="orders[product_items][<%= item.product_item_id %>][price]"
           value="<%= Myshop.Products.get_product!(item.product_item_id).srp %>"></td>
         <%= if Map.has_key?(item, :price) do %>

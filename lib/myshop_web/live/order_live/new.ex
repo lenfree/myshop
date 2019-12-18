@@ -161,7 +161,13 @@ defmodule MyshopWeb.OrderLive.New do
   end
 
   def handle_event("checkout-page", _params, socket) do
-    {:noreply, assign(socket, checkout: true, show_products: false, checkout_button: false)}
+    {:noreply,
+     assign(socket,
+       checkout: true,
+       show_products: false,
+       checkout_button: false,
+       show_product_item_search: false
+     )}
   end
 
   def handle_event("delete_item", params, %{assigns: assigns} = socket) do
