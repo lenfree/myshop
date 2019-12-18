@@ -55,7 +55,8 @@ defmodule MyshopWeb.OrderLive.New do
 
       ["user"] ->
         users = manage_users(params)
-        {:noreply, assign(socket, matches: users)}
+
+        {:noreply, assign(socket, matches: users, subtotal: compute_subtotal(params))}
 
       ["order", "category_id"] ->
         {:noreply, assign(socket, products: list_products(params))}
@@ -88,18 +89,6 @@ defmodule MyshopWeb.OrderLive.New do
                 end
               end)
 
-            subtotal =
-              Map.values(params["orders"]["product_items"])
-              |> Enum.reduce(Decimal.new(0), fn item, acc ->
-                Decimal.add(
-                  Decimal.mult(
-                    Decimal.new(item["price"]),
-                    Decimal.new(item["quantity"])
-                  ),
-                  Decimal.new(acc)
-                )
-              end)
-
             updated_changeset_data = Map.put(assigns.changeset.data, :product_items, new_items)
 
             updated_changeset = Map.put(assigns.changeset, :data, updated_changeset_data)
@@ -107,7 +96,7 @@ defmodule MyshopWeb.OrderLive.New do
             {:noreply,
              assign(socket,
                changeset: updated_changeset,
-               subtotal: subtotal
+               subtotal: compute_subtotal(params)
              )}
         end
 
@@ -142,22 +131,12 @@ defmodule MyshopWeb.OrderLive.New do
                 end
               )
 
-            subtotal =
-              Map.values(params["orders"]["product_items"])
-              |> Enum.reduce(Decimal.new(0), fn item, acc ->
-                Decimal.add(
-                  Decimal.mult(
-                    Decimal.new(item["price"]),
-                    Decimal.new(item["quantity"])
-                  ),
-                  Decimal.new(acc)
-                )
-              end)
-
             updated_changeset_data = Map.put(assigns.changeset.data, :product_items, new_items)
 
             updated_changeset = Map.put(assigns.changeset, :data, updated_changeset_data)
-            {:noreply, assign(socket, changeset: updated_changeset, subtotal: subtotal)}
+
+            {:noreply,
+             assign(socket, changeset: updated_changeset, subtotal: compute_subtotal(params))}
         end
 
       _ ->
@@ -282,7 +261,16 @@ defmodule MyshopWeb.OrderLive.New do
     for category <- Myshop.Products.list_categories(), do: {category.name, category.id}
   end
 
-  def get_item_price(details) do
-    Map.values(details)["price"]
+  def compute_subtotal(params) do
+    Map.values(params["orders"]["product_items"])
+    |> Enum.reduce(Decimal.new(0), fn item, acc ->
+      Decimal.add(
+        Decimal.mult(
+          Decimal.new(item["price"]),
+          Decimal.new(item["quantity"])
+        ),
+        Decimal.new(acc)
+      )
+    end)
   end
 end
