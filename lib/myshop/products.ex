@@ -53,7 +53,9 @@ defmodule Myshop.Products do
   def search_product_by_name(param) do
     query =
       from p in Product,
-        where: like(p.name, ^"%#{param}%")
+        where: ilike(p.name, ^"%#{param}%"),
+        order_by: p.name,
+        preload: [:category, :upload]
 
     Repo.all(query)
   end

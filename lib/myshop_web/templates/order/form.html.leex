@@ -7,11 +7,10 @@
 
   <fieldset>
 
-  <div class="form-group">
   <%= if @show_product_item_search do %>
-    <div class="form-control">
-      <div class="column column-50">
-      <input type="search" name="item" value="<%= @item %>" list="item_matches"
+    <div class="form-group has-search">
+    <span class="fa fa-search form-control-feedback"></span>
+      <input type="text" class="form-control" name="item" value="<%= @item %>" list="item_matches"
             placeholder="Search item..."
             <%= if @loading_item, do: "readonly" %> />
         <datalist id="item_matches">
@@ -20,7 +19,6 @@
           <% end %>
         </datalist>
       </div>
-    </div>
   <% end %>
 
 

@@ -31,16 +31,8 @@ defmodule MyshopWeb.OrderLive.New do
        checkout_button: false,
        qty: 1,
        subtotal: nil,
-       show_product_item_search: false
+       show_product_item_search: true
      })}
-  end
-
-  def list_products(%{"order" => %{"category_id" => category_id}}) do
-    Myshop.Products.list_products(category_id)
-  end
-
-  def list_products() do
-    Myshop.Products.list_products()
   end
 
   def render(assigns) do
@@ -51,7 +43,12 @@ defmodule MyshopWeb.OrderLive.New do
     case Map.fetch!(params, "_target") do
       ["item"] ->
         items = manage_items(params)
-        {:noreply, assign(socket, item_matches: items)}
+
+        {:noreply,
+         assign(socket,
+           item_matches: items,
+           products: items
+         )}
 
       ["user"] ->
         users = manage_users(params)
@@ -259,6 +256,14 @@ defmodule MyshopWeb.OrderLive.New do
   # TODO: fix duplicate function
   def category_select_options do
     for category <- Myshop.Products.list_categories(), do: {category.name, category.id}
+  end
+
+  def list_products(%{"order" => %{"category_id" => category_id}}) do
+    Myshop.Products.list_products(category_id)
+  end
+
+  def list_products() do
+    Myshop.Products.list_products()
   end
 
   def compute_subtotal(params) do
