@@ -99,11 +99,25 @@ defmodule Myshop.Orders do
       case is_integer(item.product_item_id) do
         true ->
           product_item = Myshop.Products.get_product!(item.product_item_id)
-          %{name: product_item.name, price: product_item.price, quantity: item.quantity}
+
+          %{
+            name: product_item.name,
+            price: item.price,
+            quantity: item.quantity,
+            srp: product_item.srp,
+            wholesale: product_item.wholesale
+          }
 
         false ->
           product_item = Myshop.Products.get_product!(String.to_integer(item.product_item_id))
-          %{name: product_item.name, price: product_item.price, quantity: item.quantity}
+
+          %{
+            name: product_item.name,
+            price: item.price,
+            quantity: item.quantity,
+            srp: product_item.srp,
+            wholesale: product_item.wholesale
+          }
       end
     end
   end
@@ -167,9 +181,9 @@ defmodule Myshop.Orders do
     changeset |> Ecto.Changeset.put_assoc(:product, product)
   end
 
-  def compute_price(item_id, quantity) do
-    item = Products.get_product!(item_id)
-    Decimal.mult(item.price, Decimal.new(quantity))
+  def compute_price(price, quantity) do
+    #    item = Products.get_product!(item_id)
+    Decimal.mult(price, Decimal.new(quantity))
   end
 
   def compute_subtotal(items) do

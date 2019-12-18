@@ -79,6 +79,7 @@ defmodule Myshop.Products do
   def get_product!(id) do
     Repo.get!(Product, id)
     |> Repo.preload(:category)
+    |> Repo.preload(:upload)
   end
 
   @doc """

@@ -49,12 +49,20 @@
   <table class="table table-striped">
   <tr>
     <th>Item name</th>
+    <th>Item SRP</th>
+    <th>Item Wholesale price</th>
     <th>Item price </th>
     <th>Quantity</th>
   </tr>
   <%= for product <- @order.product_items do %>
   <td>
     <%= product.name %>
+  </td>
+  <td>
+    <%= product.srp %>
+  </td>
+  <td>
+    <%= product.wholesale %>
   </td>
   <td>
     <%= product.price %>

@@ -33,8 +33,13 @@
   </li>
 
   <li>
-    <strong>Price:</strong>
-    <%= @product.price %>
+    <strong>SRP:</strong>
+    <%= @product.srp %>
+  </li>
+  
+  <li>
+    <strong>Wholesale price:</strong>
+    <%= @product.wholesale %>
   </li>
 
 </ul>

@@ -5,7 +5,8 @@ defmodule Myshop.Products.Product do
   schema "products" do
     field :brand, :string
     field :name, :string
-    field :price, :decimal
+    field :srp, :decimal
+    field :wholesale, :decimal
     field :description, :string
     field :notes, :string
     field :url, :string
@@ -23,10 +24,11 @@ defmodule Myshop.Products.Product do
       :notes,
       :brand,
       :description,
-      :price,
+      :wholesale,
+      :srp,
       :category_id
     ])
-    |> validate_required([:name, :url, :brand, :description, :price])
+    |> validate_required([:name, :url, :brand, :description, :srp, :wholesale])
     |> unique_constraint(:name)
     |> foreign_key_constraint(:category_id)
     |> assoc_constraint(:category)

@@ -5,6 +5,7 @@ defmodule MyshopWeb.OrderLive.New do
   alias MyshopWeb.OrderView
   alias Myshop.Accounts
   alias Myshop.Products
+  alias Decimal
   require IEx
   alias MyshopWeb.Router.Helpers, as: Routes
 
@@ -29,6 +30,7 @@ defmodule MyshopWeb.OrderLive.New do
        checkout: false,
        checkout_button: false,
        qty: 1,
+       subtotal: nil,
        show_product_item_search: false
      })}
   end
@@ -70,14 +72,92 @@ defmodule MyshopWeb.OrderLive.New do
             new_items =
               Enum.map(items, fn %{product_item_id: id, quantity: qty} ->
                 case id == item_id do
-                  false -> %{product_item_id: id, quantity: qty}
-                  true -> %{product_item_id: item_id, quantity: new_qty}
+                  false ->
+                    %{
+                      product_item_id: id,
+                      quantity: qty,
+                      price: params["orders"]["product_items"][id]["price"]
+                    }
+
+                  true ->
+                    %{
+                      product_item_id: item_id,
+                      quantity: new_qty,
+                      price: params["orders"]["product_items"][id]["price"]
+                    }
                 end
               end)
 
+            subtotal =
+              Map.values(params["orders"]["product_items"])
+              |> Enum.reduce(Decimal.new(0), fn item, acc ->
+                Decimal.add(
+                  Decimal.mult(
+                    Decimal.new(item["price"]),
+                    Decimal.new(item["quantity"])
+                  ),
+                  Decimal.new(acc)
+                )
+              end)
+
             updated_changeset_data = Map.put(assigns.changeset.data, :product_items, new_items)
+
             updated_changeset = Map.put(assigns.changeset, :data, updated_changeset_data)
-            {:noreply, assign(socket, changeset: updated_changeset)}
+
+            {:noreply,
+             assign(socket,
+               changeset: updated_changeset,
+               subtotal: subtotal
+             )}
+        end
+
+      ["orders", "product_items", item_id, "price"] ->
+        {:ok, items} = Map.fetch(assigns.changeset.data, :product_items)
+        new_price = get_in(params, ["orders", "product_items", item_id, "price"])
+
+        case Integer.parse(new_price) do
+          :error ->
+            {:noreply, socket}
+
+          _ ->
+            new_items =
+              Enum.map(
+                items,
+                fn %{product_item_id: id, quantity: qty} ->
+                  case id == item_id do
+                    false ->
+                      %{
+                        product_item_id: id,
+                        quantity: qty,
+                        price: params["orders"]["product_items"][id]["price"]
+                      }
+
+                    true ->
+                      %{
+                        product_item_id: item_id,
+                        quantity: qty,
+                        price: new_price
+                      }
+                  end
+                end
+              )
+
+            subtotal =
+              Map.values(params["orders"]["product_items"])
+              |> Enum.reduce(Decimal.new(0), fn item, acc ->
+                Decimal.add(
+                  Decimal.mult(
+                    Decimal.new(item["price"]),
+                    Decimal.new(item["quantity"])
+                  ),
+                  Decimal.new(acc)
+                )
+              end)
+
+            updated_changeset_data = Map.put(assigns.changeset.data, :product_items, new_items)
+
+            updated_changeset = Map.put(assigns.changeset, :data, updated_changeset_data)
+            {:noreply, assign(socket, changeset: updated_changeset, subtotal: subtotal)}
         end
 
       _ ->
@@ -200,5 +280,9 @@ defmodule MyshopWeb.OrderLive.New do
   # TODO: fix duplicate function
   def category_select_options do
     for category <- Myshop.Products.list_categories(), do: {category.name, category.id}
+  end
+
+  def get_item_price(details) do
+    Map.values(details)["price"]
   end
 end

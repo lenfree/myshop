@@ -43,8 +43,11 @@
                 <label><%= item.name %>
               </div>
               <div class="text-center">
-                <label>P <%= item.price %>
-                </div>
+                <label>P <%= item.srp %>
+              </div>
+              <div class="text-center">
+                <label>P <%= item.wholesale %>
+              </div>
               <div class="text-center">
               <button phx-click="place" phx-value="<%= item.id %>" class="btn btn-success">Add to cart</button>
               </div>
@@ -86,6 +89,8 @@
         <td>Product name</td>
         <td>Product description</td>
         <td>Quantity</td>
+        <td>SRP</td>
+        <td>Wholesale Price</td>
         <td>Price</td>
         <td>Total Price</td>
       </tr>
@@ -94,11 +99,24 @@
         <td><%= Myshop.Products.get_product!(item.product_item_id).name %></td>
         <td><%= Myshop.Products.get_product!(item.product_item_id).description %></td>
         <td><input pattern="[0-9]{1,100}" required="required" type="number"
-          id="order_product_items_price" 
+          id="order_product_item_quantity"
           name="orders[product_items][<%= item.product_item_id %>][quantity]"
-          step="any" type="number" value="<%= item.quantity %>"></td>
-        <td><%= Myshop.Products.get_product!(item.product_item_id).price %></td>
-        <td><%= Myshop.Orders.compute_price(item.product_item_id, item.quantity) %></td>
+          type="number" value="<%= item.quantity %>"></td>
+        <td><%= Myshop.Products.get_product!(item.product_item_id).srp %></td>
+        <td><%= Myshop.Products.get_product!(item.product_item_id).wholesale %></td>
+        <td><input pattern="[0-9]{1,100}" required="required" type="number"
+          id="order_product_item_price"
+          name="orders[product_items][<%= item.product_item_id %>][price]"
+          value="<%= Myshop.Products.get_product!(item.product_item_id).srp %>"></td>
+        <%= if Map.has_key?(item, :price) do %>
+        <td><input readonly=true type="number"
+          name="orders[product_items][<%= item.product_item_id %>][total_price]"
+          value="<%= Myshop.Orders.compute_price(item.price, item.quantity) %>"></td>
+        <% else %>
+        <td><input readonly=true type="number"
+          name="orders[product_items][<%= item.product_item_id %>][total_price]"
+          value="<%= Myshop.Orders.compute_price(Myshop.Products.get_product!(item.product_item_id).srp, item.quantity) %>"></td>
+        <% end %>
         <td><button class="btn btn-danger" phx-click="delete_item" value="<%= item.product_item_id %>">DELETE</button></td>
       </tr>
         <% end %>
@@ -106,8 +124,10 @@
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
+        <td></td>
         <td><strong>SUBTOTAL: </strong></td>
-        <td><strong><%= Myshop.Orders.compute_subtotal(@changeset.data.product_items) %></strong></td>
+        <td><strong><%= @subtotal %></strong></td>
       </tr>
     </table>
         <%= error_tag f, :product_items %>
