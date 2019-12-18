@@ -5,9 +5,6 @@ defmodule Myshop.Accounts.Credential do
 
   schema "credentials" do
     field :email, :string
-    field :password, :string, virtual: true
-    field :password_hash, :string
-    field :password_confirmation, :string, virtual: true
     belongs_to(:user, User)
 
     timestamps()
@@ -16,13 +13,10 @@ defmodule Myshop.Accounts.Credential do
   @doc false
   def changeset(credential, attrs) do
     credential
-    |> cast(attrs, [:email, :password])
-    |> validate_required([:email, :password])
-    |> validate_length(:password, min: 6, max: 100)
-    |> validate_confirmation(:password)
+    |> cast(attrs, [:email])
+    |> validate_required([:email])
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
-    |> put_pass_hash()
   end
 
   defp put_pass_hash(changeset) do

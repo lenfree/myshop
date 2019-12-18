@@ -48,18 +48,6 @@
 				<%= text_input cf, :email, class: "form-control" %>
 				<%= error_tag cf, :email %>
 			</div>
-  			<div class="form-row">
- 	 			<div class="form-group col-md-6">
-      				<%= label cf, :password %>
-					<%= password_input cf, :password, class: "form-control" %>
-					<%= error_tag cf, :password %>
-				</div>
- 	 			<div class="form-group col-md-6">
-      				<%= label cf, :confirm_password %>
-					<%= password_input cf, :password_confirmation, class: "form-control" %>
-					<%= error_tag cf, :password_confirmation %>
-				</div>
-			</div>
 		<% end %>
   
     <%= submit "Save", class: "btn btn-success" %>
