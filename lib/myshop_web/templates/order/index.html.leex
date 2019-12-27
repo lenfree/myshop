@@ -4,12 +4,9 @@
   class: "btn btn-success" %></span>
 
 
-<p class="text-danger">Customer count per day chart last 7 days</p>
-<%= raw Chartkick.line_chart datetime_poison_encode(@orders.daily_customer_count) %>
-
 <% history_graph = parse_order_history(@orders.history) %>
-<p class="text-danger">Order history chart last 7 days in $</p>
-<%= raw Chartkick.line_chart datetime_poison_encode(history_graph), prefix: "$" %>
+<p class="text-danger">Order history chart last 7 days in Pesos</p>
+<%= raw Chartkick.line_chart datetime_poison_encode(history_graph), prefix: "P" %>
 
 <% 
   pie_graph = @orders.history
