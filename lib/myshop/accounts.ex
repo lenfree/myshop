@@ -272,7 +272,7 @@ defmodule Myshop.Accounts do
   def search_user_by_name(param) do
     query =
       from(u in User,
-        where: like(u.first_name, ^"%#{param}%")
+        where: like(u.first_name, ^"%#{param}%") or like(u.last_name, ^"%#{param}%")
       )
 
     Repo.all(query)

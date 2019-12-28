@@ -7,7 +7,7 @@ defmodule Myshop.Repo.Migrations.AddUserToOrderItemsView do
     SELECT i.*, o.id as order_id,
     o.user_id, o.paid, o.notes,
     o.inserted_at, o.updated_at,
-    o.ordered_at, o.payment_id,
+    o.ordered_at, 
     o.state
     FROM orders AS o, jsonb_to_recordset(o.product_items)
     AS i(name text,

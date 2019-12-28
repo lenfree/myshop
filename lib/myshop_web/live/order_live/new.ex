@@ -245,8 +245,7 @@ defmodule MyshopWeb.OrderLive.New do
   end
 
   def handle_info(params, socket) do
-    require IEx
-    IEx.pry()
+    IO.inspect(params)
     {:noreply, assign(socket, loading_item: false, item_matches: [])}
   end
 

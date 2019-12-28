@@ -1,4 +1,4 @@
-defmodule Myshop.Repo.Migrations.CreateCredentials do
+defmodule Myshop.Repo.Migrations.AlterCredentials do
   use Ecto.Migration
 
   def change do
