@@ -28,7 +28,7 @@ defmodule Myshop.Products.Product do
       :srp,
       :category_id
     ])
-    |> validate_required([:name, :url, :brand, :description, :srp, :wholesale])
+    |> validate_required([:name, :brand, :srp, :wholesale])
     |> unique_constraint(:name)
     |> foreign_key_constraint(:category_id)
     |> assoc_constraint(:category)
