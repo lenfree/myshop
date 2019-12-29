@@ -188,6 +188,10 @@ defmodule MyshopWeb.OrderLive.New do
      |> redirect(to: Routes.order_path(MyshopWeb.Endpoint, :new, order: nil))}
   end
 
+  def handle_event("back", _params, socket) do
+    {:noreply, assign(socket, show_products: true, checkout_button: true, checkout: false)}
+  end
+
   def handle_event("search", params, socket) do
     customer_name = String.split(params["user"])
 
