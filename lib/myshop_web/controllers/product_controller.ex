@@ -60,21 +60,26 @@ defmodule MyshopWeb.ProductController do
 
   def edit(conn, %{"id" => id}) do
     product = Products.get_product!(id)
-    changeset = Products.change_product(product)
+    upload = Products.change_upload(%Products.Upload{})
+    changeset = Products.change_product(%{ product | upload: [upload]})
     render(conn, "edit.html", product: product, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "product" => product_params}) do
     product = Products.get_product!(id)
 
-    case Products.update_product(product, product_params) do
-      {:ok, product} ->
-        conn
-        |> put_flash(:info, "Product updated successfully.")
-        |> redirect(to: Routes.product_path(conn, :show, product))
+    with {:ok, product} <- Products.update_product(product, product_params),
+         {:ok, _upload} <- upload_product_thumbnails(product_params, product.id) do
+      conn
+      |> put_flash(:info, "Product created successfully.")
+      |> redirect(to: Routes.product_path(conn, :show, product))
+    else
+      {:error, changeset} ->
+        changeset = changeset |> Ecto.Changeset.cast_assoc(:upload)
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", product: product, changeset: changeset)
+        conn
+        |> put_flash(:error, "error upload file: #{inspect(changeset)}")
+        |> render("edit.html", changeset: changeset)
     end
   end
 
