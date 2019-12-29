@@ -189,7 +189,14 @@ defmodule MyshopWeb.OrderLive.New do
   end
 
   def handle_event("back", _params, socket) do
-    {:noreply, assign(socket, show_products: true, checkout_button: true, checkout: false)}
+    {:noreply, assign(socket,
+        show_products: true,
+        checkout_button: true,
+        checkout: false,
+        products: list_products(),
+        show_product_item_search: true
+        )
+      }
   end
 
   def handle_event("search", params, socket) do
