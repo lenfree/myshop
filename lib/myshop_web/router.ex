@@ -33,6 +33,10 @@ defmodule MyshopWeb.Router do
     resources "/orders", OrderController,
       only: [:index, :show, :new, :create, :edit, :update, :delete]
 
+      resources "/orders_refund", RefundController,
+      only: [:index, :show, :new, :create, :edit, :update, :delete]
+
+
     resources "/uploads", UploadController, only: [:index, :new, :create, :show] do
       get "/thumbnail", UploadController, :thumbnail, as: "thumbnail"
     end

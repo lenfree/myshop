@@ -1,0 +1,8 @@
+<h1>Show Refund</h1>
+
+<ul>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.refund_path(@conn, :edit, @refund) %></span>
+<span><%= link "Back", to: Routes.refund_path(@conn, :index) %></span>

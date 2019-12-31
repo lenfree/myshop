@@ -294,4 +294,99 @@ defmodule Myshop.Orders do
   #  def change_summary(%Summary{} = summary) do
   #    raise "TODO"
   #  end
+
+  alias Myshop.Orders.Order
+
+  @doc """
+  Returns the list of refunds.
+
+  ## Examples
+
+      iex> list_refunds()
+      [%Refund{}, ...]
+
+  """
+  def list_refunds do
+    raise "TODO"
+  end
+
+  @doc """
+  Gets a single refund.
+
+  Raises if the Refund does not exist.
+
+  ## Examples
+
+      iex> get_refund!(123)
+      %Refund{}
+
+  """
+  def get_refund!(id), do: raise "TODO"
+
+  @doc """
+  Creates a refund.
+
+  ## Examples
+
+      iex> create_refund(%{field: value})
+      {:ok, %Refund{}}
+
+      iex> create_refund(%{field: bad_value})
+      {:error, ...}
+
+  """
+  def create_refund(attrs \\ %{}) do
+    %Order{}
+    |> Order.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a refund.
+
+  ## Examples
+
+      iex> update_refund(refund, %{field: new_value})
+      {:ok, %Refund{}}
+
+      iex> update_refund(refund, %{field: bad_value})
+      {:error, ...}
+
+  """
+  def update_refund(%Order{} = order_refund, attrs) do
+    raise "TODO"
+  end
+
+  @doc """
+  Deletes a Refund.
+
+  ## Examples
+
+      iex> delete_refund(order_refund)
+      {:ok, %Refund{}}
+
+      iex> delete_refund(order_refund)
+      {:error, ...}
+
+  """
+  def delete_refund(%Order{} = order_refund) do
+    raise "TODO"
+  end
+
+  @doc """
+  Returns a data structure for tracking refund changes.
+
+  ## Examples
+
+      iex> change_refund(order_refund)
+      %Todo{...}
+
+  """
+  def change_refund(%Order{} = order_refund, %Accounts.User{} = user, %Products.Product{} = product) do
+    order_refund |> Order.changeset(%{}) |> put_user(user) |> put_product(product)
+  end
+
+  def change_refund(%Order{} = order_refund) do
+    order_refund |> Order.changeset(%{})
+  end
 end

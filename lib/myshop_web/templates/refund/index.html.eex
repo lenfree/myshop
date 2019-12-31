@@ -1,0 +1,24 @@
+<h1>Listing Refunds</h1>
+
+<table>
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for refund <- @refunds do %>
+    <tr>
+
+      <td>
+        <span><%= link "Show", to: Routes.refund_path(@conn, :show, refund) %></span>
+        <span><%= link "Edit", to: Routes.refund_path(@conn, :edit, refund) %></span>
+        <span><%= link "Delete", to: Routes.refund_path(@conn, :delete, refund), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Refund", to: Routes.refund_path(@conn, :new) %></span>

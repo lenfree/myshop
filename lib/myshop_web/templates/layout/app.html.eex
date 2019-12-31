@@ -832,6 +832,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <a class="dropdown-item" href="<%= Routes.order_path(@conn, :new) %>"><i class="fa fa-fw fa-shopping-bag"></i>New</a>
                   <a class="dropdown-item" href="<%= Routes.order_path(@conn, :index) %>"><i class="fa fa-fw fa-shopping-bag"></i>Summary</a>
+                  <a class="dropdown-item" href="<%= Routes.refund_path(@conn, :new) %>"><i class="fa fa-fw fa-shopping-bag"></i>Refund</a>
                 </div>
               </li>
 

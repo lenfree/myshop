@@ -1,0 +1,5 @@
+<h1>Edit Refund</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.refund_path(@conn, :update, @refund)) %>
+
+<span><%= link "Back", to: Routes.refund_path(@conn, :index) %></span>
