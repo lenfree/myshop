@@ -21,7 +21,13 @@ defmodule Myshop.Accounts.User do
     |> validate_required([:first_name, :last_name, :mobile])
     |> validate_length(:first_name, min: 3, max: 20)
     |> validate_length(:last_name, min: 3, max: 20)
+    |> upcase_value
     |> cast_assoc(:credential, with: &Credential.changeset/2, required: true)
+  end
+
+  def upcase_value(changeset) do
+    changeset = update_change(changeset, :first_name, &String.upcase/1)
+    update_change(changeset, :last_name, &String.upcase/1)
   end
 
   def registration_changeset(user, params) do

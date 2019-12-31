@@ -272,7 +272,7 @@ defmodule Myshop.Accounts do
   def search_user_by_name(param) do
     query =
       from(u in User,
-        where: like(u.first_name, ^"%#{param}%") or like(u.last_name, ^"%#{param}%")
+        where: ilike(u.first_name, ^"%#{param}%") or ilike(u.last_name, ^"%#{param}%")
       )
 
     Repo.all(query)
@@ -283,15 +283,15 @@ defmodule Myshop.Accounts do
     query =
       from(u in User,
         where:
-          u.first_name == ^name_to_lowercase(first_name) and
-            u.last_name == ^name_to_lowercase(last_name)
+          u.first_name == ^name_to_uppercase(first_name) and
+            u.last_name == ^name_to_uppercase(last_name)
       )
 
     Repo.one(query)
     |> join_query(:credential)
   end
 
-  def name_to_lowercase(name) do
-    String.downcase(name)
+  def name_to_uppercase(name) do
+    String.upcase(name)
   end
 end

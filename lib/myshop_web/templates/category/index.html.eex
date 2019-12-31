@@ -18,6 +18,7 @@
       <td><%= category.description %></td>
       <td>
         <%= link "Show", to: Routes.category_path(@conn, :show, category), class: "btn btn-outline-success" %>
+        <%= link "Edit", to: Routes.category_path(@conn, :edit, category), class: "btn btn-outline-success" %>
         <%= link "Delete", to: Routes.category_path(@conn, :delete, category), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger" %>
       </td>
     </tr>
