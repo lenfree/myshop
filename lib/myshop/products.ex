@@ -192,7 +192,7 @@ defmodule Myshop.Products do
       ** (Ecto.NoResultsError)
 
   """
-  def get_category!(id), do: Repo.get!(Category, id)
+  def get_category!(id), do: Repo.get!(Category, id) |> Repo.preload(:product)
 
   @doc """
   Creates a category.

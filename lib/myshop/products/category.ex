@@ -7,6 +7,9 @@ defmodule Myshop.Products.Category do
     field :description, :string
     field :name, :string
 
+    has_many :product, Myshop.Products.Product
+
+
     timestamps()
   end
 

@@ -8,10 +8,36 @@
   </li>
 
   <li>
-    <strong>Description:</strong>
+    <strong>description:</strong>
     <%= @category.description %>
   </li>
 
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Notes</th>
+      <th>Brand</th>
+      <th>Description</th>
+      <th>SRP</th>
+      <th>Wholesale Price</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for product <- @category.product do %>
+    <tr>
+      <td><%= product.name %></td>
+      <td><%= product.notes %></td>
+      <td><%= product.brand %></td>
+      <td><%= product.description %></td>
+      <td><%= product.srp %></td>
+      <td><%= product.wholesale %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
 </ul>
 
 <span><%= link "Back", to: Routes.category_path(@conn, :index), class: "btn btn-success" %></span>
