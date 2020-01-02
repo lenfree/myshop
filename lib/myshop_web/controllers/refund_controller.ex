@@ -22,7 +22,7 @@ defmodule MyshopWeb.RefundController do
       product_items: [%{
         product_item_id: refund_params["product_id"],
         quantity: String.to_integer(refund_params["quantity"]) * -1,
-        price: String.to_float(refund_params["price"]) * -1,
+        price: (String.to_integer(refund_params["price"]) / 1) * -1,
         srp: refund_params["price"],
         wholesale: refund_params["price"],
       }],
