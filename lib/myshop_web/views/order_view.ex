@@ -22,10 +22,19 @@ defmodule MyshopWeb.OrderView do
   end
 
   def calculate_total(%{price: price, quantity: quantity}) do
-    Decimal.mult(
-      Decimal.from_float(price),
-      quantity
-    )
+    case quantity > 0 do
+      true ->
+        Decimal.mult(
+          Decimal.from_float(price),
+          quantity
+        )
+      false ->
+        Decimal.mult(-1, Decimal.mult(
+          Decimal.from_float(price),
+          quantity
+        )
+      )
+    end
   end
 
   def calculate_total(order) do
@@ -33,7 +42,14 @@ defmodule MyshopWeb.OrderView do
       order.product_items,
       Decimal.new(0),
       fn %{quantity: qty, price: price}, acc ->
-        Decimal.add(acc, Decimal.mult(qty, price))
+        case qty > 0 do
+          true ->
+            Decimal.add(acc, Decimal.mult(qty, price))
+          false ->
+            Decimal.add(acc,
+              Decimal.mult(-1, Decimal.mult(qty, price))
+            )
+        end
       end
     )
   end

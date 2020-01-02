@@ -21,14 +21,16 @@ defmodule MyshopWeb.RefundController do
     params = %{
       product_items: [%{
         product_item_id: refund_params["product_id"],
-        quantity: refund_params["quantity"],
-        price: refund_params["price"],
+        quantity: String.to_integer(refund_params["quantity"]) * -1,
+        price: String.to_float(refund_params["price"]) * -1,
         srp: refund_params["price"],
         wholesale: refund_params["price"],
       }],
       user_id: String.to_integer(refund_params["customer_id"]),
       notes: refund_params["notes"],
+      state: "refunded"
     }
+
     case Orders.create_order(params) do
       {:ok, refund} ->
         conn

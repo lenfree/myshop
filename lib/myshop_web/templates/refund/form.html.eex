@@ -6,12 +6,14 @@
   <% end %>
 
   <div class="form-group">
+      <label>Customer</label>
     <div class="form-group col-md-6">
       <%= select f, :customer_id, user_select_options(@users),
         prompt: "Choose a customer",
         class: "btn btn-secondary btn-large dropdown-toggle" %>
       <%= error_tag f, :customer_id %>
     </div>
+      <label>Product Item To Return</label>
     <div class="form-group col-md-6">
       <%= select f, :product_id, product_select_options(@products),
         prompt: "Choose a product",
@@ -23,15 +25,19 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <%= label f, :quantity %>
-      <%= number_input f, :quantity , class: "form-control", step: "any" %>
+      <%= number_input f, :quantity , class: "form-control",
+        step: "any" %>
       <%= error_tag f, :quantity %>
     </div>
   </div>
   
-  <div class="form-group">
-    <%= label f, :price%>
-    <%= number_input f, :price, class: "form-control", step: "any" %>
-    <%= error_tag f, :price %>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= label f, :item_price %>
+      <%= number_input f, :price, class: "form-control",
+        step: "any" %>
+      <%= error_tag f, :price %>
+    </div>
   </div>
   
   <div class="form-group">

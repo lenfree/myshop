@@ -336,6 +336,9 @@ defmodule Myshop.Orders do
 
   """
   def create_refund(attrs \\ %{}) do
+    attrs = Map.update(attrs, :product_items, [], &build_items/1)
+    attrs = Map.put(attrs, :user_id, attrs.user_id)
+
     %Order{}
     |> Order.changeset(attrs)
     |> Repo.insert()
